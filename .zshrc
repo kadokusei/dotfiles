@@ -1,25 +1,20 @@
-# 環境変数
 export LANG=ja_JP.UTF-8
 
-# 色を使用出来るようにする
+# colors
 autoload -Uz colors
 colors
 
-# emacs 風キーバインドにする
+# keybind
 bindkey -e
 
-# ヒストリの設定
+# history
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
- プロンプト
-# 1行表示
-# PROMPT="%~ %# "
-# 2行表示
-PROMPT="%{${fg[red]}%}[%n@%m]%{${reset_color}%} %~
+# prompt
+PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "
-
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
@@ -29,7 +24,6 @@ select-word-style default
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
-########################################
 # 補完
 # 補完機能を有効にする
 autoload -Uz compinit
@@ -48,8 +42,6 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 # ps コマンドのプロセス名補完
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 
-
-########################################
 # vcs_info
 
 autoload -Uz vcs_info
@@ -62,8 +54,6 @@ precmd () {
 }
 RPROMPT="%1(v|%F{green}%1v%f|)"
 
-
-########################################
 # オプション
 # 日本語ファイル名を表示可能にする
 setopt print_eight_bit
