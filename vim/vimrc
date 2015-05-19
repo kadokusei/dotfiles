@@ -43,6 +43,7 @@ set showmatch
 set number
 syntax on
 colorscheme molokai
+set t_Co=256
 
 ""molokai for iTerm2"
 if has("mac")
