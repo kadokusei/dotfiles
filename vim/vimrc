@@ -16,17 +16,26 @@ NeoBundle 'Shougo/unite.vim'
 
 call neobundle#end()
 
+filetype plugin indent on
+
 "Settings"
 
 set nocompatible
 set number
 set autoindent
 set cindent
-set hlsearch
-set incsearch
 set noswapfile
 syntax on
 
-"Key"
+"Clipboard"
+
+set clipboard=unnamed
+
+"Search Settings"
+
+set hlsearch
+set incsearch
+
+"Key Settings"
 
 set backspace=indent,eol,start
