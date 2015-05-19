@@ -27,5 +27,6 @@ brew cask install firefox
 brew cask install evernote
 brew cask install atom
 brew cask install tunnelbrick
+brew cask install gyazo
 
 brew cask alfred link
