@@ -14,6 +14,7 @@ endif
 
 NeoBundle 'Shougo/unite.vim' 
 NeoBundle 'Shougo/neomru.vim' 
+NeoBundle 'tomasr/molokai'
 
 call neobundle#end()
 
@@ -28,7 +29,6 @@ set noswapfile
 set autoread
 set nobackup
 set history=10000
-syntax on
 
 "Encoding"
 
@@ -41,6 +41,8 @@ set ffs=unix,dos,mac
 
 set showmatch
 set number
+syntax on
+colorscheme molokai
 
 "Indent"
 
