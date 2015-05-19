@@ -7,11 +7,14 @@ filetype off
 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.neobundle'))
+  call neobundle#begin(expand('~/.neobundle'))
 endif
 
- "NeoBundle Plugins"
- 
+"NeoBundle Plugins"
+
+NeoBundle 'Shougo/unite.vim' 
+
+call neobundle#end()
 
 "Settings"
 
@@ -22,3 +25,7 @@ set cindent
 set hlsearch
 set incsearch
 set noswapfile
+
+"Key"
+
+set backspace=indent,eol,start
