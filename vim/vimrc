@@ -25,6 +25,7 @@ set cindent
 set hlsearch
 set incsearch
 set noswapfile
+syntax on
 
 "Key"
 
