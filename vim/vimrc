@@ -44,6 +44,11 @@ set number
 syntax on
 colorscheme molokai
 
+""molokai for iTerm2"
+if has("mac")
+  highlight Normal ctermbg=none
+endif
+
 "Indent"
 
 set autoindent
