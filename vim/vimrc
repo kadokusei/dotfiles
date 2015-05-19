@@ -21,8 +21,10 @@ filetype plugin indent on
 "Settings"
 
 set nocompatible
-set number
 set noswapfile
+set autoread
+set nobackup
+set history=10000
 syntax on
 
 "Encoding"
@@ -30,6 +32,11 @@ syntax on
 set encoding=utf-8
 set fenc=utf-8
 set fencs=ucs_bom,utf-8,euc-jp,iso-2022-jp,cp932
+
+"Display"
+
+set showmatch
+set number
 
 "Indent"
 
