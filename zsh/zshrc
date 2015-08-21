@@ -107,6 +107,10 @@ alias la="ls -a"
 alias ll="ls -l"
 alias lal="ls -al"
 
+# tmux用の設定
+alias tmux-changekey='tmux set-option -ag prefix C-t'
+alias tmux-revertkey='tmux set-option -ag prefix C-b'
+
 # ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
 bindkey '^R' history-incremental-pattern-search-backward
 
