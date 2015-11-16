@@ -20,7 +20,6 @@ NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'sophacles/vim-processing'
 NeoBundle 'thinca/vim-quickrun'
-
 NeoBundle 'Shougo/vimproc', {
   \ 'build' : {
     \ 'windows' : 'make -f make_mingw32.mak',
@@ -72,14 +71,22 @@ set autoindent
 set cindent
 set tabstop=2
 set shiftwidth=2
-set softtabstop=0
+set softtabstop=2
 set smarttab
 set expandtab
 set shiftround
 
+"Python"
+autocmd FileType python setl autoindent
+autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType python setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
 "Clipboard"
 
 set clipboard=unnamed
+
+"force save"
+cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
 
 "Search Settings"
 
