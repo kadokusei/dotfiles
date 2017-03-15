@@ -152,4 +152,6 @@ case ${OSTYPE} in
         ;;
 esac
 
-# vim:set ft=zsh:
+if which hash nvim > /dev/null; then
+	alias vim='nvim';
+fi
