@@ -16,3 +16,6 @@ ln -s $HOME/dotfiles/zsh/zshrc $HOME/.zshrc
 # git
 ln -s $HOME/dotfiles/git/gitconfig $HOME/.gitconfig
 ln -s $HOME/dotfiles/git/gitignore $HOME/.gitignore
+
+# tmux
+ln -s $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
