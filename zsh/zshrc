@@ -1,8 +1,29 @@
-export LANG=ja_JP.UTF-8
 export VISUAL=vim
 export TERM='xterm-256color'
-export ZPLUG_HOME="/usr/local/opt/zplug"
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:/usr/local/opt/go/libexec/bin:~/.zplug
+
+# OS
+case ${OSTYPE} in
+    darwin*)
+        export CLICOLOR=1
+        alias ls='ls -G -F'
+	# 重複パスを登録しない
+	typeset -U path cdpath fpath manpath
+	## sudo用のpathを設定
+	typeset -xT SUDO_PATH sudo_path
+	typeset -U sudo_path
+	sudo_path=({/usr/local,/usr,}/sbin(N-/))
+	## pathを設定
+	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
+	export ZPLUG_HOME=/usr/local/opt/zplug
+	export LANG=ja_JP.UTF-8
+	source ~/.iterm2_shell_integration.`basename $SHELL`
+        ;;
+    linux*)
+        #Linux用の設定
+	export ZPLUG_HOME=~/.zplug
+        ;;
+esac
 
 source $ZPLUG_HOME/init.zsh
 
@@ -156,24 +177,6 @@ fi
 
 
 ########################################
-# OS
-case ${OSTYPE} in
-    darwin*)
-        export CLICOLOR=1
-        alias ls='ls -G -F'
-	# 重複パスを登録しない
-	typeset -U path cdpath fpath manpath
-	## sudo用のpathを設定
-	typeset -xT SUDO_PATH sudo_path
-	typeset -U sudo_path
-	sudo_path=({/usr/local,/usr,}/sbin(N-/))
-	## pathを設定
-	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
-        ;;
-    linux*)
-        #Linux用の設定
-        ;;
-esac
 
 if which hash nvim > /dev/null; then
 	alias vim='nvim';
@@ -192,4 +195,3 @@ function peco-history-selection() {
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
 
-source ~/.iterm2_shell_integration.`basename $SHELL`
