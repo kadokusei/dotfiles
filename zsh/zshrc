@@ -4,7 +4,8 @@ export PATH=$PATH:/usr/local/opt/go/libexec/bin
 
 export ZPLUG_HOME=~/.zplug
 
-if[-e ~/.zplug];then
+if test -e ~/.zplug; then
+  :
 else
   git clone https://github.com/zplug/zplug $ZPLUG_HOME
 fi
@@ -158,8 +159,6 @@ elif which putclip >/dev/null 2>&1 ; then
     alias -g C='| putclip'
 fi
 
-
-
 ########################################
 # OS
 case ${OSTYPE} in
@@ -199,4 +198,3 @@ function peco-history-selection() {
 
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
-
