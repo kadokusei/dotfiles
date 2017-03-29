@@ -6,16 +6,16 @@ git submodule init
 git submodule update
 
 # vim
-ln -s $HOME/dotfiles/vim/vimrc $HOME/.vimrc
-ln -s $HOME/dotfiles/vim/vimfiles $HOME/.vim
+ln -sf $HOME/dotfiles/vim/vimrc $HOME/.vimrc
+ln -sf $HOME/dotfiles/vim/vimfiles $HOME/.vim
 vim -c NeoBundleInstall! -c q
 
 # zsh
-ln -s $HOME/dotfiles/zsh/zshrc $HOME/.zshrc
+ln -sf $HOME/dotfiles/zsh/zshrc $HOME/.zshrc
 
 # git
-ln -s $HOME/dotfiles/git/gitconfig $HOME/.gitconfig
-ln -s $HOME/dotfiles/git/gitignore $HOME/.gitignore
+ln -sf $HOME/dotfiles/git/gitconfig $HOME/.gitconfig
+ln -sf $HOME/dotfiles/git/gitignore $HOME/.gitignore
 
 # tmux
-ln -s $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
+ln -sf $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
