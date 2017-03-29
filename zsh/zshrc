@@ -1,29 +1,13 @@
 export VISUAL=vim
 export TERM='xterm-256color'
-export PATH=$PATH:/usr/local/opt/go/libexec/bin:~/.zplug
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
 
-# OS
-case ${OSTYPE} in
-    darwin*)
-        export CLICOLOR=1
-        alias ls='ls -G -F'
-	# 重複パスを登録しない
-	typeset -U path cdpath fpath manpath
-	## sudo用のpathを設定
-	typeset -xT SUDO_PATH sudo_path
-	typeset -U sudo_path
-	sudo_path=({/usr/local,/usr,}/sbin(N-/))
-	## pathを設定
-	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
-	export ZPLUG_HOME=/usr/local/opt/zplug
-	export LANG=ja_JP.UTF-8
-	source ~/.iterm2_shell_integration.`basename $SHELL`
-        ;;
-    linux*)
-        #Linux用の設定
-	export ZPLUG_HOME=~/.zplug
-        ;;
-esac
+export ZPLUG_HOME=~/.zplug
+
+if[-e ~/.zplug];then
+else
+  git clone https://github.com/zplug/zplug $ZPLUG_HOME
+fi
 
 source $ZPLUG_HOME/init.zsh
 
@@ -177,6 +161,27 @@ fi
 
 
 ########################################
+# OS
+case ${OSTYPE} in
+    darwin*)
+        export CLICOLOR=1
+        alias ls='ls -G -F'
+	# 重複パスを登録しない
+	typeset -U path cdpath fpath manpath
+	## sudo用のpathを設定
+	typeset -xT SUDO_PATH sudo_path
+	typeset -U sudo_path
+	sudo_path=({/usr/local,/usr,}/sbin(N-/))
+	## pathを設定
+	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
+	export ZPLUG_HOME=/usr/local/opt/zplug
+	export LANG=ja_JP.UTF-8
+	source ~/.iterm2_shell_integration.`basename $SHELL`
+        ;;
+    linux*)
+        #Linux用の設定
+        ;;
+esac
 
 if which hash nvim > /dev/null; then
 	alias vim='nvim';
