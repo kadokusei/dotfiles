@@ -176,6 +176,15 @@ case ${OSTYPE} in
 	export ZPLUG_HOME=/usr/local/opt/zplug
 	export LANG=ja_JP.UTF-8
 	source ~/.iterm2_shell_integration.`basename $SHELL`
+  # peco
+  function peco-history-selection() {
+      BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+      CURSOR=$#BUFFER
+      zle reset-prompt
+  }
+  
+  zle -N peco-history-selection
+  bindkey '^R' peco-history-selection
         ;;
     linux*)
         #Linux用の設定
@@ -188,13 +197,3 @@ fi
 
 # vim:set ft=zsh:
 
-# peco
-
-function peco-history-selection() {
-    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-}
-
-zle -N peco-history-selection
-bindkey '^R' peco-history-selection
