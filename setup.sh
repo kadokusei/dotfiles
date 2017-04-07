@@ -1,6 +1,6 @@
 #!/bin/bash
 
-"git submodule"
+# "git submodule"
 cd $HOME/dotfiles
 git submodule init
 git submodule update
