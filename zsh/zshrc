@@ -137,6 +137,8 @@ alias la="ls -a"
 alias ll="ls -l"
 alias lal="ls -al"
 
+alias pip3-updater="pip3 list --outdated --format=legacy | awk '{print $1}' | xargs pip3 install -U"
+
 # tmux用の設定
 alias tmux-changekey='tmux set-option -ag prefix C-t'
 alias tmux-revertkey='tmux set-option -ag prefix C-b'
@@ -164,6 +166,8 @@ case ${OSTYPE} in
     darwin*)
         export CLICOLOR=1
         alias ls='ls -G -F'
+        alias emacs='/usr/local/bin/emacs'
+        alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 	# 重複パスを登録しない
 	typeset -U path cdpath fpath manpath
 	## sudo用のpathを設定
@@ -196,4 +200,3 @@ if which hash nvim > /dev/null; then
 fi
 
 # vim:set ft=zsh:
-
