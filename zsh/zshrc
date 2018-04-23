@@ -104,6 +104,7 @@ setopt auto_cd
 
 # cd したら自動的にpushdする
 setopt auto_pushd
+
 # 重複したディレクトリを追加しない
 setopt pushd_ignore_dups
 
@@ -167,7 +168,6 @@ case ${OSTYPE} in
         alias emacs='/usr/local/bin/emacs'
         alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
         alias pip3-updater="pip3 list --outdated --format=legacy | awk '{print $1}' | xargs pip3 install -U"
-	# 重複パスを登録しない
 	typeset -U path cdpath fpath manpath
 	## sudo用のpathを設定
 	typeset -xT SUDO_PATH sudo_path
