@@ -178,17 +178,23 @@ case ${OSTYPE} in
 	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
 	export ZPLUG_HOME=/usr/local/opt/zplug
 	export LANG=ja_JP.UTF-8
-  export PATH=$PATH:/usr/local/opt/go/libexec/bin
+  export PATH=$PATH:/usr/local/opt/go/libexec/bin:~/.nodebrew/current/bin
 	source ~/.iterm2_shell_integration.`basename $SHELL`
   # peco
-  function peco-history-selection() {
-      BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-      CURSOR=$#BUFFER
-      zle reset-prompt
+#function peco-history-selection() {
+#      BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+#      CURSOR=$#BUFFER
+#      zle reset-prompt
+#  }
+#  zle -N peco-history-selection
+#  bindkey '^R' peco-history-selection
+
+  function select-history() {
+  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
   }
-  
-  zle -N peco-history-selection
-  bindkey '^R' peco-history-selection
+  zle -N select-history
+  bindkey '^r' select-history
         ;;
     linux*)
         #Linux用の設定
