@@ -206,3 +206,13 @@ if which hash nvim > /dev/null; then
 fi
 
 # vim:set ft=zsh:
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+if [ -e $HOME/.zshrc_local ]; then
+  source $HOME/.zshrc_local
+else
+  :
+fi
