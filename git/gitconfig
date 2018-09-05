@@ -1,6 +1,6 @@
 [user]
-	name = hyr3k
-	email = hyr3k@nyan.club
+	name = Hiroki Yoshimura
+	email = kadokusei@users.noreply.github.com
 [color]
 	ui = auto
 [push]
@@ -14,11 +14,13 @@
 	smudge = git-lfs smudge %f
 	required = true
 [core]
-  excludesfile = /Users/hyr3k/.gitignore_global
+	excludesfile = $HOME/.gitignore_global
 	editor = vim
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
-	cmd = /Users/hyr3k/Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[gui]
+	recentrepo = /Users/h.yoshimura/opt/git-work-2018

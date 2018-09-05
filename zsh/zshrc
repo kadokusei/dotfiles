@@ -1,6 +1,7 @@
 export EDITOR=vim
 export VISUAL=vim
 export TERM='xterm-256color'
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 export ZPLUG_HOME=~/.zplug
 
