@@ -167,7 +167,7 @@ case ${OSTYPE} in
         alias ls='ls -G -F'
         alias emacs='/usr/local/bin/emacs'
         alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-        alias pip3-updater="pip3 list --outdated --format=legacy | awk '{print $1}' | xargs pip3 install -U"
+        alias pip3-updater="pip3 list --outdated | tail -n +3 | awk '{print $1}' | xargs pip3 install -U"
 	typeset -U path cdpath fpath manpath
 	## sudo用のpathを設定
 	typeset -xT SUDO_PATH sudo_path
