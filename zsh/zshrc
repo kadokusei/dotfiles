@@ -2,6 +2,7 @@ export EDITOR=vim
 export VISUAL=vim
 export TERM='xterm-256color'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export LESS='-g -i -M -R -S -W -z-4 -x4'
 
 export ZPLUG_HOME=~/.zplug
 
@@ -165,6 +166,7 @@ fi
 # OS
 case ${OSTYPE} in
     darwin*)
+        export LANG="ja_JP.UTF-8"
         export CLICOLOR=1
         alias ls='ls -G -F'
         alias emacs='/usr/local/bin/emacs'
@@ -178,7 +180,6 @@ case ${OSTYPE} in
 	## pathを設定
 	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
 	export ZPLUG_HOME=/usr/local/opt/zplug
-	export LANG=ja_JP.UTF-8
   export PATH=$PATH:/usr/local/opt/go/libexec/bin:~/.nodebrew/current/bin
 	source ~/.iterm2_shell_integration.`basename $SHELL`
   # peco
@@ -217,3 +218,19 @@ if [ -e $HOME/.zshrc_local ]; then
 else
   :
 fi
+
+# if which pyenv > /dev/null; then eval "$(pyenv init -)"    ; fi
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/sls.zsh
+
+eval "$(direnv hook zsh)"
+show_virtual_env() {
+  if [ -n "$VIRTUAL_ENV" ]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
