@@ -15,12 +15,10 @@ fi
 source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
-
 zplug "zsh-users/zsh-history-substring-search"
-
 zplug "zsh-users/zsh-completions"
-
-zplug "peco/peco", as:command, from:gh-r, use:"*amd64*"
+zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
+zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 
 # check install
 if ! zplug check --verbose; then
@@ -162,6 +160,14 @@ elif which putclip >/dev/null 2>&1 ; then
     alias -g C='| putclip'
 fi
 
+# direnv
+eval "$(direnv hook zsh)"
+show_virtual_env() {
+  if [ -n "$VIRTUAL_ENV" ]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
+
 ########################################
 # OS
 case ${OSTYPE} in
@@ -219,18 +225,12 @@ else
   :
 fi
 
-# if which pyenv > /dev/null; then eval "$(pyenv init -)"    ; fi
+if which pyenv > /dev/null; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/h.yoshimura/opt/ga-reporting-slack/node_modules/tabtab/.completions/sls.zsh
+# GCLOUD ENV
+export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
 
-eval "$(direnv hook zsh)"
-show_virtual_env() {
-  if [ -n "$VIRTUAL_ENV" ]; then
-    echo "($(basename $VIRTUAL_ENV))"
-  fi
-}
+export CLOUDSDK_PYTHON=$HOME/.pyenv/versions/2.7.15/bin/python
