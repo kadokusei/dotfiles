@@ -149,13 +149,13 @@ bindkey '^R' history-incremental-pattern-search-backward
 ########################################
 
 # clipboard
-if which pbcopy >/dev/null 2>&1 ; then
+if [ $commands[pbcopy] ]; then
     # Mac
     alias -g C='| pbcopy'
-elif which xsel >/dev/null 2>&1 ; then
+elif [ $commands[xsel] ]; then
     # Linux
     alias -g C='| xsel --input --clipboard'
-elif which putclip >/dev/null 2>&1 ; then
+elif [ $commands[putclip] ]; then
     # Cygwin
     alias -g C='| putclip'
 fi
@@ -182,7 +182,7 @@ case ${OSTYPE} in
 	export PATH=$PATH:/usr/local/opt/go/libexec/bin:~/.nodebrew/current/bin
 	source ~/.iterm2_shell_integration.`basename $SHELL`
 	# direnv
-	if type direnv > /dev/null 2>&1; then
+	if [ $commands[direnv] ]; then
 	  eval "$(direnv hook zsh)"
 	  show_virtual_env() {
 	    if [ -n "$VIRTUAL_ENV" ]; then
@@ -203,7 +203,7 @@ case ${OSTYPE} in
         ;;
 esac
 
-if type nvim > /dev/null 2>&1; then
+if [ $commands[nvim] ]; then
   alias vim='nvim';
 fi
 
@@ -219,17 +219,17 @@ else
   :
 fi
 
-if type pyenv > /dev/null 2>&1; then
+if [ $commands[pyenv] ]; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
 
-if type rbenv > /dev/null 2>&1; then
+if [ $commands[rbenv] ]; then
   export PATH=$HOME/.rbenv/bin:$PATH
   eval "$(rbenv init -)"
 fi
 
-if type goenv > /dev/null 2>&1; then
+if [ $commands[goenv] ]; then
   export GOENV_ROOT=$HOME/.goenv
   export PATH=$GOENV_ROOT/bin:$PATH
   eval "$(goenv init -)"
@@ -248,10 +248,10 @@ if [ -e /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 fi
 
-if type kubectl > /dev/null 2>&1; then
+if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
 
-if type helm  > /dev/null 2>&1; then
+if [ $commands[helm] ]; then
   source <(helm completion zsh)
 fi
