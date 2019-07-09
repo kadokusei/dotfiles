@@ -24,3 +24,5 @@
 	trustExitCode = true
 [gui]
 	recentrepo = /Users/h.yoshimura/opt/git-work-2018
+[ghq]
+    root = ~/git
