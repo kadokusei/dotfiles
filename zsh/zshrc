@@ -3,6 +3,7 @@ export VISUAL=vim
 export TERM='xterm-256color'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export LESS='-g -i -M -R -W -z-4 -x4'
+export XDG_CONFIG_HOME=$HOME/.config
 
 export ZPLUG_HOME=~/.zplug
 
@@ -139,12 +140,6 @@ alias la="ls -a"
 alias ll="ls -l"
 alias lal="ls -al"
 
-# tmux用の設定
-alias tmux-changekey='tmux set-option -ag prefix C-t'
-alias tmux-revertkey='tmux set-option -ag prefix C-b'
-
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
-bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 
@@ -168,9 +163,6 @@ case ${OSTYPE} in
         export LANG="ja_JP.UTF-8"
         export CLICOLOR=1
         alias ls='ls -G -F'
-        alias emacs='/usr/local/bin/emacs'
-        alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-        alias pip3-updater="pip3 list --outdated | tail -n +3 | awk '{print $1}' | xargs pip3 install -U"
 	typeset -U path cdpath fpath manpath
 	## sudo用のpathを設定
 	typeset -xT SUDO_PATH sudo_path
@@ -181,19 +173,10 @@ case ${OSTYPE} in
 	export ZPLUG_HOME=/usr/local/opt/zplug
 	export PATH=$PATH:/usr/local/opt/go/libexec/bin:~/.nodebrew/current/bin
 	source ~/.iterm2_shell_integration.`basename $SHELL`
-	# direnv
-	if [ $commands[direnv] ]; then
-	  eval "$(direnv hook zsh)"
-	  show_virtual_env() {
-	    if [ -n "$VIRTUAL_ENV" ]; then
-	      echo "($(basename $VIRTUAL_ENV))"
-	    fi
-	  }
-	fi
 
   	function select-history() {
-  	BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
-  	CURSOR=$#BUFFER
+    	  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  	  CURSOR=$#BUFFER
   	}
   	zle -N select-history
   	bindkey '^r' select-history
@@ -212,12 +195,6 @@ fi
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-if [ -e $HOME/.zshrc_local ]; then
-  source $HOME/.zshrc_local
-else
-  :
-fi
 
 if [ $commands[pyenv] ]; then
   eval "$(pyenv init -)"
@@ -267,3 +244,14 @@ function ghq-fzf() {
 }
 zle -N ghq-fzf
 bindkey '^]' ghq-fzf
+
+if [ -e $HOME/.zshrc_local ]; then
+  source $HOME/.zshrc_local
+else
+  :
+fi
+
+# direnv
+if [ $commands[direnv] ]; then
+  eval "$(direnv hook zsh)"
+fi
