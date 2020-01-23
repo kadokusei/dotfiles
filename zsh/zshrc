@@ -214,8 +214,9 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 
 # n
 export N_PREFIX="$HOME/.n"
-export PATH="$PATH:$N_PREFIX/bin"
+export PATH="$N_PREFIX/bin:$PATH"
 
+# ghq
 function ghq-fzf() {
   local dir=$(ghq root)/$(ghq list | fzf)
   if [ -n $dir ]; then
@@ -226,6 +227,7 @@ function ghq-fzf() {
 zle -N ghq-fzf
 bindkey '^]' ghq-fzf
 
+# load .zshrc_local
 if [ -e $HOME/.zshrc_local ]; then
   source $HOME/.zshrc_local
 else
@@ -237,6 +239,7 @@ if [ $commands[direnv] ]; then
   eval "$(direnv hook zsh)"
 fi
 
+# compile .zshrc
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
   zcompile ~/.zshrc
 fi
