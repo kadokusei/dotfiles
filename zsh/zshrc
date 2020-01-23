@@ -5,32 +5,30 @@ export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export LESS='-g -i -M -R -W -z-4 -x4'
 export XDG_CONFIG_HOME=$HOME/.config
 
-export ZPLUG_HOME=~/.zplug
-
-if test -e ~/.zplug; then
-  :
-else
-  git clone https://github.com/zplug/zplug $ZPLUG_HOME
+# zinit
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f"
 fi
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
-source $ZPLUG_HOME/init.zsh
+zplugin ice wait'!0'
+zinit light zsh-users/zsh-syntax-highlighting
 
-zplug "zsh-users/zsh-syntax-highlighting", defer:3
-zplug "zsh-users/zsh-history-substring-search"
-zplug "zsh-users/zsh-completions"
-zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
-zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+zinit light zsh-users/zsh-history-substring-search
 
-# check install
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
+zinit light zsh-users/zsh-completions
 
-# load plugins and path for commands
-zplug load --verbose
+zplugin ice wait'!0' pick'init.sh'
+zinit light b4b4r07/enhancd
+
+zinit ice wait'!0' from"gh-r" as"program"
+zinit light junegunn/fzf-bin
 
 # colors
 autoload -Uz colors
@@ -58,11 +56,6 @@ zstyle ':zle:*' word-style unspecified
 # zsh-completions
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-# 補完
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit
-
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
@@ -75,18 +68,6 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 
 # ps コマンドのプロセス名補完
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
-
-# vcs_info
-
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' formats '(%s)-[%b]'
-zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-precmd () {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-}
-RPROMPT="%1(v|%F{green}%1v%f|)"
 
 # オプション
 # 日本語ファイル名を表示可能にする
@@ -134,14 +115,10 @@ setopt auto_menu
 # 高機能なワイルドカード展開を使用する
 setopt extended_glob
 
-########################################
 # alias
 alias la="ls -a"
 alias ll="ls -l"
 alias lal="ls -al"
-
-
-########################################
 
 # clipboard
 if [ $commands[pbcopy] ]; then
@@ -155,8 +132,6 @@ elif [ $commands[putclip] ]; then
     alias -g C='| putclip'
 fi
 
-
-########################################
 # OS
 case ${OSTYPE} in
     darwin*)
@@ -164,14 +139,16 @@ case ${OSTYPE} in
         export CLICOLOR=1
         alias ls='ls -G -F'
 	typeset -U path cdpath fpath manpath
-	## sudo用のpathを設定
+
+	## set PATH for sudo
 	typeset -xT SUDO_PATH sudo_path
 	typeset -U sudo_path
 	sudo_path=({/usr/local,/usr,}/sbin(N-/))
-	## pathを設定
+
+	## set PATH
 	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
 	export ZPLUG_HOME=/usr/local/opt/zplug
-	export PATH=$PATH:/usr/local/opt/go/libexec/bin:~/.nodebrew/current/bin
+	export PATH=$PATH:/usr/local/opt/go/libexec/bin
 	source ~/.iterm2_shell_integration.`basename $SHELL`
 
   	function select-history() {
@@ -180,17 +157,18 @@ case ${OSTYPE} in
   	}
   	zle -N select-history
   	bindkey '^r' select-history
+
   	;;
     linux*)
         #Linux用の設定
         ;;
 esac
 
+eval "$(starship init zsh)"
+
 if [ $commands[nvim] ]; then
   alias vim='nvim';
 fi
-
-# vim:set ft=zsh:
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -205,7 +183,7 @@ if [ $commands[rbenv] ]; then
   eval "$(rbenv init -)"
 fi
 
-if [ $commands[goenv] ]; then
+if [ -e $HOME/.goenv/bin/goenv ]; then
   export GOENV_ROOT=$HOME/.goenv
   export PATH=$GOENV_ROOT/bin:$PATH
   eval "$(goenv init -)"
@@ -234,6 +212,10 @@ fi
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
+# n
+export N_PREFIX="$HOME/.n"
+export PATH="$PATH:$N_PREFIX/bin"
+
 function ghq-fzf() {
   local dir=$(ghq root)/$(ghq list | fzf)
   if [ -n $dir ]; then
@@ -254,3 +236,8 @@ fi
 if [ $commands[direnv] ]; then
   eval "$(direnv hook zsh)"
 fi
+
+if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
+  zcompile ~/.zshrc
+fi
+
