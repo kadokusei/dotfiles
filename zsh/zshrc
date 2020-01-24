@@ -170,23 +170,44 @@ if [ $commands[nvim] ]; then
   alias vim='nvim';
 fi
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+  sdk() {
+    unfunction "$0"
+    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+    $0 "$@"
+  }
 
-if [ $commands[pyenv] ]; then
+# pyenv
+if [ ! $commands[pyenv] ]; then
+  export path=$HOME/.pyenv/bin:$PATH
+fi
+
+pyenv() {
+  unfunction "$0"
   eval "$(pyenv init -)"
+  $0 "$@"
+}
+
+# rbenv
+if [ ! $commands[rbenv] ]; then
+  export path=$HOME/.rbenv/bin:$PATH
 fi
 
-if [ $commands[rbenv] ]; then
-  export PATH=$HOME/.rbenv/bin:$PATH
+rbenv() {
+  unfunction "$0"
   eval "$(rbenv init -)"
-fi
+  $0 "$@"
+}
 
 if [ -e $HOME/.goenv/bin/goenv ]; then
   export GOENV_ROOT=$HOME/.goenv
   export PATH=$GOENV_ROOT/bin:$PATH
-  eval "$(goenv init -)"
+  goenv() {
+    unfunction "$0"
+    eval "$(goenv init -)"
+    $0 "$@"
+  }
 fi
 
 # GCLOUD ENV
@@ -201,15 +222,24 @@ if [ -e /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 fi
 
+# kubectl completion
 if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
+  kubectl() {
+    unfunction "$0"
+    source <(kubectl completion zsh)
+    $0 "$@"
+  }
 fi
 
+# helm completion
 if [ $commands[helm] ]; then
-  source <(helm completion zsh)
+  helm() {
+    unfunction "$0"
+    source <(helm completion zsh)
+    $0 "$@"
+  }
 fi
 
-autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 # n
