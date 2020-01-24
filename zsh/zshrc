@@ -244,3 +244,7 @@ if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
   zcompile ~/.zshrc
 fi
 
+# exec zprof if exists
+if (which zprof > /dev/null 2>&1) ;then
+  zprof
+fi
