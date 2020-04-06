@@ -134,34 +134,25 @@ fi
 
 # OS
 case ${OSTYPE} in
-    darwin*)
-        export LANG="ja_JP.UTF-8"
-        export CLICOLOR=1
-        alias ls='ls -G -F'
-	typeset -U path cdpath fpath manpath
+  darwin*)
+    export LANG="ja_JP.UTF-8"
+    export CLICOLOR=1
+    alias ls='ls -G -F'
+	  typeset -U path cdpath fpath manpath
 
-	## set PATH for sudo
-	typeset -xT SUDO_PATH sudo_path
-	typeset -U sudo_path
-	sudo_path=({/usr/local,/usr,}/sbin(N-/))
+	  ## set PATH for sudo
+	  typeset -xT SUDO_PATH sudo_path
+	  typeset -U sudo_path
+	  sudo_path=({/usr/local,/usr,}/sbin(N-/))
 
-	## set PATH
-	path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
-	export ZPLUG_HOME=/usr/local/opt/zplug
-	export PATH=$PATH:/usr/local/opt/go/libexec/bin
-	source ~/.iterm2_shell_integration.`basename $SHELL`
-
-  	function select-history() {
-    	  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
-  	  CURSOR=$#BUFFER
-  	}
-  	zle -N select-history
-  	bindkey '^r' select-history
-
-  	;;
-    linux*)
-        #Linux用の設定
-        ;;
+	  ## set PATH
+	  path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
+	  export ZPLUG_HOME=/usr/local/opt/zplug
+	  export PATH=$PATH:/usr/local/opt/go/libexec/bin
+	  source ~/.iterm2_shell_integration.`basename $SHELL`
+  ;;
+  linux*)
+  ;;
 esac
 
 eval "$(starship init zsh)"
@@ -245,6 +236,14 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 # n
 export N_PREFIX="$HOME/.n"
 export PATH="$N_PREFIX/bin:$PATH"
+
+# fzf
+function select-history() {
+	BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
+}
+zle -N select-history
+bindkey '^r' select-history
 
 # ghq
 function ghq-fzf() {
