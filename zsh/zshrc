@@ -14,15 +14,14 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
         print -P "%F{160}▓▒░ The clone has failed.%f"
 fi
-source "$HOME/.zinit/bin/zinit.zsh"
+
+. "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-zplugin ice wait'!0'
-zinit light zsh-users/zsh-syntax-highlighting
-
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-history-substring-search
-
 zinit light zsh-users/zsh-completions
 
 zinit ice wait'!0' pick'init.sh'
