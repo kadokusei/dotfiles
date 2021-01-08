@@ -30,23 +30,6 @@ zinit light b4b4r07/enhancd
 zinit ice wait'!0' from"gh-r" as"program"
 zinit light junegunn/fzf-bin
 
-# asdf
-if [[ ! -d $HOME/.asdf/ ]]; then
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-  cd ~/.asdf
-  git checkout "$(git describe --abbrev=0 --tags)"
-  cd ~/
-fi
-
-source $HOME/.asdf/asdf.sh
-fpath=(${HOME}/.asdf/completions $fpath)
-autoload -Uz compinit
-compinit
-
-# colors
-autoload -Uz colors
-colors
-
 # keybind
 bindkey -e
 
@@ -55,9 +38,6 @@ HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-# prompt
-PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~ %# "
-
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
 select-word-style default
@@ -65,9 +45,6 @@ select-word-style default
 # / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
-
-# zsh-completions
-fpath=(/usr/local/share/zsh-completions $fpath)
 
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -131,11 +108,11 @@ alias lal="ls -al"
 
 # clipboard
 if [ $commands[pbcopy] ]; then
-    # Mac
-    alias -g C='| pbcopy'
+  # Mac
+  alias -g C='| pbcopy'
 elif [ $commands[xsel] ]; then
-    # Linux
-    alias -g C='| xsel --input --clipboard'
+  # Linux
+  alias -g C='| xsel --input --clipboard'
 fi
 
 # OS
@@ -153,7 +130,6 @@ case ${OSTYPE} in
 
     ## set PATH
     path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
-    export PATH=$PATH:/usr/local/opt/go/libexec/bin
     source ~/.iterm2_shell_integration.`basename $SHELL`
   ;;
   linux*)
@@ -196,7 +172,13 @@ if [ $commands[helm] ]; then
   }
 fi
 
-complete -o nospace -C /usr/local/bin/terraform terraform
+if [ $commands[terraform] ]; then
+  complete -o nospace -C /usr/local/bin/terraform terraform
+fi
+
+if [ $commands[pack] ]; then
+  . $(pack completion --shell zsh)
+fi
 
 # fzf
 function select-history() {
@@ -217,12 +199,20 @@ function ghq-fzf() {
 zle -N ghq-fzf
 bindkey '^]' ghq-fzf
 
-# load .zshrc_local
-if [ -e $HOME/.zshrc_local ]; then
-  source $HOME/.zshrc_local
-else
-  :
+# asdf
+if [[ ! -d $HOME/.asdf/ ]]; then
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+  cd ~/.asdf
+  git checkout "$(git describe --abbrev=0 --tags)"
+  cd ~/
 fi
+
+. $HOME/.asdf/asdf.sh
+
+fpath=(${HOME}/.asdf/completions $fpath)
+
+autoload -Uz compinit
+compinit
 
 # direnv
 if [ $commands[direnv] ]; then
@@ -232,9 +222,4 @@ fi
 # compile .zshrc
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
   zcompile ~/.zshrc
-fi
-
-# exec zprof if exists
-if (which zprof > /dev/null 2>&1) ;then
-  zprof
 fi
