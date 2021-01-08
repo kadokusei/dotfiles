@@ -80,8 +80,6 @@ setopt auto_pushd
 # 重複したディレクトリを追加しない
 setopt pushd_ignore_dups
 
-# = の後はパス名として補完する
-setopt magic_equal_subst
 
 # 同時に起動したzshの間でヒストリを共有する
 setopt share_history
@@ -118,9 +116,7 @@ fi
 # OS
 case ${OSTYPE} in
   darwin*)
-    export LANG="ja_JP.UTF-8"
     export CLICOLOR=1
-    alias ls='ls -G -F'
     typeset -U path cdpath fpath manpath
 
     ## set PATH for sudo
@@ -129,13 +125,33 @@ case ${OSTYPE} in
     sudo_path=({/usr/local,/usr,}/sbin(N-/))
 
     ## set PATH
-    path=(~/bin(N-/) /usr/local/bin(N-/) ${path})
-    source ~/.iterm2_shell_integration.`basename $SHELL`
+    path=(~/bin(N-/)
+          /opt/homebrew/bin(N-/)
+          /usr/local/bin(N-/)
+          $GOPATH/bin(N-/)
+          $path
+          )
+
+    if [[ "${(L)$( uname -s )}" == darwin ]] && (( $+commands[arch] )); then
+      alias brew="arch -arch x86_64 /usr/local/bin/brew"
+      alias x64='exec arch -arch x86_64 "$SHELL"'
+      alias a64='exec arch -arch arm64e "$SHELL"'
+      switch-arch() {
+        if [[ "$(uname -m)" == arm64 ]]; then
+          arch=x86_64
+        elif [[ "$(uname -m)" == x86_64 ]]; then
+          arch=arm64e
+        fi
+      exec arch -arch $arch "$SHELL"
+	}
+fi
   ;;
   linux*)
     #Linux用の設定
   ;;
 esac
+
+setopt magic_equal_subst
 
 eval "$(starship init zsh)"
 
