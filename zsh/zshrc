@@ -4,6 +4,7 @@ export TERM='xterm-256color'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export LESS='-g -i -M -R -W -z-4 -x4'
 export XDG_CONFIG_HOME=$HOME/.config
+export GOPATH=$HOME/.go
 
 # zinit
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
