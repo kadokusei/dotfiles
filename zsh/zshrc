@@ -1,36 +1,48 @@
 export EDITOR=vim
 export VISUAL=vim
-export TERM='xterm-256color'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export LESS='-g -i -M -R -W -z-4 -x4'
 export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/.go
 
-# zinit
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f"
+path=(~/bin(N-/)
+      /usr/local/bin(N-/)
+      $GOPATH/bin(N-/)
+      $HOME/.cask/bin(N-/)
+      $HOME/.pulumi/bin(N-/)
+      $HOME/.local/bin(N-/)
+      $path
+      )
+
+# install zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+. "${ZINIT_HOME}/zinit.zsh"
+
+zinit wait lucid blockf light-mode for \
+  zsh-users/zsh-completions \
+  zsh-users/zsh-autosuggestions \
+  zdharma-continuum/fast-syntax-highlighting \
+  zsh-users/zsh-history-substring-search \
+  joshskidmore/zsh-fzf-history-search \
+  b4b4r07/enhancd \
+  from"gh-r" as"program" junegunn/fzf
+
+# zinit snippet OMZP::tmux
+# export ZSH_TMUX_AUTOSTART=true
+
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+autoload compinit && compinit
+
+if [ $+commands[mise] ]; then
+  eval "$(mise activate zsh)"
 fi
 
-. "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+if [ $+commands[starship] ]; then
+  eval "$(starship init zsh)"
+fi
 
-zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
-zinit light zsh-users/zsh-history-substring-search
-zinit light zsh-users/zsh-completions
-
-zinit ice wait'!0' pick'init.sh'
-zinit light b4b4r07/enhancd
-
-zinit ice wait'!0' from"gh-r" as"program"
-zinit light junegunn/fzf-bin
-
-# keybind
 bindkey -e
 
 # history
@@ -80,7 +92,6 @@ setopt auto_pushd
 # 重複したディレクトリを追加しない
 setopt pushd_ignore_dups
 
-
 # 同時に起動したzshの間でヒストリを共有する
 setopt share_history
 
@@ -104,15 +115,6 @@ alias la="ls -a"
 alias ll="ls -l"
 alias lal="ls -al"
 
-# clipboard
-if [ $commands[pbcopy] ]; then
-  # Mac
-  alias -g C='| pbcopy'
-elif [ $commands[xsel] ]; then
-  # Linux
-  alias -g C='| xsel --input --clipboard'
-fi
-
 # OS
 case ${OSTYPE} in
   darwin*)
@@ -127,8 +129,6 @@ case ${OSTYPE} in
     ## set PATH
     path=(~/bin(N-/)
           /opt/homebrew/bin(N-/)
-          /usr/local/bin(N-/)
-          $GOPATH/bin(N-/)
           $path
           )
 
@@ -151,13 +151,22 @@ fi
   ;;
 esac
 
-setopt magic_equal_subst
+# WSLのときにする処理
+if [[ "$(uname -r)" == *microsoft* ]]; then
+  export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
 
-eval "$(starship init zsh)"
-
-if [ $commands[nvim] ]; then
-  alias vim='nvim';
+  ALREADY_RUNNING=$(ps -auxww | grep -q "[n]piperelay.exe -ei -s //./pipe/openssh-ssh-agent"; echo $?)
+  if [[ $ALREADY_RUNNING != "0" ]]; then
+    if [[ -S $SSH_AUTH_SOCK ]]; then
+      echo "removing previous socket..."
+      rm $SSH_AUTH_SOCK
+    fi
+    echo "Starting SSH-Agent relay..."
+    (setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
+  fi
 fi
+
+setopt magic_equal_subst
 
 # GCLOUD ENV
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
@@ -171,39 +180,6 @@ if [ -e /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 fi
 
-if [ $commands[kubectl] ]; then
-  kubectl() {
-    unfunction "$0"
-    source <(kubectl completion zsh)
-    $0 "$@"
-  }
-fi
-
-# helm completion
-if [ $commands[helm] ]; then
-  helm() {
-    unfunction "$0"
-    source <(helm completion zsh)
-    $0 "$@"
-  }
-fi
-
-if [ $commands[terraform] ]; then
-  complete -o nospace -C /usr/local/bin/terraform terraform
-fi
-
-if [ $commands[pack] ]; then
-  . $(pack completion --shell zsh)
-fi
-
-# fzf
-function select-history() {
-	BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
-  CURSOR=$#BUFFER
-}
-zle -N select-history
-bindkey '^r' select-history
-
 # ghq
 function ghq-fzf() {
   local dir=$(ghq root)/$(ghq list | fzf)
@@ -213,27 +189,10 @@ function ghq-fzf() {
   fi
 }
 zle -N ghq-fzf
-bindkey '^]' ghq-fzf
-
-# asdf
-if [[ ! -d $HOME/.asdf/ ]]; then
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-  cd ~/.asdf
-  git checkout "$(git describe --abbrev=0 --tags)"
-  cd ~/
-fi
-
-. $HOME/.asdf/asdf.sh
-
-fpath=(${HOME}/.asdf/completions $fpath)
+bindkey '^g' ghq-fzf
 
 autoload -Uz compinit
 compinit
-
-# direnv
-if [ $commands[direnv] ]; then
-  eval "$(direnv hook zsh)"
-fi
 
 # compile .zshrc
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then

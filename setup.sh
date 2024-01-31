@@ -2,13 +2,9 @@
 
 # "git submodule"
 cd $HOME/dotfiles
-git submodule init
-git submodule update
-
 # vim
 ln -sf $HOME/dotfiles/vim/vimrc $HOME/.vimrc
 ln -sf $HOME/dotfiles/vim/vimfiles $HOME/.vim
-vim -c NeoBundleInstall! -c q
 
 # zsh
 ln -sf $HOME/dotfiles/zsh/zshrc $HOME/.zshrc
