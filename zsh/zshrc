@@ -20,6 +20,9 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 . "${ZINIT_HOME}/zinit.zsh"
 
+zinit blockf light-mode for \
+  zimfw/input
+
 zinit wait lucid blockf light-mode for \
   zsh-users/zsh-completions \
   zsh-users/zsh-autosuggestions \
@@ -27,17 +30,15 @@ zinit wait lucid blockf light-mode for \
   zsh-users/zsh-history-substring-search \
   joshskidmore/zsh-fzf-history-search \
   b4b4r07/enhancd \
-  from"gh-r" as"program" junegunn/fzf
+  from"gh-r" as"program" junegunn/fzf \
+  as"completion" https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
-# zinit snippet OMZP::tmux
-# export ZSH_TMUX_AUTOSTART=true
+zinit snippet OMZP::gcloud
+zinit snippet OMZP::gnu-utils
+zinit snippet OMZP::mise
 
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 autoload compinit && compinit
-
-if [ $+commands[mise] ]; then
-  eval "$(mise activate zsh)"
-fi
 
 if [ $+commands[starship] ]; then
   eval "$(starship init zsh)"
@@ -156,15 +157,6 @@ setopt magic_equal_subst
 
 # GCLOUD ENV
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
-
-# completion for google-cloud-sdk
-if [ -e /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-fi
-
-if [ -e /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
-fi
 
 # ghq
 function ghq-fzf() {
