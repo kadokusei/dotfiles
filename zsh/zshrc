@@ -23,13 +23,15 @@ zinit wait lucid blockf light-mode for \
   zdharma-continuum/fast-syntax-highlighting \
   zsh-users/zsh-history-substring-search \
   joshskidmore/zsh-fzf-history-search \
-  z-shell/zsh-zoxide \
   from"gh-r" as"program" junegunn/fzf \
   as"completion" https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
 zinit snippet OMZP::gcloud
 zinit snippet OMZP::gnu-utils
 zinit snippet OMZP::mise
+
+zinit ice has"zoxide"
+zinit snippet OMZP::zoxide
 
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 autoload compinit && compinit
@@ -145,6 +147,9 @@ if [[ "$(uname -r)" == *microsoft* ]]; then
     echo "Starting SSH-Agent relay..."
     (setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
   fi
+
+  alias ssh='ssh.exe'
+  alias ssh-add='ssh-add.exe'
 fi
 
 setopt magic_equal_subst

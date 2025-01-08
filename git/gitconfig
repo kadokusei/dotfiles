@@ -1,6 +1,7 @@
 [user]
 	name = Hiroki Yoshimura
 	email = kadokusei@users.noreply.github.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJmXSAomdT+fxLLzO4Q9sblYySJuuYO6pBhDezVONHgc
 [color]
 	ui = auto
 [push]
@@ -8,7 +9,14 @@
 [core]
 	excludesfile = $HOME/.gitignore_global
 	editor = vim
+	sshCommand = ssh.exe
 [ghq]
-    root = ~/git
+	root = ~/git
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/mnt/c/Users/hyr3k/AppData/Local/1Password/app/8/op-ssh-sign-wsl"
+[commit]
+	gpgsign = true
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
