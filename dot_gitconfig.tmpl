@@ -1,0 +1,46 @@
+[user]
+  name = Hiroki Yoshimura
+  email = kadokusei@users.noreply.github.com
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJmXSAomdT+fxLLzO4Q9sblYySJuuYO6pBhDezVONHgc
+
+[color]
+  ui = auto
+
+[push]
+  default = simple
+
+[pull]
+  rebase = true
+  ff = only
+
+[merge]
+  ff = false
+
+[core]
+  excludesfile = $HOME/.gitignore_global
+  editor = vim
+  quotepath = false
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+  sshCommand = ssh.exe
+{{   end }}
+{{ end }}
+
+[ghq]
+  root = ~/git
+
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+
+[gpg]
+  format = ssh
+
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+[gpg "ssh"]
+  program = "/mnt/c/Users/hyr3k/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
+{{   end }}
+{{ end }}
+
+[commit]
+  gpgsign = true
