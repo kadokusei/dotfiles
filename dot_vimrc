@@ -1,0 +1,52 @@
+"Settings"
+
+set nocompatible
+set noswapfile
+set autoread
+set nobackup
+set history=10000
+
+"Encoding"
+
+set encoding=utf-8
+set fenc=utf-8
+set fencs=ucs_bom,utf-8,euc-jp,iso-2022-jp,cp932
+set ffs=unix,dos,mac
+
+"Display"
+
+set showmatch
+set number
+syntax on
+"colorscheme molokai
+set t_Co=256
+
+"Indent"
+
+set autoindent
+set cindent
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set smarttab
+set expandtab
+set shiftround
+
+"Clipboard"
+
+set clipboard=unnamed
+
+"force save"
+cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
+
+"Search Settings"
+
+set ignorecase
+set smartcase
+set wrapscan
+set hlsearch
+set incsearch
+
+"Key Settings"
+
+set backspace=indent,eol,start
