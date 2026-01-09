@@ -1,0 +1,57 @@
+[font]
+size = 14.0
+
+[font.bold]
+family = "Moralerspace Neon"
+style = "Bold"
+
+[font.normal]
+family = "Moralerspace Neon"
+style = "Regular"
+
+[font.offset]
+y = 1
+
+{{ if eq .chezmoi.os "darwin" }}
+[[keyboard.bindings]]
+key = "Comma"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-c", "open ~/.config/alacritty/alacritty.toml"]
+program = "sh"
+
+[[keyboard.bindings]]
+chars = "\u001BOH"
+key = "Left"
+mode = "AppCursor"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001BOF"
+key = "Right"
+mode = "AppCursor"
+mods = "Command"
+{{ end }}
+
+[[keyboard.bindings]]
+chars = "\u0015"
+key = "Back"
+mods = "Super"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[window]
+option_as_alt = "Both"
+
+opacity = 0.9
+
+[window.dimensions]
+columns = 150
+lines = 60
+
+[window.padding]
+x = 8
+y = 4
