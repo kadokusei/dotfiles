@@ -2,7 +2,14 @@ export EDITOR=vim
 export VISUAL=vim
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export LESS='-g -i -M -R -W -z-4 -x4'
-export XDG_CONFIG_HOME=$HOME/.config
+: ${XDG_CONFIG_HOME:=$HOME/.config}
+export XDG_CONFIG_HOME
+: ${XDG_CACHE_HOME:=$HOME/.cache}
+export XDG_CACHE_HOME
+: ${XDG_STATE_HOME:=$HOME/.local/state}
+export XDG_STATE_HOME
+
+typeset -U path
 
 path=($HOME/.local/bin(N-/)
       $path
@@ -25,7 +32,11 @@ if (( $+commands[sheldon] )); then
   eval "$(sheldon source)"
 fi
 
-autoload -U compinit && compinit
+# completion
+autoload -Uz compinit
+typeset -g ZSH_COMPDUMP="${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
+[[ -d ${ZSH_COMPDUMP:h} ]] || mkdir -p -- ${ZSH_COMPDUMP:h}
+compinit -d "${ZSH_COMPDUMP}"
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 if (( $+commands[carapace] )); then
@@ -39,7 +50,8 @@ fi
 bindkey -e
 
 # history
-HISTFILE=~/.zsh_history
+HISTFILE="${XDG_STATE_HOME}/zsh/history"
+[[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
 HISTSIZE=1000000
 SAVEHIST=1000000
 
@@ -88,6 +100,16 @@ setopt pushd_ignore_dups
 # 同時に起動したzshの間でヒストリを共有する
 setopt share_history
 
+# 履歴を追記し、並行シェルで壊れにくくする
+setopt append_history
+setopt inc_append_history
+setopt hist_fcntl_lock
+
+# 履歴の品質
+setopt extended_history
+setopt hist_ignore_space
+setopt hist_expire_dups_first
+
 # 同じコマンドをヒストリに残さない
 setopt hist_ignore_all_dups
 
@@ -128,17 +150,21 @@ path=(~/bin(N-/)
 setopt magic_equal_subst
 
 # GCLOUD ENV
-export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
+if [[ -r "${XDG_CONFIG_HOME}/gcloud/application_default_credentials.json" ]]; then
+  export GOOGLE_APPLICATION_CREDENTIALS="${XDG_CONFIG_HOME}/gcloud/application_default_credentials.json"
+fi
 
-function ghq-fzf() {
-  local dir=$(ghq root)/$(ghq list | fzf)
-  if [[ -n $dir ]]; then
-    BUFFER="cd -- $dir"
-    zle accept-line
-  fi
-}
-zle -N ghq-fzf
-bindkey '^]' ghq-fzf
+if (( $+commands[ghq] && $+commands[fzf] )); then
+  function ghq-fzf() {
+    local dir=$(ghq root)/$(ghq list | fzf)
+    if [[ -n $dir ]]; then
+      BUFFER="cd -- $dir"
+      zle accept-line
+    fi
+  }
+  zle -N ghq-fzf
+  bindkey '^]' ghq-fzf
+fi
 
 if (( $+commands[atuin] )); then
   eval "$(atuin init zsh --disable-up-arrow)"
