@@ -22,12 +22,6 @@ alias ssh-add=ssh-add.exe
 {{   end }}
 {{ end }}
 
-if (( $+commands[mise] )); then
-  eval "$(mise activate zsh)"
-fi
-
-export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-
 if (( $+commands[sheldon] )); then
   eval "$(sheldon source)"
 fi
@@ -166,8 +160,12 @@ if (( $+commands[ghq] && $+commands[fzf] )); then
   bindkey '^]' ghq-fzf
 fi
 
+if (( $+commands[mise] )); then
+  zsh-defer eval "$(mise activate zsh)"
+fi
+
 if (( $+commands[atuin] )); then
-  eval "$(atuin init zsh --disable-up-arrow)"
+  zsh-defer eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
 if [[ -f ~/.zshrc.zwc && ~/.zshrc -nt ~/.zshrc.zwc ]] || [[ ! -f ~/.zshrc.zwc ]]; then

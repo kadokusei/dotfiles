@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+has() { command -v "$1" >/dev/null 2>&1; }
+log() { printf "[chezmoi] %s\n" "$*"; }
+
+LOCAL_BIN="$HOME/.local/bin"
+mkdir -p "$LOCAL_BIN"
+
+export PATH="$LOCAL_BIN:$PATH"
+
+install_homebrew() {
+  if has brew; then return 0; fi
+
+  log "Homebrew not found. Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+
+  if ! has brew; then
+    log "brew is still not available in PATH. Please re-run after opening a new shell."
+    exit 1
+  fi
+}
+
+install_mise() {
+  if has mise; then return 0; fi
+
+  if [ "{{ .chezmoi.os }}" = "darwin" ]; then
+    log "Installing mise via brew"
+    brew install mise
+  else
+    log "Installing mise via mise.run"
+    curl -fsSL https://mise.run | sh
+  fi
+}
+
+install_starship() {
+  if has starship; then return 0; fi
+
+  if [ "{{ .chezmoi.os }}" = "darwin" ]; then
+    log "Installing starship via brew"
+    brew install starship
+  else
+    log "Installing starship via install.sh into ~/.local/bin"
+    curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "$LOCAL_BIN" --yes
+  fi
+}
+
+install_sheldon() {
+  if has sheldon; then return 0; fi
+
+  log "Installing sheldon (latest GitHub release binary) into ~/.local/bin"
+  curl --proto '=https' --tlsv1.2 -sSf https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --to "$LOCAL_BIN"
+}
+
+main() {
+  if ! has curl; then
+    log "curl is required. Please install curl first."
+    exit 1
+  fi
+
+{{ if eq .chezmoi.os "darwin" }}
+  install_homebrew
+{{ end }}
+
+  install_mise
+  install_starship
+  install_sheldon
+}
+
+main
