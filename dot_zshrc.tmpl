@@ -15,33 +15,24 @@ alias ssh-add=ssh-add.exe
 {{   end }}
 {{ end }}
 
-# install zinit
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
-[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-. "${ZINIT_HOME}/zinit.zsh"
-
-zinit blockf light-mode for \
-  zimfw/input
-
-zinit wait lucid blockf light-mode for \
-  zsh-users/zsh-completions \
-  zsh-users/zsh-autosuggestions \
-  zdharma-continuum/fast-syntax-highlighting \
-  zsh-users/zsh-history-substring-search \
-  joshskidmore/zsh-fzf-history-search \
-  z-shell/zsh-zoxide \
-  from"gh-r" as"program" junegunn/fzf \
-  as"completion" https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
-
-zinit snippet OMZP::gcloud
-zinit snippet OMZP::gnu-utils
-zinit snippet OMZP::mise
+if (( $+commands[mise] )); then
+  eval "$(mise activate zsh)"
+fi
 
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-autoload compinit && compinit
 
-if [ $+commands[starship] ]; then
+if (( $+commands[sheldon] )); then
+  eval "$(sheldon source)"
+fi
+
+autoload -U compinit && compinit
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+if (( $+commands[carapace] )); then
+  source <(carapace _carapace)
+fi
+
+if (( $+commands[starship] )); then
   eval "$(starship init zsh)"
 fi
 
@@ -117,58 +108,42 @@ alias la="ls -a"
 alias ll="ls -l"
 alias lal="ls -al"
 
-# OS
-case ${OSTYPE} in
-  darwin*)
-    export CLICOLOR=1
-    typeset -U path cdpath fpath manpath
+{{ if eq .chezmoi.os "darwin" }}
+export CLICOLOR=1
+typeset -U path cdpath fpath manpath
 
-    ## set PATH for sudo
-    typeset -xT SUDO_PATH sudo_path
-    typeset -U sudo_path
-    sudo_path=({/usr/local,/usr,}/sbin(N-/))
+## set PATH for sudo
+typeset -xT SUDO_PATH sudo_path
+typeset -U sudo_path
+sudo_path=({/usr/local,/usr,}/sbin(N-/))
 
-    ## set PATH
-    path=(~/bin(N-/)
-          /opt/homebrew/bin(N-/)
-          /opt/homebrew/share/google-cloud-sdk/bin(N-/)
-          $path
-          )
-  ;;
-  linux*)
-    #Linux用の設定
-  ;;
-esac
-
+## set PATH
+path=(~/bin(N-/)
+      /opt/homebrew/bin(N-/)
+      /opt/homebrew/share/google-cloud-sdk/bin(N-/)
+      $path
+      )
+{{ end }}
 
 setopt magic_equal_subst
 
 # GCLOUD ENV
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
 
-# ghq
 function ghq-fzf() {
   local dir=$(ghq root)/$(ghq list | fzf)
-  if [ -n $dir ]; then
-    BUFFER="cd $dir"
+  if [[ -n $dir ]]; then
+    BUFFER="cd -- $dir"
     zle accept-line
   fi
 }
 zle -N ghq-fzf
 bindkey '^]' ghq-fzf
 
-function fzf-select-history() {
-    BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER" --reverse)
-    CURSOR=$#BUFFER
-    zle reset-prompt
-}
-zle -N fzf-select-history
-bindkey '^r' fzf-select-history
+if (( $+commands[atuin] )); then
+  eval "$(atuin init zsh --disable-up-arrow)"
+fi
 
-autoload -Uz compinit
-compinit
-
-# compile .zshrc
-if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
+if [[ -f ~/.zshrc.zwc && ~/.zshrc -nt ~/.zshrc.zwc ]] || [[ ! -f ~/.zshrc.zwc ]]; then
   zcompile ~/.zshrc
 fi
