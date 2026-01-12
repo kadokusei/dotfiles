@@ -1,5 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [],
-  "provider": {}
+  "provider": {},
+  "permission": {
+    "skill": {
+      "git-commit-guardrails": "allow",
+      "git-push-guardrails": "allow"
+    }
+  }
 }
