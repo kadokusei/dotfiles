@@ -15,8 +15,11 @@ Safety defaults
 
 MCP usage
 
-- When you need to search docs, use `context7` tools.
-- If you are unsure how to do something, use `gh_grep` (Grep by Vercel) to search code examples from GitHub.
+- **`context7`**: Use when you need to search docs
+- **`gh_grep`**: Use when unsure how to do something, to search code examples from GitHub
+- **`web-search-prime`**: Use for general web searches or retrieving real-time/updated information
+- **`web-reader`**: Use when fetching complete webpage content, structured data, or metadata from a specific URL
+- **`zread`**: Use when searching documentation, exploring repository structure, or reading specific files in a GitHub repository
 
 ---
 
