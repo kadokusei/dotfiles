@@ -19,9 +19,7 @@ lazygit = "latest"
 node = "lts"
 "npm:@dataform/cli" = "latest"
 "npm:@fission-ai/openspec" = "latest"
-"npm:@github/copilot" = "latest"
 "npm:@google/gemini-cli" = "latest"
-"npm:@openai/codex" = "latest"
 opencode = "latest"
 pnpm = "latest"
 pulumi = "latest"
@@ -34,6 +32,8 @@ uv = "latest"
 yt-dlp = "latest"
 zellij = "latest"
 zoxide = "latest"
+"aqua:github/copilot-cli" = "latest"
+"aqua:openai/codex" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
