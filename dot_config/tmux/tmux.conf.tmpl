@@ -4,7 +4,7 @@ set-option -g history-limit 50000
 set -g base-index 1
 setw -g pane-base-index 1
 
-# ペイン分割時、カレントディレクトリを引き継ぐ
+bind c new-window -c '#{pane_current_path}'
 bind | split-window -h -c '#{pane_current_path}'
 bind - split-window -v -c '#{pane_current_path}'
 
