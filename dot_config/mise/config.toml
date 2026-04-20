@@ -23,7 +23,6 @@ starship = "latest"
 terraform = "latest"
 usage = "latest"
 uv = "latest"
-yt-dlp = "latest"
 zellij = "latest"
 zoxide = "latest"
 "aqua:atuinsh/atuin" = "latest"
@@ -31,9 +30,6 @@ zoxide = "latest"
 "aqua:jj-vcs/jj" = "latest"
 "aqua:openai/codex" = "latest"
 "aqua:rossmacarthur/sheldon" = "latest"
-
-[settings]
-idiomatic_version_file_enable_tools = ["node"]
 
 [settings.npm]
 package_manager = "pnpm"
