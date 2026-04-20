@@ -1,10 +1,6 @@
-Global operating rules (highest priority)
+Global operating rules
 
-Safety defaults
-
-- Prefer read-only investigation first.
 - Provide responses primarily in Japanese while keeping this file in English.
-- Use the `commit` skill when you determine it is necessary. Split commits by appropriate granularity of concerns (atomic commits) rather than bundling unrelated changes. Do not commit if tests are failing.
 - When editing this global `AGENTS.md`, write updates in English by default.
 
 Test Driven Development (TDD) Workflow
@@ -15,10 +11,3 @@ Test Driven Development (TDD) Workflow
 - Green: Write the minimum amount of code to make the test pass.
 - Refactor: Clean up the code while ensuring tests still pass.
 - Note: Keep iterations small. Do not generate large chunks of code at once.
-
----
-
-Notes
-
-- These rules override any repository-local conventions.
-- If system/developer instructions conflict, prioritize safety and ask the user.
