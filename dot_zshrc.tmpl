@@ -190,6 +190,62 @@ if (( $+commands[atuin] )); then
   zsh-defer eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
+if (( $+commands[wt] )) || [[ -n "${WORKTRUNK_BIN:-}" ]]; then
+  wt() {
+    local use_source=false
+    local -a args
+    for arg in "$@"; do
+      if [[ "$arg" == "--source" ]]; then use_source=true; else args+=("$arg"); fi
+    done
+
+    # clap の補完ハンドラは引数解析より前に走るため、ここで早期 return する
+    if [[ -n "${COMPLETE:-}" ]]; then
+      command "${WORKTRUNK_BIN:-wt}" "${args[@]}"
+      return
+    fi
+
+    local cd_file exec_file exit_code=0
+    cd_file="$(mktemp)"
+    exec_file="$(mktemp)"
+
+    if [[ "$use_source" == true ]]; then
+      WORKTRUNK_DIRECTIVE_CD_FILE="$cd_file" WORKTRUNK_DIRECTIVE_EXEC_FILE="$exec_file" \
+        cargo run --bin wt --quiet -- "${args[@]}" || exit_code=$?
+    else
+      WORKTRUNK_DIRECTIVE_CD_FILE="$cd_file" WORKTRUNK_DIRECTIVE_EXEC_FILE="$exec_file" \
+        command "${WORKTRUNK_BIN:-wt}" "${args[@]}" || exit_code=$?
+    fi
+
+    if [[ -s "$cd_file" ]]; then
+      cd -- "$(<"$cd_file")"
+      local cd_exit=$?
+      if [[ $exit_code -eq 0 ]]; then exit_code=$cd_exit; fi
+    fi
+    if [[ -s "$exec_file" ]]; then
+      source "$exec_file"
+      local src_exit=$?
+      if [[ $exit_code -eq 0 ]]; then exit_code=$src_exit; fi
+    fi
+
+    rm -f "$cd_file" "$exec_file"
+    return "$exit_code"
+  }
+
+  _wt_lazy_complete() {
+    if ! (( $+functions[_clap_dynamic_completer_wt] )); then
+      # `command` でシェル関数を迂回しバイナリを直接呼ぶ。-V は recency 順を保つため _describe をパッチしている
+      eval "$(COMPLETE=zsh command "${WORKTRUNK_BIN:-wt}" 2>/dev/null | sed "s/_describe 'values'/_describe -V 'values'/")" || return
+    fi
+    _clap_dynamic_completer_wt "$@"
+  }
+
+  if (( $+functions[compdef] )); then
+    compdef _wt_lazy_complete wt
+    zstyle ':completion:*:wt:*' list-max 1
+    zstyle ':completion:*:*:wt:*' list-grouped false
+  fi
+fi
+
 if [[ -f ~/.zshrc.zwc && ~/.zshrc -nt ~/.zshrc.zwc ]] || [[ ! -f ~/.zshrc.zwc ]]; then
   zcompile ~/.zshrc
 fi
