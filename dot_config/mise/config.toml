@@ -26,6 +26,8 @@ zoxide = "latest"
 "aqua:max-sixty/worktrunk" = "latest"
 "aqua:openai/codex" = "latest"
 "aqua:rossmacarthur/sheldon" = "latest"
+"github:can1357/oh-my-pi" = "latest"
+
 
 [settings.npm]
 package_manager = "pnpm"
