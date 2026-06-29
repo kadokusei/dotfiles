@@ -25,6 +25,7 @@
   "theme": "dark-daltonized",
   "inputNeededNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
+  "tui": "fullscreen",
   "statusLine": {
     "type": "command",
     "command": "wt list statusline --format=claude-code"
