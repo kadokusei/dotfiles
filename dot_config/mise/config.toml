@@ -19,15 +19,14 @@ starship = "latest"
 terraform = "latest"
 usage = "latest"
 zoxide = "latest"
-"aqua:anthropics/claude-code" = "latest"
+"aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
 "aqua:ast-grep/ast-grep" = "latest"
 "aqua:atuinsh/atuin" = "latest"
 "aqua:jj-vcs/jj" = "latest"
 "aqua:max-sixty/worktrunk" = "latest"
-"aqua:openai/codex" = "latest"
+"aqua:openai/codex" = { version = "latest", minimum_release_age = "6h" }
 "aqua:rossmacarthur/sheldon" = "latest"
 "github:can1357/oh-my-pi" = "latest"
-
 
 [settings.npm]
 package_manager = "pnpm"
