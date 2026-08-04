@@ -54,8 +54,9 @@ skip-shell-integration-prompt = true
 #
 # ### Claude Code
 #
+
 [commit.generation]
-command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''"
+command = "MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --safe-mode --setting-sources='user' --system-prompt=''"
 #
 # ### Codex
 #
