@@ -1,18 +1,21 @@
 {
-  "attribution": {
-    "commit": "",
-    "pr": ""
-  },
   "env": {
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5[1m]",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-opus-5[1m]",
-    "ANTHROPIC_MODEL": "opusplan"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
   },
   "permissions": {
     "defaultMode": "auto"
   },
   "worktree": {
     "baseRef": "fresh"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "wt list statusline --format=claude-code"
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
@@ -27,12 +30,8 @@
     }
   },
   "language": "Japanese",
+  "tui": "fullscreen",
   "theme": "dark-daltonized",
   "inputNeededNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "tui": "fullscreen",
-  "statusLine": {
-    "type": "command",
-    "command": "wt list statusline --format=claude-code"
-  }
+  "skipAutoPermissionPrompt": true
 }
