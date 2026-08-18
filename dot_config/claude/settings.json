@@ -8,7 +8,7 @@
     "pr": ""
   },
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "plan"
   },
   "worktree": {
     "baseRef": "fresh"
@@ -32,6 +32,21 @@
   "language": "Japanese",
   "tui": "fullscreen",
   "theme": "dark-daltonized",
+  "editorMode": "normal",
   "inputNeededNotifEnabled": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Bash(mise install)",
+      "Bash(mise run:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(gcloud secrets:*)",
+      "Bash(gsutil rm:*)"
+    ]
+  }
 }
