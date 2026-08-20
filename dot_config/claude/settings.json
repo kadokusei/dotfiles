@@ -19,13 +19,20 @@
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "ponytail@ponytail": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
       }
     }
   },
@@ -43,10 +50,6 @@
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)"
     ],
-    "soft_deny": [
-      "$defaults",
-      "Bash(gcloud secrets:*)",
-      "Bash(gsutil rm:*)"
-    ]
+    "soft_deny": ["$defaults", "Bash(gcloud secrets:*)", "Bash(gsutil rm:*)"]
   }
 }
