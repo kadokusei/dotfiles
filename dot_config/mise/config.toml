@@ -16,6 +16,7 @@ rg = "15.2.0"
 rust = "stable"
 starship = "1.26.0"
 usage = "6.4.1"
+uv = "0.12.7"
 zoxide = "0.10.0"
 "aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
 "aqua:ast-grep/ast-grep" = "0.45.2"
@@ -25,6 +26,16 @@ zoxide = "0.10.0"
 "aqua:openai/codex" = { version = "latest", minimum_release_age = "6h" }
 "aqua:rossmacarthur/sheldon" = "0.8.5"
 "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "6h" }
+"pipx:headroom-ai[all]" = {
+    version = "0.37.0",
+    extras = ["all"],
+    uvx_args = "--python 3.13"
+}
+"pipx:headroom-ai" = { version = "latest", extras = "all", uvx_args = "--python 3.13" }
 
 [settings.npm]
 package_manager = "pnpm"
+
+[shell_alias]
+claude = "headroom wrap claude"
+omp = "headroom wrap omp"
