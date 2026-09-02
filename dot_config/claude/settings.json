@@ -31,11 +31,6 @@
     }
   },
   "language": "Japanese",
-  "modelSettings": {
-    "claude-fable-5-1": {
-      "effortLevel": "xhigh"
-    }
-  },
   "tui": "fullscreen",
   "theme": "dark-daltonized",
   "editorMode": "normal",
@@ -49,11 +44,7 @@
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)"
     ],
-    "soft_deny": [
-      "$defaults",
-      "Bash(gcloud secrets:*)",
-      "Bash(gsutil rm:*)"
-    ]
+    "soft_deny": ["$defaults", "Bash(gcloud secrets:*)", "Bash(gsutil rm:*)"]
   },
   "advisorModel": "fable"
 }
