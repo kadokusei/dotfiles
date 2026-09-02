@@ -1,6 +1,6 @@
 {
   "env": {
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5[1m]",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5-1[1m]",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-opus-5[1m]"
   },
   "attribution": {
@@ -10,6 +10,7 @@
   "permissions": {
     "defaultMode": "plan"
   },
+  "model": "opusplan",
   "worktree": {
     "baseRef": "fresh"
   },
@@ -19,16 +20,9 @@
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
-    "codex@openai-codex": true,
     "ponytail@ponytail": true
   },
   "extraKnownMarketplaces": {
-    "openai-codex": {
-      "source": {
-        "source": "github",
-        "repo": "openai/codex-plugin-cc"
-      }
-    },
     "ponytail": {
       "source": {
         "source": "github",
@@ -37,6 +31,11 @@
     }
   },
   "language": "Japanese",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "xhigh"
+    }
+  },
   "tui": "fullscreen",
   "theme": "dark-daltonized",
   "editorMode": "normal",
@@ -50,6 +49,11 @@
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)"
     ],
-    "soft_deny": ["$defaults", "Bash(gcloud secrets:*)", "Bash(gsutil rm:*)"]
-  }
+    "soft_deny": [
+      "$defaults",
+      "Bash(gcloud secrets:*)",
+      "Bash(gsutil rm:*)"
+    ]
+  },
+  "advisorModel": "fable"
 }
