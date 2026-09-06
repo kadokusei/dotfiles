@@ -1,28 +1,28 @@
 [tools]
 carapace = "1.7.3"
 cargo-binstall = "1.22.0"
-chezmoi = "2.72.0"
+chezmoi = "2.72.1"
 fzf = "0.74.3"
-gh = "2.98.0"
+gh = "2.100.0"
 ghq = "1.10.1"
-go = "1.27.0"
+go = "1.27.1"
 herdr = "0.8.2"
-hunk = "0.20.0"
+hunk = "0.21.1"
 kubectx = "0.11.0"
 lazygit = "0.64.1"
 node = "lts"
-pnpm = "11.24.0"
+pnpm = "12.3.4"
 rg = "15.2.0"
 rust = "stable"
 starship = "1.26.0"
-usage = "6.4.1"
-uv = "0.12.7"
+usage = "6.6.1"
+uv = "0.12.10"
 zoxide = "0.10.0"
 "aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
-"aqua:ast-grep/ast-grep" = "0.45.2"
-"aqua:atuinsh/atuin" = "18.20.1"
-"aqua:jj-vcs/jj" = "0.44.0"
-"aqua:max-sixty/worktrunk" = "0.74.0"
+"aqua:ast-grep/ast-grep" = "0.45.3"
+"aqua:atuinsh/atuin" = "18.21.0"
+"aqua:jj-vcs/jj" = "0.45.1"
+"aqua:max-sixty/worktrunk" = "0.76.0"
 "aqua:openai/codex" = { version = "latest", minimum_release_age = "6h" }
 "aqua:rossmacarthur/sheldon" = "0.8.5"
 "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "6h" }
@@ -32,6 +32,7 @@ zoxide = "0.10.0"
     uvx_args = "--python 3.13"
 }
 "pipx:headroom-ai" = { version = "latest", extras = "all", uvx_args = "--python 3.13" }
+"aqua:earendil-works/pi" = "0.85.0"
 
 [settings.npm]
 package_manager = "pnpm"
