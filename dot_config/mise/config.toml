@@ -1,21 +1,21 @@
 [tools]
 carapace = "1.7.3"
-cargo-binstall = "1.22.0"
+cargo-binstall = "1.23.0"
 chezmoi = "2.72.1"
 fzf = "0.74.3"
 gh = "2.100.0"
 ghq = "1.10.1"
 go = "1.27.1"
-herdr = "0.8.2"
+herdr = "0.9.0"
 hunk = "0.21.1"
 kubectx = "0.11.0"
-lazygit = "0.64.1"
+lazygit = "0.65.0"
 node = "lts"
 pnpm = "12.3.4"
 rg = "15.2.0"
 rust = "stable"
 starship = "1.26.0"
-usage = "6.6.1"
+usage = "6.8.0"
 uv = "0.12.10"
 zoxide = "0.10.0"
 "aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
@@ -32,11 +32,12 @@ zoxide = "0.10.0"
     uvx_args = "--python 3.13"
 }
 "pipx:headroom-ai" = { version = "latest", extras = "all", uvx_args = "--python 3.13" }
-"aqua:earendil-works/pi" = "0.85.0"
+"aqua:earendil-works/pi" = "0.85.1"
 
 [settings.npm]
 package_manager = "pnpm"
 
 [shell_alias]
+codex = "headroom wrap codex"
 claude = "headroom wrap claude"
 omp = "headroom wrap omp"
