@@ -1,4 +1,5 @@
 [tools]
+apm = "0.30.0"
 carapace = "1.7.3"
 cargo-binstall = "1.23.0"
 chezmoi = "2.72.1"

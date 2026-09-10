@@ -1,0 +1,187 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["PyYAML==6.0.3"]
+# ///
+"""Apply shared APM definitions while retaining a machine-local ownership ledger."""
+
+import argparse
+from datetime import datetime, timezone
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path, PurePosixPath
+import shutil
+import subprocess
+import sys
+import tempfile
+
+import yaml
+
+
+RETIRED = {"commit", "grill-me", "figma", "cloudflare-deploy", "claude-md-improver", "skill-creator"}
+DEFINITIONS = ("apm.yml", "apm.lock.yaml")
+
+
+def remove(path):
+    if path.is_symlink() or path.is_file():
+        path.unlink()
+    elif path.exists():
+        shutil.rmtree(path)
+
+
+def copy(source, target):
+    if source.is_symlink():
+        target.symlink_to(os.readlink(source))
+    elif source.is_dir():
+        shutil.copytree(source, target, symlinks=True)
+    elif source.exists():
+        shutil.copy2(source, target)
+
+
+def fingerprint(path):
+    if path.is_symlink():
+        return "link:" + os.readlink(path)
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def definitions_digest(directory):
+    data = [yaml.safe_load((directory / name).read_text()) for name in DEFINITIONS]
+    return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
+
+
+def skill_names(lock):
+    names = set()
+    for dep in lock.get("dependencies", []):
+        for value in dep.get("deployed_files", []):
+            parts = PurePosixPath(value).parts
+            if ".." in parts or PurePosixPath(value).is_absolute():
+                raise ValueError(f"Non-portable deployment path: {value}")
+            if len(parts) >= 3 and parts[:2] == (".agents", "skills"):
+                names.add(parts[2])
+    if not names:
+        raise ValueError("Lockfile contains no deployed skills; generate it with apm install first")
+    return names
+
+
+def inventory(root, names):
+    result = {}
+    for name in sorted(names):
+        directory = root / name
+        if not (directory / "SKILL.md").is_file():
+            raise ValueError(f"APM did not install {name}/SKILL.md")
+        for path in sorted(directory.rglob("*")):
+            if path.is_file() or path.is_symlink():
+                result[str(path.relative_to(root))] = fingerprint(path)
+    return result
+
+
+def existing_files(root):
+    return {str(p.relative_to(root)) for p in root.rglob("*") if p.is_file() or p.is_symlink()}
+
+
+def sync(home, apm):
+    config = home / ".config/agent-skills"
+    active = home / ".apm"
+    skills = home / ".agents/skills"
+    state = home / ".local/state/agent-skills"
+    state.mkdir(parents=True, exist_ok=True)
+    with (state / "sync.lock").open("w") as guard:
+        fcntl.flock(guard, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        desired = definitions_digest(config)
+        manifest = yaml.safe_load((config / "apm.yml").read_text())
+        if manifest.get("targets") != ["codex"]:
+            raise ValueError("Shared skills must use targets: [codex]")
+        names = skill_names(yaml.safe_load((config / "apm.lock.yaml").read_text()))
+        status_file = state / "installed.json"
+        previous = json.loads(status_file.read_text()) if status_file.exists() else {}
+        if previous and all((active / n).exists() for n in DEFINITIONS):
+            current = definitions_digest(active)
+            if current != previous["runtime_digest"] and current != desired:
+                raise ValueError("APM definitions were edited locally. Capture ~/.apm/apm.yml and apm.lock.yaml into chezmoi before applying.")
+        if skills.is_symlink() or active.is_symlink():
+            raise ValueError("~/.agents/skills and ~/.apm must be real directories")
+
+        backups = state / "backups"
+        backups.mkdir(exist_ok=True)
+        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ-")
+        backup = Path(tempfile.mkdtemp(prefix=stamp, dir=backups))
+        copy(skills, backup / "skills")
+        copy(active, backup / "apm")
+        copy(status_file, backup / "installed.json")
+        for source, label in [(home / ".local/state/skills/.skill-lock.json", "skills-lock.json"),
+                              (home / ".agents/.skill-lock.json", "agents-skill-lock.json"),
+                              (home / ".config/claude/skills", "claude-skills")]:
+            copy(source, backup / label)
+        try:
+            unowned = existing_files(skills) - previous.get("files", {}).keys() if previous else set()
+            if not previous:
+                # Adopt only the declared legacy copies; APM otherwise treats them as local collisions.
+                for name in names:
+                    remove(skills / name)
+            active.mkdir(parents=True, exist_ok=True)
+            for name in DEFINITIONS:
+                shutil.copy2(config / name, active / name)
+            subprocess.run([apm, "install", "--global", "--frozen", "--only", "apm"],
+                           check=True, env=dict(os.environ, HOME=str(home)))
+            files = inventory(skills, names)
+            files = {path: digest for path, digest in files.items() if path not in unowned}
+            for relative, old_hash in previous.get("files", {}).items():
+                path = skills / relative
+                if ".." in Path(relative).parts or Path(relative).is_absolute():
+                    raise ValueError(f"Invalid ownership path: {relative}")
+                if relative not in files and (path.exists() or path.is_symlink()):
+                    if fingerprint(path) == old_hash:
+                        remove(path)
+                    else:
+                        print(f"Preserved locally modified retired file: {path}", file=sys.stderr)
+            if not previous:
+                if "git-commit" not in names and (skills / "commit").exists():
+                    raise ValueError("Refusing to retire commit before git-commit is installed")
+                for name in RETIRED:
+                    remove(skills / name)
+            # Remove empty retired directories without touching user-owned contents.
+            old_names = {PurePosixPath(p).parts[0] for p in previous.get("files", {})}
+            directories = [p for n in old_names - names for p in (skills / n).rglob("*")]
+            directories.extend(skills / n for n in old_names - names)
+            for path in sorted(directories, key=lambda p: len(p.parts), reverse=True):
+                if path.is_dir() and not path.is_symlink():
+                    try:
+                        path.rmdir()
+                    except OSError:
+                        pass
+            result = {"desired_digest": desired, "runtime_digest": definitions_digest(active), "files": files}
+            temporary = state / "installed.json.tmp"
+            temporary.write_text(json.dumps(result, indent=2) + "\n")
+            temporary.replace(status_file)
+        except BaseException:
+            remove(skills)
+            remove(active)
+            skills.parent.mkdir(parents=True, exist_ok=True)
+            copy(backup / "skills", skills)
+            copy(backup / "apm", active)
+            print(f"Restored previous skills and APM state. Backup: {backup}", file=sys.stderr)
+            raise
+        if previous == result and not any((backup / "skills" / n).exists() for n in RETIRED):
+            remove(backup)
+        else:
+            print(f"Backup: {backup}")
+        print(f"Synced {len(names)} shared skills")
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--apm", default="apm", help="APM executable (defaults to mise's PATH)")
+    args = parser.parse_args()
+    try:
+        # APM's global deployment containment checks require a canonical home path.
+        sync(Path.home().resolve(), args.apm)
+    except (OSError, ValueError, subprocess.CalledProcessError, yaml.YAMLError) as exc:
+        print(f"agent-skills-sync: {exc}", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

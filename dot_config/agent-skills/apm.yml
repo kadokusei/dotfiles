@@ -1,0 +1,31 @@
+name: personal-agent-skills
+version: 1.0.0
+targets:
+  - codex
+dependencies:
+  apm:
+    - openai/skills/skills/.curated/gh-address-comments
+    - openai/skills/skills/.curated/gh-fix-ci
+    - openai/skills/skills/.curated/playwright
+    - openai/skills/skills/.curated/playwright-interactive
+    - openai/skills/skills/.curated/security-best-practices
+    - openai/skills/skills/.curated/security-ownership-map
+    - openai/skills/skills/.curated/security-threat-model
+    - openai/skills/skills/.curated/sentry
+    - openai/skills/skills/.curated/yeet
+    - ast-grep/agent-skill/ast-grep/skills/ast-grep
+    - shadcn/improve/skills/improve
+    - anthropics/skills/skills/webapp-testing
+    - anthropics/skills/skills/internal-comms
+    - github/gh-stack/skills/gh-stack
+    - modem-dev/hunk/packages/hunk/skills/hunk-review
+    - mattpocock/skills/skills/engineering/grill-with-docs
+    - mattpocock/skills/skills/productivity/grilling
+    - mattpocock/skills/skills/productivity/handoff
+    - mattpocock/skills/skills/engineering/improve-codebase-architecture
+    - mattpocock/skills/skills/engineering/tdd
+    - mattpocock/skills/skills/engineering/domain-modeling
+    - mattpocock/skills/skills/engineering/codebase-design
+    - stablyai/orca/skills/orchestration
+    - github/awesome-copilot/skills/git-commit
+    - upstash/context7/skills/find-docs

@@ -1,0 +1,1739 @@
+lockfile_version: '1'
+apm_version: 0.30.0
+dependencies:
+- repo_url: anthropics/skills
+  name: internal-comms
+  host: github.com
+  resolved_commit: 41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f
+  version: unknown
+  virtual_path: skills/internal-comms
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/internal-comms
+  - .agents/skills/internal-comms/LICENSE.txt
+  - .agents/skills/internal-comms/SKILL.md
+  - .agents/skills/internal-comms/examples/3p-updates.md
+  - .agents/skills/internal-comms/examples/company-newsletter.md
+  - .agents/skills/internal-comms/examples/faq-answers.md
+  - .agents/skills/internal-comms/examples/general-comms.md
+  deployed_file_hashes:
+    .agents/skills/internal-comms/LICENSE.txt: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
+    .agents/skills/internal-comms/SKILL.md: sha256:067b7587a344a928fc6534ef66b1bcd591fc7c26d207ea7ca3334aeb678d6475
+    .agents/skills/internal-comms/examples/3p-updates.md: sha256:087e4363c0f3513728a7e695eeb9ead5c3ecd12a4681b59340691180e65b68fc
+    .agents/skills/internal-comms/examples/company-newsletter.md: sha256:30f81cfbdb03858a006169c72169024089c7c5d3d32611d337782da4f38c86b5
+    .agents/skills/internal-comms/examples/faq-answers.md: sha256:5ecd3356cd6666937f2ebefa753253edfdbdca15e368d07baf398bfcced72484
+    .agents/skills/internal-comms/examples/general-comms.md: sha256:4d3a4bb198a77626bcf018e96b2b45a2dbabed172d4ade0fcd70d23ae8a47a47
+  content_hash: sha256:1bd16f3a211585bc3acdab080da1e3e642453033ec1120d042b0c33e668403c0
+- repo_url: anthropics/skills
+  name: webapp-testing
+  host: github.com
+  resolved_commit: 41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f
+  version: unknown
+  virtual_path: skills/webapp-testing
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/webapp-testing
+  - .agents/skills/webapp-testing/LICENSE.txt
+  - .agents/skills/webapp-testing/SKILL.md
+  - .agents/skills/webapp-testing/examples/console_logging.py
+  - .agents/skills/webapp-testing/examples/element_discovery.py
+  - .agents/skills/webapp-testing/examples/static_html_automation.py
+  - .agents/skills/webapp-testing/scripts/with_server.py
+  deployed_file_hashes:
+    .agents/skills/webapp-testing/LICENSE.txt: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
+    .agents/skills/webapp-testing/SKILL.md: sha256:51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2
+    .agents/skills/webapp-testing/examples/console_logging.py: sha256:ea46877289acb82da7e7ce59d0bc37c8977cd57e2a006d0c88d7a1c625bf95da
+    .agents/skills/webapp-testing/examples/element_discovery.py: sha256:d63c89604a22f8845d724e95dda45db49b1bf57c25ce0a83afbb7b8da3d402f0
+    .agents/skills/webapp-testing/examples/static_html_automation.py: sha256:9d533aafb875ee3ab8b8ebf8f5b9003ac8d999da3d09b285cce252e623140064
+    .agents/skills/webapp-testing/scripts/with_server.py: sha256:b0dcf4918935b795f4eda9821579b9902119235ff4447f687a30286e7d0925fd
+  content_hash: sha256:8320d78c856340fa2f09a3ffb79b91de9427945abc18d36b6d7e9204120dad0a
+- repo_url: ast-grep/agent-skill
+  name: ast-grep
+  host: github.com
+  resolved_commit: affe2b9b7c608f4e354d7e83d0583ed35e845650
+  version: unknown
+  virtual_path: ast-grep/skills/ast-grep
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/ast-grep
+  - .agents/skills/ast-grep/SKILL.md
+  - .agents/skills/ast-grep/references/rule_reference.md
+  deployed_file_hashes:
+    .agents/skills/ast-grep/SKILL.md: sha256:a18b68ab555758b85915937cf252d70b0261f930a07ce52095e7cafbbd304782
+    .agents/skills/ast-grep/references/rule_reference.md: sha256:9f6d2ba2f2dbde059f61f426c262abe943f548984496962c43c7cc6e44813ad6
+  content_hash: sha256:cc2ab26ddaecb8c15db65514dd2db0f74aaea0c489a53c219411dcc0c9a1079a
+- repo_url: github/awesome-copilot
+  name: git-commit
+  host: github.com
+  resolved_commit: 7568a482ce2df38f8965ab5336a3220db796a4ba
+  version: unknown
+  virtual_path: skills/git-commit
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/git-commit
+  - .agents/skills/git-commit/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/git-commit/SKILL.md: sha256:554d1a3c6d95f15bc1170160659ecdc9a9958b64f377f3988941b672c249b13f
+  content_hash: sha256:2607fc60629b82b257136dd2a7a373f0a4466c0b49df7746d845d59313c99b21
+- repo_url: github/gh-stack
+  name: gh-stack
+  host: github.com
+  resolved_commit: 2bd699a544a09cb5c45a013d03416e0894b0454e
+  version: unknown
+  virtual_path: skills/gh-stack
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/gh-stack
+  - .agents/skills/gh-stack/SKILL.md
+  - .agents/skills/gh-stack/references/commands.md
+  - .agents/skills/gh-stack/references/stack-design.md
+  - .agents/skills/gh-stack/references/troubleshooting.md
+  deployed_file_hashes:
+    .agents/skills/gh-stack/SKILL.md: sha256:5d966fc1ff92014db49d6689f41f70ddf1af40879f9dc8a12bb75b82d7850c25
+    .agents/skills/gh-stack/references/commands.md: sha256:31049425b8db652e80fa6994d5289f20169f57d7af0a0651fa72c3f25e8fe7c7
+    .agents/skills/gh-stack/references/stack-design.md: sha256:4a61e3065ce61a5d129a30f5dcbebe73bfde250e34c382277facdc31d2c4e5ce
+    .agents/skills/gh-stack/references/troubleshooting.md: sha256:fe1958036e663c7471a0d3efdf1fefe47ee65e06713b13a96e3db95becccdc47
+  content_hash: sha256:39b7803bf32b4ef195de76fa2d4730ac5dfc686d3d6654f93a162873febef0b1
+- repo_url: mattpocock/skills
+  name: codebase-design
+  host: github.com
+  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
+  version: unknown
+  virtual_path: skills/engineering/codebase-design
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/codebase-design
+  - .agents/skills/codebase-design/DEEPENING.md
+  - .agents/skills/codebase-design/DESIGN-IT-TWICE.md
+  - .agents/skills/codebase-design/SKILL.md
+  - .agents/skills/codebase-design/agents/openai.yaml
+  deployed_file_hashes:
+    .agents/skills/codebase-design/DEEPENING.md: sha256:f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1
+    .agents/skills/codebase-design/DESIGN-IT-TWICE.md: sha256:8e740bf98446dbd4dfdc132ac4346d9a7eedaf93de6a495889171cf7f99f16bd
+    .agents/skills/codebase-design/SKILL.md: sha256:2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2
+    .agents/skills/codebase-design/agents/openai.yaml: sha256:edebc9e4fcfe102114012575eaa9600b9b5fd08c311664f389c36e7bc717740f
+  content_hash: sha256:d1762a59416f411caa1e9a38dc07f091487b0491c15ba6031c1e33beee8e004d
+- repo_url: mattpocock/skills
+  name: domain-modeling
+  host: github.com
+  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
+  version: unknown
+  virtual_path: skills/engineering/domain-modeling
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/domain-modeling
+  - .agents/skills/domain-modeling/ADR-FORMAT.md
+  - .agents/skills/domain-modeling/CONTEXT-FORMAT.md
+  - .agents/skills/domain-modeling/SKILL.md
+  - .agents/skills/domain-modeling/agents/openai.yaml
+  deployed_file_hashes:
+    .agents/skills/domain-modeling/ADR-FORMAT.md: sha256:944c92aa790e8fbdc9199640b170979abb8a34ba8d0fe18c2a01a63bce140ca0
+    .agents/skills/domain-modeling/CONTEXT-FORMAT.md: sha256:17ab16ce783e4d2801ee52fd9acdf550cbf44de65ae76797a93943bbedf22a13
+    .agents/skills/domain-modeling/SKILL.md: sha256:327a2b50620e2fd70abc6893cd6965e76b20f8d0adb0dc2c8d5eb3845efb643e
+    .agents/skills/domain-modeling/agents/openai.yaml: sha256:f6bf2aa996c6e6f53fdd0708e18a0d16a56aed8322cca59fedbe3c0d2c75f06b
+  content_hash: sha256:18a4b1d415a1851129c26a65cbd9ff63978e2cf66752c05e70b8889a6b002d24
+- repo_url: mattpocock/skills
+  name: grill-with-docs
+  host: github.com
+  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
+  version: unknown
+  virtual_path: skills/engineering/grill-with-docs
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/grill-with-docs
+  - .agents/skills/grill-with-docs/SKILL.md
+  - .agents/skills/grill-with-docs/agents/openai.yaml
+  deployed_file_hashes:
+    .agents/skills/grill-with-docs/SKILL.md: sha256:7de372c13488f1ee96cc11cd8907b56b6809cc93eef776eeddd37de6b6cbe3fe
+    .agents/skills/grill-with-docs/agents/openai.yaml: sha256:94cd0ab161fb468a836349f5ed482ba58ce8e709a05c57ce533d739dbd35cca9
+  content_hash: sha256:9e8f732b806727978f1ad8d2fb9ce4467da68f7482d63c4bb5a73f2b1a0c797c
+- repo_url: mattpocock/skills
+  name: improve-codebase-architecture
+  host: github.com
+  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
+  version: unknown
+  virtual_path: skills/engineering/improve-codebase-architecture
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/improve-codebase-architecture
+  - .agents/skills/improve-codebase-architecture/HTML-REPORT.md
+  - .agents/skills/improve-codebase-architecture/SKILL.md
+  - .agents/skills/improve-codebase-architecture/agents/openai.yaml
+  deployed_file_hashes:
+    .agents/skills/improve-codebase-architecture/HTML-REPORT.md: sha256:581e8bb5a521e46bbda8ca7e19b15948bed882187108092ebb90c62513b77528
+    .agents/skills/improve-codebase-architecture/SKILL.md: sha256:d1ac25511a936ff4250a48dbcefda363837d6bb9321b3cba73df99fa37270a75
+    .agents/skills/improve-codebase-architecture/agents/openai.yaml: sha256:c8cb20f68ebf0edb4e497bc11ae5fcaa196004e661cd189015b04f4109ced7f1
+  content_hash: sha256:081ea865013038d70d3baa831788c9ba5e1b8198ab06e84eecdb2c09e6a2ac72
+- repo_url: mattpocock/skills
+  name: tdd
+  host: github.com
+  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
+  version: unknown
+  virtual_path: skills/engineering/tdd
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/tdd
+  - .agents/skills/tdd/SKILL.md
+  - .agents/skills/tdd/agents/openai.yaml
+  - .agents/skills/tdd/mocking.md
+  - .agents/skills/tdd/tests.md
+  deployed_file_hashes:
+    .agents/skills/tdd/SKILL.md: sha256:cb01f66bebfaa25fa1f88e6b7e769cd9fd9f35b1120b8563749820738814c927
+    .agents/skills/tdd/agents/openai.yaml: sha256:ea6f01cf1b8c06a4b0f5b649d74b1b8ce8685e72af1b38d70d877693e092af0b
+    .agents/skills/tdd/mocking.md: sha256:3ceb807fdf4a47d6a93d4d9a891e5ba6d362a6247bd08adc451feebfc17361ef
+    .agents/skills/tdd/tests.md: sha256:859f9e592c188fda4fc7277dd180e4ce9c7a2e13f6efe1f6f29eccc9d28c106a
+  content_hash: sha256:640e03b03610a0cd793a9474f41715802e1a5ba439681c970b03ba7b190cd817
+- repo_url: mattpocock/skills
+  name: grilling
+  host: github.com
+  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
+  version: unknown
+  virtual_path: skills/productivity/grilling
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/grilling
+  - .agents/skills/grilling/SKILL.md
+  - .agents/skills/grilling/agents/openai.yaml
+  deployed_file_hashes:
+    .agents/skills/grilling/SKILL.md: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
+    .agents/skills/grilling/agents/openai.yaml: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+  content_hash: sha256:e98f109bca3d8889f673d9f32bf84086f85a70ff9e241f8a34a4560a07ab5a39
+- repo_url: mattpocock/skills
+  name: handoff
+  host: github.com
+  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
+  version: unknown
+  virtual_path: skills/productivity/handoff
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/handoff
+  - .agents/skills/handoff/SKILL.md
+  - .agents/skills/handoff/agents/openai.yaml
+  deployed_file_hashes:
+    .agents/skills/handoff/SKILL.md: sha256:7c62de979fdc7ac32fb5ddb2146156c917f80ee070d30fadc9d40343c4b6ed25
+    .agents/skills/handoff/agents/openai.yaml: sha256:5c479fd562c691851690e8b18c8501045bef0943c10743d636b2fae26add1d28
+  content_hash: sha256:57c3a6244da589bab282fdd546421b081d767f2e76b061cd756f1b4fdbd574c2
+- repo_url: modem-dev/hunk
+  name: hunk-review
+  host: github.com
+  resolved_commit: f86a04ed0325e641d7d96067992f14849016ec8b
+  version: unknown
+  virtual_path: packages/hunk/skills/hunk-review
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/hunk-review
+  - .agents/skills/hunk-review/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/hunk-review/SKILL.md: sha256:a2817face7fbd563d525dd364c4f155c4d9a2a58cb22fbaee2a8ff76ff08e163
+  content_hash: sha256:ebad9a743f1835959a61d61b49c7e783419833d01f6c29de225932605f2765c5
+- repo_url: openai/skills
+  name: gh-address-comments
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/gh-address-comments
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/gh-address-comments
+  - .agents/skills/gh-address-comments/LICENSE.txt
+  - .agents/skills/gh-address-comments/SKILL.md
+  - .agents/skills/gh-address-comments/agents/openai.yaml
+  - .agents/skills/gh-address-comments/assets/github-small.svg
+  - .agents/skills/gh-address-comments/assets/github.png
+  - .agents/skills/gh-address-comments/scripts/fetch_comments.py
+  deployed_file_hashes:
+    .agents/skills/gh-address-comments/LICENSE.txt: sha256:58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd
+    .agents/skills/gh-address-comments/SKILL.md: sha256:77389eefd3fb6584210668ca8e43f4b8de87e7722ddd953474bc9e24cdfaaedd
+    .agents/skills/gh-address-comments/agents/openai.yaml: sha256:12cf845a78254dde85e60eefb45a60e6ce2129d321f3e1d691d4ebca9a140861
+    .agents/skills/gh-address-comments/assets/github-small.svg: sha256:ee05e92d373d4d84f4612af3c1090ef67698d421bbe30896a4ed5a00cb86a069
+    .agents/skills/gh-address-comments/assets/github.png: sha256:d55a9baa41798d8b5108e3058df3a5bda09914ea9fd73b49929cc38a8832424f
+    .agents/skills/gh-address-comments/scripts/fetch_comments.py: sha256:d7bc64f6b26f7482f9ca9dd7c923a5b8b20e1ef13491ae2d9052cd208a7c1ad1
+  content_hash: sha256:068d34fb59cb97a39aea3de1708877b6a01210d02fa7eda5e74fc8277ed52916
+- repo_url: openai/skills
+  name: gh-fix-ci
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/gh-fix-ci
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/gh-fix-ci
+  - .agents/skills/gh-fix-ci/LICENSE.txt
+  - .agents/skills/gh-fix-ci/SKILL.md
+  - .agents/skills/gh-fix-ci/agents/openai.yaml
+  - .agents/skills/gh-fix-ci/assets/github-small.svg
+  - .agents/skills/gh-fix-ci/assets/github.png
+  - .agents/skills/gh-fix-ci/scripts/inspect_pr_checks.py
+  deployed_file_hashes:
+    .agents/skills/gh-fix-ci/LICENSE.txt: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+    .agents/skills/gh-fix-ci/SKILL.md: sha256:7b326b4a2f0f5f85122144628ec02077e48841e0e0e82efce88b3415bcfb7c26
+    .agents/skills/gh-fix-ci/agents/openai.yaml: sha256:36f73b9450504983d1647c960689596f59bf9147c14b1b43162912ed7ada9af6
+    .agents/skills/gh-fix-ci/assets/github-small.svg: sha256:ee05e92d373d4d84f4612af3c1090ef67698d421bbe30896a4ed5a00cb86a069
+    .agents/skills/gh-fix-ci/assets/github.png: sha256:d55a9baa41798d8b5108e3058df3a5bda09914ea9fd73b49929cc38a8832424f
+    .agents/skills/gh-fix-ci/scripts/inspect_pr_checks.py: sha256:9459e5b03f86785d184a83e5cd8d621b832e918ec04158a2962d867785812c6c
+  content_hash: sha256:02b4d97e4bd91e342e3ec3efa06b7871097d6a64e8398f4ed5b69c64d8d902fb
+- repo_url: openai/skills
+  name: playwright
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/playwright
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/playwright
+  - .agents/skills/playwright/LICENSE.txt
+  - .agents/skills/playwright/NOTICE.txt
+  - .agents/skills/playwright/SKILL.md
+  - .agents/skills/playwright/agents/openai.yaml
+  - .agents/skills/playwright/assets/playwright-small.svg
+  - .agents/skills/playwright/assets/playwright.png
+  - .agents/skills/playwright/references/cli.md
+  - .agents/skills/playwright/references/workflows.md
+  - .agents/skills/playwright/scripts/playwright_cli.sh
+  deployed_file_hashes:
+    .agents/skills/playwright/LICENSE.txt: sha256:c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b
+    .agents/skills/playwright/NOTICE.txt: sha256:417d5d3372914ecfd9fe102ac1d7dc2119253209f9718d6c222f616876c1904b
+    .agents/skills/playwright/SKILL.md: sha256:0ffaabcc8e0990627c4725f18bf1c7955534a796c1c199e872909de2013ce6a8
+    .agents/skills/playwright/agents/openai.yaml: sha256:ddda43720fc566fffa45264be8f17f7745a3cee28d5245d41d3b963bc9967230
+    .agents/skills/playwright/assets/playwright-small.svg: sha256:f1d213c0f76735d8272c3d3e9fbf71fe7b894e2d1588907044c780f2c33a9732
+    .agents/skills/playwright/assets/playwright.png: sha256:521669f088c838196c6c852ccc9abdd7234d8f37fc9a8a7a9af7db2d50193381
+    .agents/skills/playwright/references/cli.md: sha256:7c069a8206ba20b9ddbdc42436b04de30bb3aa4a825ba98680757ee62e954900
+    .agents/skills/playwright/references/workflows.md: sha256:a2b5835a00ebee3906c146adf7f764f7718ea3f89a8702d86eaa135dfe0fc8c2
+    .agents/skills/playwright/scripts/playwright_cli.sh: sha256:aa3fdff5d0e4556177f4dfd5f04117e772aa54f94b6a2e34b6c0edf629c6b9b5
+  content_hash: sha256:619e0a585c148c00a2d33b73888797294d1db0d34401f70cb09014b13c8eee0a
+- repo_url: openai/skills
+  name: playwright-interactive
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/playwright-interactive
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/playwright-interactive
+  - .agents/skills/playwright-interactive/LICENSE.txt
+  - .agents/skills/playwright-interactive/NOTICE.txt
+  - .agents/skills/playwright-interactive/SKILL.md
+  - .agents/skills/playwright-interactive/agents/openai.yaml
+  - .agents/skills/playwright-interactive/assets/playwright-small.svg
+  - .agents/skills/playwright-interactive/assets/playwright.png
+  deployed_file_hashes:
+    .agents/skills/playwright-interactive/LICENSE.txt: sha256:c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b
+    .agents/skills/playwright-interactive/NOTICE.txt: sha256:7fe676d2e5359fb6aa0bdf5b0881b26e14c272dd36b04408366d4b0e26738322
+    .agents/skills/playwright-interactive/SKILL.md: sha256:f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1
+    .agents/skills/playwright-interactive/agents/openai.yaml: sha256:7342e0a2c2cb8f3e20982317467f58b06c8bf71ba308ed8fcc1cda4a6e9397d8
+    .agents/skills/playwright-interactive/assets/playwright-small.svg: sha256:0744d0d4cc1433e2130c3522196e1571222d502f1461f39274f680520e728588
+    .agents/skills/playwright-interactive/assets/playwright.png: sha256:29b51cdeeb4e541565d1d419e5150e11913af50f72ebb4d27cfcc8813185ffd6
+  content_hash: sha256:ea4395f9dda0acc686236215c92abea9a9e21ed9e4f5b67a2d39037a75fc5d7b
+- repo_url: openai/skills
+  name: security-best-practices
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/security-best-practices
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/security-best-practices
+  - .agents/skills/security-best-practices/LICENSE.txt
+  - .agents/skills/security-best-practices/SKILL.md
+  - .agents/skills/security-best-practices/agents/openai.yaml
+  - .agents/skills/security-best-practices/references/golang-general-backend-security.md
+  - .agents/skills/security-best-practices/references/javascript-express-web-server-security.md
+  - .agents/skills/security-best-practices/references/javascript-general-web-frontend-security.md
+  - .agents/skills/security-best-practices/references/javascript-jquery-web-frontend-security.md
+  - .agents/skills/security-best-practices/references/javascript-typescript-nextjs-web-server-security.md
+  - .agents/skills/security-best-practices/references/javascript-typescript-react-web-frontend-security.md
+  - .agents/skills/security-best-practices/references/javascript-typescript-vue-web-frontend-security.md
+  - .agents/skills/security-best-practices/references/python-django-web-server-security.md
+  - .agents/skills/security-best-practices/references/python-fastapi-web-server-security.md
+  - .agents/skills/security-best-practices/references/python-flask-web-server-security.md
+  deployed_file_hashes:
+    .agents/skills/security-best-practices/LICENSE.txt: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+    .agents/skills/security-best-practices/SKILL.md: sha256:7b3dae1ffc5434d890f3c65c8f552af52d0307fab3b35dec13013c9ca3844c4f
+    .agents/skills/security-best-practices/agents/openai.yaml: sha256:6e9c6f2edce448eb2b589f81ad6e3f722665021785513bcbfd0bf7b86b529171
+    .agents/skills/security-best-practices/references/golang-general-backend-security.md: sha256:a73c47c34497b120672d48411fe51dc90d426a571801a0b3f649e2ce4ec658b4
+    .agents/skills/security-best-practices/references/javascript-express-web-server-security.md: sha256:427835cbb5be7ba96172ea6ca9af80ddd4419c833e9ebf870996740c80d8406c
+    .agents/skills/security-best-practices/references/javascript-general-web-frontend-security.md: sha256:3a7bc7b3f6e7ff043db9dbaa8933894d7a19d987d0607e4ddae5d70184a63d63
+    .agents/skills/security-best-practices/references/javascript-jquery-web-frontend-security.md: sha256:bcbad2fa6c2a02709e47e889e70102c76886bf36bc798624d27db570eccf40da
+    .agents/skills/security-best-practices/references/javascript-typescript-nextjs-web-server-security.md: sha256:71c773f7a97ce60c853adfa100b3d88b3b7bc4c6b8acaef1432ffabd923ee182
+    .agents/skills/security-best-practices/references/javascript-typescript-react-web-frontend-security.md: sha256:d3030c0f24bddb56b9bbb91bbec1ee49eb7778bce4d3e0297b2641b2fc6b0d9c
+    .agents/skills/security-best-practices/references/javascript-typescript-vue-web-frontend-security.md: sha256:77c6a747f9f17e3df03aad0fcb20d99ac7898001b81aef8b80908e45ac14a688
+    .agents/skills/security-best-practices/references/python-django-web-server-security.md: sha256:4fb69b5d45f10e588d1a8c35cdc5f59e18910f6b46a93e2d342d90f286f8dfd2
+    .agents/skills/security-best-practices/references/python-fastapi-web-server-security.md: sha256:7383c7f4fc271190b05e562ada7e825982a2c76b6c79a9f95a1da7687b65a616
+    .agents/skills/security-best-practices/references/python-flask-web-server-security.md: sha256:9606d69190c04c167fdeac57e61297547a57b0542fd89dede36f355970446929
+  content_hash: sha256:7bd6c2cc8083d90f5d5489c80887ed5399e167d3e7323c7f294035e1e586b689
+- repo_url: openai/skills
+  name: security-ownership-map
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/security-ownership-map
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/security-ownership-map
+  - .agents/skills/security-ownership-map/LICENSE.txt
+  - .agents/skills/security-ownership-map/SKILL.md
+  - .agents/skills/security-ownership-map/agents/openai.yaml
+  - .agents/skills/security-ownership-map/references/neo4j-import.md
+  - .agents/skills/security-ownership-map/scripts/build_ownership_map.py
+  - .agents/skills/security-ownership-map/scripts/community_maintainers.py
+  - .agents/skills/security-ownership-map/scripts/query_ownership.py
+  - .agents/skills/security-ownership-map/scripts/run_ownership_map.py
+  deployed_file_hashes:
+    .agents/skills/security-ownership-map/LICENSE.txt: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+    .agents/skills/security-ownership-map/SKILL.md: sha256:f06c1a59247569326702c945f397af163ea96cf2ecfdf2dde280605bf89a3ec8
+    .agents/skills/security-ownership-map/agents/openai.yaml: sha256:40877a3cdb1753aa187fc85a83bc138a866a1edb74165e009c885cfb6a16e433
+    .agents/skills/security-ownership-map/references/neo4j-import.md: sha256:176d0ef2ed3588530ed65ccda7cb30ae322e4cbec5c374dba5d1685e2bb9dd02
+    .agents/skills/security-ownership-map/scripts/build_ownership_map.py: sha256:c0454c47c7eb001b6e247cd7e473df1b28a3a148a2dca6b2fe88a74a7602cc9b
+    .agents/skills/security-ownership-map/scripts/community_maintainers.py: sha256:95adec5458cc85b41d0ae7965b0a17e4e8eaa6aaab274459324580d9a91cc3cc
+    .agents/skills/security-ownership-map/scripts/query_ownership.py: sha256:0f8d1a1ac3ef807a9b66939a8cdfd02564f4cda018489a3664d37f8c3a7b1b93
+    .agents/skills/security-ownership-map/scripts/run_ownership_map.py: sha256:362b547d6133659eb5c4fe889b8b930bea790f31e412f3198671baae09eec692
+  content_hash: sha256:6eaca3bbadae6a91413fa2d682f6556c93aa4f45ea80a110fb08a4c3deae7feb
+- repo_url: openai/skills
+  name: security-threat-model
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/security-threat-model
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/security-threat-model
+  - .agents/skills/security-threat-model/LICENSE.txt
+  - .agents/skills/security-threat-model/SKILL.md
+  - .agents/skills/security-threat-model/agents/openai.yaml
+  - .agents/skills/security-threat-model/references/prompt-template.md
+  - .agents/skills/security-threat-model/references/security-controls-and-assets.md
+  deployed_file_hashes:
+    .agents/skills/security-threat-model/LICENSE.txt: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+    .agents/skills/security-threat-model/SKILL.md: sha256:1283c0dd62a8104d9edda4583569b5d8510b4ddaa45120687c999250fd96bad2
+    .agents/skills/security-threat-model/agents/openai.yaml: sha256:3319b59736312abceca614e341c0e59cae47263e3b58a22b2b5ddf1e5fc8c227
+    .agents/skills/security-threat-model/references/prompt-template.md: sha256:81a59aa3fb3ac3a739d6a26ab38e4015965f215581ee54becef21a2b121ec29b
+    .agents/skills/security-threat-model/references/security-controls-and-assets.md: sha256:d536cfa9acad2523dc39134bcf33b9566c29dd9a57b407cbc9901637230c6b98
+  content_hash: sha256:a262f878637565892051aa945c88e8748e743896c20925b59c5c2d7d79e061a7
+- repo_url: openai/skills
+  name: sentry
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/sentry
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/sentry
+  - .agents/skills/sentry/LICENSE.txt
+  - .agents/skills/sentry/SKILL.md
+  - .agents/skills/sentry/agents/openai.yaml
+  - .agents/skills/sentry/assets/sentry-small.svg
+  - .agents/skills/sentry/assets/sentry.png
+  deployed_file_hashes:
+    .agents/skills/sentry/LICENSE.txt: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+    .agents/skills/sentry/SKILL.md: sha256:508c6f5c100586c81a34397d30f00f4b8771b66d698a7ac1836998df925dd007
+    .agents/skills/sentry/agents/openai.yaml: sha256:c7ed57441b9a1e3f4caa19da4d90d432a65cd398c4f361b47dbf9408be0e065f
+    .agents/skills/sentry/assets/sentry-small.svg: sha256:f1de8efc906c03b583b4d74560b003175c8a3d9ea5950d891ce3142fec11ca99
+    .agents/skills/sentry/assets/sentry.png: sha256:b61e0534635a275cf56f7dad26ac7cc36504b7bd9a60c95791d6e72634129fb1
+  content_hash: sha256:ee9bf4029079e696d9b757b2ab83fd0d2f5597aaf54df4a5fe524ec08d02e6bd
+- repo_url: openai/skills
+  name: yeet
+  host: github.com
+  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
+  version: unknown
+  virtual_path: skills/.curated/yeet
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/yeet
+  - .agents/skills/yeet/LICENSE.txt
+  - .agents/skills/yeet/SKILL.md
+  - .agents/skills/yeet/agents/openai.yaml
+  - .agents/skills/yeet/assets/yeet-small.svg
+  - .agents/skills/yeet/assets/yeet.png
+  deployed_file_hashes:
+    .agents/skills/yeet/LICENSE.txt: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+    .agents/skills/yeet/SKILL.md: sha256:4829d4909081e1abf91507fb581e6f566ce7064001892414f32191895b08a595
+    .agents/skills/yeet/agents/openai.yaml: sha256:6f0a463b53232932ad70aec529e25fad9d54312de0bd29d64a38bb14a4e748de
+    .agents/skills/yeet/assets/yeet-small.svg: sha256:e4b365d5389b8772e9bad36ad7a37d8333436fa961bb98c8d77b8fbf4e9dbc3b
+    .agents/skills/yeet/assets/yeet.png: sha256:6b5448b6c5b3480ca7511f983fa81ced59e6b9c664332bc559ea0d323fc06ab8
+  content_hash: sha256:7f8e201eb4043e13b3fa4ae5bf7dced1c1dcc2af78a95674c4bc6fe018a211e1
+- repo_url: shadcn/improve
+  name: improve
+  host: github.com
+  resolved_commit: 03369ee6d7cafbfcecc4346539b05b3dc0a603bb
+  version: unknown
+  virtual_path: skills/improve
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/improve
+  - .agents/skills/improve/SKILL.md
+  - .agents/skills/improve/references/audit-playbook.md
+  - .agents/skills/improve/references/closing-the-loop.md
+  - .agents/skills/improve/references/plan-template.md
+  deployed_file_hashes:
+    .agents/skills/improve/SKILL.md: sha256:1599aa29e9b16424cb767779efac53fa56e3f38be92dff4ac587393a1ad5070a
+    .agents/skills/improve/references/audit-playbook.md: sha256:587c1b927070f3c28139ad95ac34cc21a7da32618cfeb966cb774e58a865d4c8
+    .agents/skills/improve/references/closing-the-loop.md: sha256:5d526bb378e1783bbeb68d7af527776cbe98cde27a1aeccbd13e818e5b73b454
+    .agents/skills/improve/references/plan-template.md: sha256:7be76dd3c29442288fa7cee4432fc6e95c2fdbf748c9b356344bf647c5f8722e
+  content_hash: sha256:b4768ee5c11cd620dee9b8c5c29bae56ae625e44f061807863088d70a3afa621
+- repo_url: stablyai/orca
+  name: orchestration
+  host: github.com
+  resolved_commit: 2bf298d1dc1a41c03a270e89eca08834c36f13e0
+  version: unknown
+  virtual_path: skills/orchestration
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/orchestration
+  - .agents/skills/orchestration/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/orchestration/SKILL.md: sha256:f7da0dd40d8681e2b0303fa0fa2f7ee4e36f2eca6495a4af57b92b9857dff732
+  content_hash: sha256:2b0116fe242b0c0ecc1177600de8bafe356fc126745faad2fba9c4d19c94a1d0
+- repo_url: upstash/context7
+  name: find-docs
+  host: github.com
+  resolved_commit: ed2833d3ca840f0f33ea2fde3c97d372a2909dac
+  version: unknown
+  virtual_path: skills/find-docs
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/find-docs
+  - .agents/skills/find-docs/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/find-docs/SKILL.md: sha256:5bf22997630fd5518112ab855c55ddba8653b7aefe16e5efad70e38966927fcf
+  content_hash: sha256:93ec2d2786d7e83973252383875c4f345a2ee7cbbd08a1ab38e5201b214640ee
+deployments:
+- kind: project-relative
+  target: codex
+  value: .agents/skills/ast-grep
+  runtime: null
+  scope: project
+  owners:
+  - ast-grep/agent-skill/ast-grep/skills/ast-grep
+  active_owner: ast-grep/agent-skill/ast-grep/skills/ast-grep
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/ast-grep/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ast-grep/agent-skill/ast-grep/skills/ast-grep
+  active_owner: ast-grep/agent-skill/ast-grep/skills/ast-grep
+  content_hash: sha256:a18b68ab555758b85915937cf252d70b0261f930a07ce52095e7cafbbd304782
+- kind: project-relative
+  target: codex
+  value: .agents/skills/ast-grep/references/rule_reference.md
+  runtime: null
+  scope: project
+  owners:
+  - ast-grep/agent-skill/ast-grep/skills/ast-grep
+  active_owner: ast-grep/agent-skill/ast-grep/skills/ast-grep
+  content_hash: sha256:9f6d2ba2f2dbde059f61f426c262abe943f548984496962c43c7cc6e44813ad6
+- kind: project-relative
+  target: codex
+  value: .agents/skills/codebase-design
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/codebase-design
+  active_owner: mattpocock/skills/skills/engineering/codebase-design
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/codebase-design/DEEPENING.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/codebase-design
+  active_owner: mattpocock/skills/skills/engineering/codebase-design
+  content_hash: sha256:f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/codebase-design/DESIGN-IT-TWICE.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/codebase-design
+  active_owner: mattpocock/skills/skills/engineering/codebase-design
+  content_hash: sha256:8e740bf98446dbd4dfdc132ac4346d9a7eedaf93de6a495889171cf7f99f16bd
+- kind: project-relative
+  target: codex
+  value: .agents/skills/codebase-design/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/codebase-design
+  active_owner: mattpocock/skills/skills/engineering/codebase-design
+  content_hash: sha256:2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/codebase-design/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/codebase-design
+  active_owner: mattpocock/skills/skills/engineering/codebase-design
+  content_hash: sha256:edebc9e4fcfe102114012575eaa9600b9b5fd08c311664f389c36e7bc717740f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/domain-modeling
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/domain-modeling
+  active_owner: mattpocock/skills/skills/engineering/domain-modeling
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/domain-modeling/ADR-FORMAT.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/domain-modeling
+  active_owner: mattpocock/skills/skills/engineering/domain-modeling
+  content_hash: sha256:944c92aa790e8fbdc9199640b170979abb8a34ba8d0fe18c2a01a63bce140ca0
+- kind: project-relative
+  target: codex
+  value: .agents/skills/domain-modeling/CONTEXT-FORMAT.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/domain-modeling
+  active_owner: mattpocock/skills/skills/engineering/domain-modeling
+  content_hash: sha256:17ab16ce783e4d2801ee52fd9acdf550cbf44de65ae76797a93943bbedf22a13
+- kind: project-relative
+  target: codex
+  value: .agents/skills/domain-modeling/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/domain-modeling
+  active_owner: mattpocock/skills/skills/engineering/domain-modeling
+  content_hash: sha256:327a2b50620e2fd70abc6893cd6965e76b20f8d0adb0dc2c8d5eb3845efb643e
+- kind: project-relative
+  target: codex
+  value: .agents/skills/domain-modeling/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/domain-modeling
+  active_owner: mattpocock/skills/skills/engineering/domain-modeling
+  content_hash: sha256:f6bf2aa996c6e6f53fdd0708e18a0d16a56aed8322cca59fedbe3c0d2c75f06b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/find-docs
+  runtime: null
+  scope: project
+  owners:
+  - upstash/context7/skills/find-docs
+  active_owner: upstash/context7/skills/find-docs
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/find-docs/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - upstash/context7/skills/find-docs
+  active_owner: upstash/context7/skills/find-docs
+  content_hash: sha256:5bf22997630fd5518112ab855c55ddba8653b7aefe16e5efad70e38966927fcf
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-address-comments
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-address-comments
+  active_owner: openai/skills/skills/.curated/gh-address-comments
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-address-comments/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-address-comments
+  active_owner: openai/skills/skills/.curated/gh-address-comments
+  content_hash: sha256:58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-address-comments/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-address-comments
+  active_owner: openai/skills/skills/.curated/gh-address-comments
+  content_hash: sha256:77389eefd3fb6584210668ca8e43f4b8de87e7722ddd953474bc9e24cdfaaedd
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-address-comments/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-address-comments
+  active_owner: openai/skills/skills/.curated/gh-address-comments
+  content_hash: sha256:12cf845a78254dde85e60eefb45a60e6ce2129d321f3e1d691d4ebca9a140861
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-address-comments/assets/github-small.svg
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-address-comments
+  active_owner: openai/skills/skills/.curated/gh-address-comments
+  content_hash: sha256:ee05e92d373d4d84f4612af3c1090ef67698d421bbe30896a4ed5a00cb86a069
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-address-comments/assets/github.png
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-address-comments
+  active_owner: openai/skills/skills/.curated/gh-address-comments
+  content_hash: sha256:d55a9baa41798d8b5108e3058df3a5bda09914ea9fd73b49929cc38a8832424f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-address-comments/scripts/fetch_comments.py
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-address-comments
+  active_owner: openai/skills/skills/.curated/gh-address-comments
+  content_hash: sha256:d7bc64f6b26f7482f9ca9dd7c923a5b8b20e1ef13491ae2d9052cd208a7c1ad1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-fix-ci
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-fix-ci
+  active_owner: openai/skills/skills/.curated/gh-fix-ci
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-fix-ci/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-fix-ci
+  active_owner: openai/skills/skills/.curated/gh-fix-ci
+  content_hash: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-fix-ci/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-fix-ci
+  active_owner: openai/skills/skills/.curated/gh-fix-ci
+  content_hash: sha256:7b326b4a2f0f5f85122144628ec02077e48841e0e0e82efce88b3415bcfb7c26
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-fix-ci/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-fix-ci
+  active_owner: openai/skills/skills/.curated/gh-fix-ci
+  content_hash: sha256:36f73b9450504983d1647c960689596f59bf9147c14b1b43162912ed7ada9af6
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-fix-ci/assets/github-small.svg
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-fix-ci
+  active_owner: openai/skills/skills/.curated/gh-fix-ci
+  content_hash: sha256:ee05e92d373d4d84f4612af3c1090ef67698d421bbe30896a4ed5a00cb86a069
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-fix-ci/assets/github.png
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-fix-ci
+  active_owner: openai/skills/skills/.curated/gh-fix-ci
+  content_hash: sha256:d55a9baa41798d8b5108e3058df3a5bda09914ea9fd73b49929cc38a8832424f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-fix-ci/scripts/inspect_pr_checks.py
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/gh-fix-ci
+  active_owner: openai/skills/skills/.curated/gh-fix-ci
+  content_hash: sha256:9459e5b03f86785d184a83e5cd8d621b832e918ec04158a2962d867785812c6c
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-stack
+  runtime: null
+  scope: project
+  owners:
+  - github/gh-stack/skills/gh-stack
+  active_owner: github/gh-stack/skills/gh-stack
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-stack/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - github/gh-stack/skills/gh-stack
+  active_owner: github/gh-stack/skills/gh-stack
+  content_hash: sha256:5d966fc1ff92014db49d6689f41f70ddf1af40879f9dc8a12bb75b82d7850c25
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-stack/references/commands.md
+  runtime: null
+  scope: project
+  owners:
+  - github/gh-stack/skills/gh-stack
+  active_owner: github/gh-stack/skills/gh-stack
+  content_hash: sha256:31049425b8db652e80fa6994d5289f20169f57d7af0a0651fa72c3f25e8fe7c7
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-stack/references/stack-design.md
+  runtime: null
+  scope: project
+  owners:
+  - github/gh-stack/skills/gh-stack
+  active_owner: github/gh-stack/skills/gh-stack
+  content_hash: sha256:4a61e3065ce61a5d129a30f5dcbebe73bfde250e34c382277facdc31d2c4e5ce
+- kind: project-relative
+  target: codex
+  value: .agents/skills/gh-stack/references/troubleshooting.md
+  runtime: null
+  scope: project
+  owners:
+  - github/gh-stack/skills/gh-stack
+  active_owner: github/gh-stack/skills/gh-stack
+  content_hash: sha256:fe1958036e663c7471a0d3efdf1fefe47ee65e06713b13a96e3db95becccdc47
+- kind: project-relative
+  target: codex
+  value: .agents/skills/git-commit
+  runtime: null
+  scope: project
+  owners:
+  - github/awesome-copilot/skills/git-commit
+  active_owner: github/awesome-copilot/skills/git-commit
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/git-commit/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - github/awesome-copilot/skills/git-commit
+  active_owner: github/awesome-copilot/skills/git-commit
+  content_hash: sha256:554d1a3c6d95f15bc1170160659ecdc9a9958b64f377f3988941b672c249b13f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grill-with-docs
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/grill-with-docs
+  active_owner: mattpocock/skills/skills/engineering/grill-with-docs
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grill-with-docs/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/grill-with-docs
+  active_owner: mattpocock/skills/skills/engineering/grill-with-docs
+  content_hash: sha256:7de372c13488f1ee96cc11cd8907b56b6809cc93eef776eeddd37de6b6cbe3fe
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grill-with-docs/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/grill-with-docs
+  active_owner: mattpocock/skills/skills/engineering/grill-with-docs
+  content_hash: sha256:94cd0ab161fb468a836349f5ed482ba58ce8e709a05c57ce533d739dbd35cca9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grilling
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/productivity/grilling
+  active_owner: mattpocock/skills/skills/productivity/grilling
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grilling/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/productivity/grilling
+  active_owner: mattpocock/skills/skills/productivity/grilling
+  content_hash: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grilling/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/productivity/grilling
+  active_owner: mattpocock/skills/skills/productivity/grilling
+  content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/handoff
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/productivity/handoff
+  active_owner: mattpocock/skills/skills/productivity/handoff
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/handoff/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/productivity/handoff
+  active_owner: mattpocock/skills/skills/productivity/handoff
+  content_hash: sha256:7c62de979fdc7ac32fb5ddb2146156c917f80ee070d30fadc9d40343c4b6ed25
+- kind: project-relative
+  target: codex
+  value: .agents/skills/handoff/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/productivity/handoff
+  active_owner: mattpocock/skills/skills/productivity/handoff
+  content_hash: sha256:5c479fd562c691851690e8b18c8501045bef0943c10743d636b2fae26add1d28
+- kind: project-relative
+  target: codex
+  value: .agents/skills/hunk-review
+  runtime: null
+  scope: project
+  owners:
+  - modem-dev/hunk/packages/hunk/skills/hunk-review
+  active_owner: modem-dev/hunk/packages/hunk/skills/hunk-review
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/hunk-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - modem-dev/hunk/packages/hunk/skills/hunk-review
+  active_owner: modem-dev/hunk/packages/hunk/skills/hunk-review
+  content_hash: sha256:a2817face7fbd563d525dd364c4f155c4d9a2a58cb22fbaee2a8ff76ff08e163
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve
+  runtime: null
+  scope: project
+  owners:
+  - shadcn/improve/skills/improve
+  active_owner: shadcn/improve/skills/improve
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve-codebase-architecture
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/improve-codebase-architecture
+  active_owner: mattpocock/skills/skills/engineering/improve-codebase-architecture
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve-codebase-architecture/HTML-REPORT.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/improve-codebase-architecture
+  active_owner: mattpocock/skills/skills/engineering/improve-codebase-architecture
+  content_hash: sha256:581e8bb5a521e46bbda8ca7e19b15948bed882187108092ebb90c62513b77528
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve-codebase-architecture/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/improve-codebase-architecture
+  active_owner: mattpocock/skills/skills/engineering/improve-codebase-architecture
+  content_hash: sha256:d1ac25511a936ff4250a48dbcefda363837d6bb9321b3cba73df99fa37270a75
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve-codebase-architecture/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/improve-codebase-architecture
+  active_owner: mattpocock/skills/skills/engineering/improve-codebase-architecture
+  content_hash: sha256:c8cb20f68ebf0edb4e497bc11ae5fcaa196004e661cd189015b04f4109ced7f1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - shadcn/improve/skills/improve
+  active_owner: shadcn/improve/skills/improve
+  content_hash: sha256:1599aa29e9b16424cb767779efac53fa56e3f38be92dff4ac587393a1ad5070a
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve/references/audit-playbook.md
+  runtime: null
+  scope: project
+  owners:
+  - shadcn/improve/skills/improve
+  active_owner: shadcn/improve/skills/improve
+  content_hash: sha256:587c1b927070f3c28139ad95ac34cc21a7da32618cfeb966cb774e58a865d4c8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve/references/closing-the-loop.md
+  runtime: null
+  scope: project
+  owners:
+  - shadcn/improve/skills/improve
+  active_owner: shadcn/improve/skills/improve
+  content_hash: sha256:5d526bb378e1783bbeb68d7af527776cbe98cde27a1aeccbd13e818e5b73b454
+- kind: project-relative
+  target: codex
+  value: .agents/skills/improve/references/plan-template.md
+  runtime: null
+  scope: project
+  owners:
+  - shadcn/improve/skills/improve
+  active_owner: shadcn/improve/skills/improve
+  content_hash: sha256:7be76dd3c29442288fa7cee4432fc6e95c2fdbf748c9b356344bf647c5f8722e
+- kind: project-relative
+  target: codex
+  value: .agents/skills/internal-comms
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/internal-comms
+  active_owner: anthropics/skills/skills/internal-comms
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/internal-comms/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/internal-comms
+  active_owner: anthropics/skills/skills/internal-comms
+  content_hash: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
+- kind: project-relative
+  target: codex
+  value: .agents/skills/internal-comms/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/internal-comms
+  active_owner: anthropics/skills/skills/internal-comms
+  content_hash: sha256:067b7587a344a928fc6534ef66b1bcd591fc7c26d207ea7ca3334aeb678d6475
+- kind: project-relative
+  target: codex
+  value: .agents/skills/internal-comms/examples/3p-updates.md
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/internal-comms
+  active_owner: anthropics/skills/skills/internal-comms
+  content_hash: sha256:087e4363c0f3513728a7e695eeb9ead5c3ecd12a4681b59340691180e65b68fc
+- kind: project-relative
+  target: codex
+  value: .agents/skills/internal-comms/examples/company-newsletter.md
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/internal-comms
+  active_owner: anthropics/skills/skills/internal-comms
+  content_hash: sha256:30f81cfbdb03858a006169c72169024089c7c5d3d32611d337782da4f38c86b5
+- kind: project-relative
+  target: codex
+  value: .agents/skills/internal-comms/examples/faq-answers.md
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/internal-comms
+  active_owner: anthropics/skills/skills/internal-comms
+  content_hash: sha256:5ecd3356cd6666937f2ebefa753253edfdbdca15e368d07baf398bfcced72484
+- kind: project-relative
+  target: codex
+  value: .agents/skills/internal-comms/examples/general-comms.md
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/internal-comms
+  active_owner: anthropics/skills/skills/internal-comms
+  content_hash: sha256:4d3a4bb198a77626bcf018e96b2b45a2dbabed172d4ade0fcd70d23ae8a47a47
+- kind: project-relative
+  target: codex
+  value: .agents/skills/orchestration
+  runtime: null
+  scope: project
+  owners:
+  - stablyai/orca/skills/orchestration
+  active_owner: stablyai/orca/skills/orchestration
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/orchestration/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - stablyai/orca/skills/orchestration
+  active_owner: stablyai/orca/skills/orchestration
+  content_hash: sha256:f7da0dd40d8681e2b0303fa0fa2f7ee4e36f2eca6495a4af57b92b9857dff732
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright-interactive
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright-interactive
+  active_owner: openai/skills/skills/.curated/playwright-interactive
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright-interactive/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright-interactive
+  active_owner: openai/skills/skills/.curated/playwright-interactive
+  content_hash: sha256:c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright-interactive/NOTICE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright-interactive
+  active_owner: openai/skills/skills/.curated/playwright-interactive
+  content_hash: sha256:7fe676d2e5359fb6aa0bdf5b0881b26e14c272dd36b04408366d4b0e26738322
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright-interactive/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright-interactive
+  active_owner: openai/skills/skills/.curated/playwright-interactive
+  content_hash: sha256:f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright-interactive/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright-interactive
+  active_owner: openai/skills/skills/.curated/playwright-interactive
+  content_hash: sha256:7342e0a2c2cb8f3e20982317467f58b06c8bf71ba308ed8fcc1cda4a6e9397d8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright-interactive/assets/playwright-small.svg
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright-interactive
+  active_owner: openai/skills/skills/.curated/playwright-interactive
+  content_hash: sha256:0744d0d4cc1433e2130c3522196e1571222d502f1461f39274f680520e728588
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright-interactive/assets/playwright.png
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright-interactive
+  active_owner: openai/skills/skills/.curated/playwright-interactive
+  content_hash: sha256:29b51cdeeb4e541565d1d419e5150e11913af50f72ebb4d27cfcc8813185ffd6
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/NOTICE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:417d5d3372914ecfd9fe102ac1d7dc2119253209f9718d6c222f616876c1904b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:0ffaabcc8e0990627c4725f18bf1c7955534a796c1c199e872909de2013ce6a8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:ddda43720fc566fffa45264be8f17f7745a3cee28d5245d41d3b963bc9967230
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/assets/playwright-small.svg
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:f1d213c0f76735d8272c3d3e9fbf71fe7b894e2d1588907044c780f2c33a9732
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/assets/playwright.png
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:521669f088c838196c6c852ccc9abdd7234d8f37fc9a8a7a9af7db2d50193381
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/references/cli.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:7c069a8206ba20b9ddbdc42436b04de30bb3aa4a825ba98680757ee62e954900
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/references/workflows.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:a2b5835a00ebee3906c146adf7f764f7718ea3f89a8702d86eaa135dfe0fc8c2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/playwright/scripts/playwright_cli.sh
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/playwright
+  active_owner: openai/skills/skills/.curated/playwright
+  content_hash: sha256:aa3fdff5d0e4556177f4dfd5f04117e772aa54f94b6a2e34b6c0edf629c6b9b5
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:7b3dae1ffc5434d890f3c65c8f552af52d0307fab3b35dec13013c9ca3844c4f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:6e9c6f2edce448eb2b589f81ad6e3f722665021785513bcbfd0bf7b86b529171
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/golang-general-backend-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:a73c47c34497b120672d48411fe51dc90d426a571801a0b3f649e2ce4ec658b4
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/javascript-express-web-server-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:427835cbb5be7ba96172ea6ca9af80ddd4419c833e9ebf870996740c80d8406c
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/javascript-general-web-frontend-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:3a7bc7b3f6e7ff043db9dbaa8933894d7a19d987d0607e4ddae5d70184a63d63
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/javascript-jquery-web-frontend-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:bcbad2fa6c2a02709e47e889e70102c76886bf36bc798624d27db570eccf40da
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/javascript-typescript-nextjs-web-server-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:71c773f7a97ce60c853adfa100b3d88b3b7bc4c6b8acaef1432ffabd923ee182
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/javascript-typescript-react-web-frontend-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:d3030c0f24bddb56b9bbb91bbec1ee49eb7778bce4d3e0297b2641b2fc6b0d9c
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/javascript-typescript-vue-web-frontend-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:77c6a747f9f17e3df03aad0fcb20d99ac7898001b81aef8b80908e45ac14a688
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/python-django-web-server-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:4fb69b5d45f10e588d1a8c35cdc5f59e18910f6b46a93e2d342d90f286f8dfd2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/python-fastapi-web-server-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:7383c7f4fc271190b05e562ada7e825982a2c76b6c79a9f95a1da7687b65a616
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-best-practices/references/python-flask-web-server-security.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-best-practices
+  active_owner: openai/skills/skills/.curated/security-best-practices
+  content_hash: sha256:9606d69190c04c167fdeac57e61297547a57b0542fd89dede36f355970446929
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:f06c1a59247569326702c945f397af163ea96cf2ecfdf2dde280605bf89a3ec8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:40877a3cdb1753aa187fc85a83bc138a866a1edb74165e009c885cfb6a16e433
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/references/neo4j-import.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:176d0ef2ed3588530ed65ccda7cb30ae322e4cbec5c374dba5d1685e2bb9dd02
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/scripts/build_ownership_map.py
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:c0454c47c7eb001b6e247cd7e473df1b28a3a148a2dca6b2fe88a74a7602cc9b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/scripts/community_maintainers.py
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:95adec5458cc85b41d0ae7965b0a17e4e8eaa6aaab274459324580d9a91cc3cc
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/scripts/query_ownership.py
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:0f8d1a1ac3ef807a9b66939a8cdfd02564f4cda018489a3664d37f8c3a7b1b93
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-ownership-map/scripts/run_ownership_map.py
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-ownership-map
+  active_owner: openai/skills/skills/.curated/security-ownership-map
+  content_hash: sha256:362b547d6133659eb5c4fe889b8b930bea790f31e412f3198671baae09eec692
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-threat-model
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-threat-model
+  active_owner: openai/skills/skills/.curated/security-threat-model
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-threat-model/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-threat-model
+  active_owner: openai/skills/skills/.curated/security-threat-model
+  content_hash: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-threat-model/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-threat-model
+  active_owner: openai/skills/skills/.curated/security-threat-model
+  content_hash: sha256:1283c0dd62a8104d9edda4583569b5d8510b4ddaa45120687c999250fd96bad2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-threat-model/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-threat-model
+  active_owner: openai/skills/skills/.curated/security-threat-model
+  content_hash: sha256:3319b59736312abceca614e341c0e59cae47263e3b58a22b2b5ddf1e5fc8c227
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-threat-model/references/prompt-template.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-threat-model
+  active_owner: openai/skills/skills/.curated/security-threat-model
+  content_hash: sha256:81a59aa3fb3ac3a739d6a26ab38e4015965f215581ee54becef21a2b121ec29b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/security-threat-model/references/security-controls-and-assets.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/security-threat-model
+  active_owner: openai/skills/skills/.curated/security-threat-model
+  content_hash: sha256:d536cfa9acad2523dc39134bcf33b9566c29dd9a57b407cbc9901637230c6b98
+- kind: project-relative
+  target: codex
+  value: .agents/skills/sentry
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/sentry
+  active_owner: openai/skills/skills/.curated/sentry
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/sentry/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/sentry
+  active_owner: openai/skills/skills/.curated/sentry
+  content_hash: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/sentry/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/sentry
+  active_owner: openai/skills/skills/.curated/sentry
+  content_hash: sha256:508c6f5c100586c81a34397d30f00f4b8771b66d698a7ac1836998df925dd007
+- kind: project-relative
+  target: codex
+  value: .agents/skills/sentry/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/sentry
+  active_owner: openai/skills/skills/.curated/sentry
+  content_hash: sha256:c7ed57441b9a1e3f4caa19da4d90d432a65cd398c4f361b47dbf9408be0e065f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/sentry/assets/sentry-small.svg
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/sentry
+  active_owner: openai/skills/skills/.curated/sentry
+  content_hash: sha256:f1de8efc906c03b583b4d74560b003175c8a3d9ea5950d891ce3142fec11ca99
+- kind: project-relative
+  target: codex
+  value: .agents/skills/sentry/assets/sentry.png
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/sentry
+  active_owner: openai/skills/skills/.curated/sentry
+  content_hash: sha256:b61e0534635a275cf56f7dad26ac7cc36504b7bd9a60c95791d6e72634129fb1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/tdd
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/tdd
+  active_owner: mattpocock/skills/skills/engineering/tdd
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/tdd/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/tdd
+  active_owner: mattpocock/skills/skills/engineering/tdd
+  content_hash: sha256:cb01f66bebfaa25fa1f88e6b7e769cd9fd9f35b1120b8563749820738814c927
+- kind: project-relative
+  target: codex
+  value: .agents/skills/tdd/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/tdd
+  active_owner: mattpocock/skills/skills/engineering/tdd
+  content_hash: sha256:ea6f01cf1b8c06a4b0f5b649d74b1b8ce8685e72af1b38d70d877693e092af0b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/tdd/mocking.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/tdd
+  active_owner: mattpocock/skills/skills/engineering/tdd
+  content_hash: sha256:3ceb807fdf4a47d6a93d4d9a891e5ba6d362a6247bd08adc451feebfc17361ef
+- kind: project-relative
+  target: codex
+  value: .agents/skills/tdd/tests.md
+  runtime: null
+  scope: project
+  owners:
+  - mattpocock/skills/skills/engineering/tdd
+  active_owner: mattpocock/skills/skills/engineering/tdd
+  content_hash: sha256:859f9e592c188fda4fc7277dd180e4ce9c7a2e13f6efe1f6f29eccc9d28c106a
+- kind: project-relative
+  target: codex
+  value: .agents/skills/webapp-testing
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/webapp-testing
+  active_owner: anthropics/skills/skills/webapp-testing
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/webapp-testing/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/webapp-testing
+  active_owner: anthropics/skills/skills/webapp-testing
+  content_hash: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
+- kind: project-relative
+  target: codex
+  value: .agents/skills/webapp-testing/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/webapp-testing
+  active_owner: anthropics/skills/skills/webapp-testing
+  content_hash: sha256:51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/webapp-testing/examples/console_logging.py
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/webapp-testing
+  active_owner: anthropics/skills/skills/webapp-testing
+  content_hash: sha256:ea46877289acb82da7e7ce59d0bc37c8977cd57e2a006d0c88d7a1c625bf95da
+- kind: project-relative
+  target: codex
+  value: .agents/skills/webapp-testing/examples/element_discovery.py
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/webapp-testing
+  active_owner: anthropics/skills/skills/webapp-testing
+  content_hash: sha256:d63c89604a22f8845d724e95dda45db49b1bf57c25ce0a83afbb7b8da3d402f0
+- kind: project-relative
+  target: codex
+  value: .agents/skills/webapp-testing/examples/static_html_automation.py
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/webapp-testing
+  active_owner: anthropics/skills/skills/webapp-testing
+  content_hash: sha256:9d533aafb875ee3ab8b8ebf8f5b9003ac8d999da3d09b285cce252e623140064
+- kind: project-relative
+  target: codex
+  value: .agents/skills/webapp-testing/scripts/with_server.py
+  runtime: null
+  scope: project
+  owners:
+  - anthropics/skills/skills/webapp-testing
+  active_owner: anthropics/skills/skills/webapp-testing
+  content_hash: sha256:b0dcf4918935b795f4eda9821579b9902119235ff4447f687a30286e7d0925fd
+- kind: project-relative
+  target: codex
+  value: .agents/skills/yeet
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/yeet
+  active_owner: openai/skills/skills/.curated/yeet
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/yeet/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/yeet
+  active_owner: openai/skills/skills/.curated/yeet
+  content_hash: sha256:4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/yeet/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/yeet
+  active_owner: openai/skills/skills/.curated/yeet
+  content_hash: sha256:4829d4909081e1abf91507fb581e6f566ce7064001892414f32191895b08a595
+- kind: project-relative
+  target: codex
+  value: .agents/skills/yeet/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/yeet
+  active_owner: openai/skills/skills/.curated/yeet
+  content_hash: sha256:6f0a463b53232932ad70aec529e25fad9d54312de0bd29d64a38bb14a4e748de
+- kind: project-relative
+  target: codex
+  value: .agents/skills/yeet/assets/yeet-small.svg
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/yeet
+  active_owner: openai/skills/skills/.curated/yeet
+  content_hash: sha256:e4b365d5389b8772e9bad36ad7a37d8333436fa961bb98c8d77b8fbf4e9dbc3b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/yeet/assets/yeet.png
+  runtime: null
+  scope: project
+  owners:
+  - openai/skills/skills/.curated/yeet
+  active_owner: openai/skills/skills/.curated/yeet
+  content_hash: sha256:6b5448b6c5b3480ca7511f983fa81ced59e6b9c664332bc559ea0d323fc06ab8
