@@ -9,7 +9,6 @@ export XDG_CACHE_HOME
 : ${XDG_STATE_HOME:=$HOME/.local/state}
 export XDG_STATE_HOME
 export CLAUDE_CONFIG_DIR=${XDG_CONFIG_HOME}/claude
-export CODEX_HOME=${XDG_CONFIG_HOME}/codex
 export COPILOT_HOME=${XDG_CONFIG_HOME}/copilot
 
 typeset -U path
@@ -155,22 +154,6 @@ if [[ -r "${XDG_CONFIG_HOME}/gcloud/application_default_credentials.json" ]]; th
 fi
 
 export ZAI_API_KEY={{ (onepasswordDetailsFields "2z22x3chw6dliskjy74uqlhjpa").credential.value }}
-
-zai() {
-  if [[ -z "$ZAI_API_KEY" || "$ZAI_API_KEY" == "your_api_key_here" ]]; then
-    echo "Error: ZAI_API_KEY is not set. Please check your 1Password item 'Z.AI API Key'."
-    return 1
-  fi
-
-  ANTHROPIC_AUTH_TOKEN="$ZAI_API_KEY" \
-  ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic" \
-  API_TIMEOUT_MS="3000000" \
-  CLAUDE_CODE_AUTO_COMPACT_WINDOW="1000000" \
-  ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air" \
-  ANTHROPIC_DEFAULT_SONNET_MODEL="glm-5.2[1m]" \
-  ANTHROPIC_DEFAULT_OPUS_MODEL="glm-5.2[1m]" \
-  claude "$@"
-}
 
 if (( $+commands[ghq] && $+commands[fzf] )); then
   function ghq-fzf() {
