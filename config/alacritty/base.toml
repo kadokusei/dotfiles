@@ -12,28 +12,6 @@ style = "Regular"
 [font.offset]
 y = 1
 
-{{ if eq .chezmoi.os "darwin" }}
-[[keyboard.bindings]]
-key = "Comma"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-c", "open ~/.config/alacritty/alacritty.toml"]
-program = "sh"
-
-[[keyboard.bindings]]
-chars = "\u001BOH"
-key = "Left"
-mode = "AppCursor"
-mods = "Command"
-
-[[keyboard.bindings]]
-chars = "\u001BOF"
-key = "Right"
-mode = "AppCursor"
-mods = "Command"
-{{ end }}
-
 [[keyboard.bindings]]
 chars = "\u001B\r"
 key = "Return"

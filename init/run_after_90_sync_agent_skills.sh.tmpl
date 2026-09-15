@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
-cd "$HOME"
-mise install apm uv
-mise exec -- uv run --script "$HOME/.local/bin/agent-skills-sync"

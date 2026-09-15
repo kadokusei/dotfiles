@@ -1,56 +1,4 @@
-export EDITOR=vim
-export VISUAL=vim
-export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-export LESS='-g -i -M -R -W -z-4 -x4'
-: ${XDG_CONFIG_HOME:=$HOME/.config}
-export XDG_CONFIG_HOME
-: ${XDG_CACHE_HOME:=$HOME/.cache}
-export XDG_CACHE_HOME
-: ${XDG_STATE_HOME:=$HOME/.local/state}
-export XDG_STATE_HOME
-export CLAUDE_CONFIG_DIR=${XDG_CONFIG_HOME}/claude
-export COPILOT_HOME=${XDG_CONFIG_HOME}/copilot
-
-typeset -U path
-
-path=($HOME/.local/bin(N-/)
-      $path
-      )
-
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-alias ssh=ssh.exe
-alias ssh-add=ssh-add.exe
-alias op=op.exe
-{{   end }}
-{{ end }}
-
-if (( $+commands[sheldon] )); then
-  eval "$(sheldon source)"
-fi
-
-# completion
-autoload -Uz compinit
-typeset -g ZSH_COMPDUMP="${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
-[[ -d ${ZSH_COMPDUMP:h} ]] || mkdir -p -- ${ZSH_COMPDUMP:h}
-compinit -d "${ZSH_COMPDUMP}"
-export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
-zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-if (( $+commands[carapace] )); then
-  source <(carapace _carapace)
-fi
-
-if (( $+commands[starship] )); then
-  eval "$(starship init zsh)"
-fi
-
 bindkey -e
-
-# history
-HISTFILE="${XDG_STATE_HOME}/zsh/history"
-[[ -d ${HISTFILE:h} ]] || mkdir -p -- ${HISTFILE:h}
-HISTSIZE=1000000
-SAVEHIST=1000000
 
 # 単語の区切り文字を指定する
 autoload -Uz select-word-style
@@ -127,33 +75,12 @@ alias la="ls -a"
 alias ll="ls -l"
 alias lal="ls -al"
 
-{{ if eq .chezmoi.os "darwin" }}
-export CLICOLOR=1
-typeset -U path cdpath fpath manpath
-
-## set PATH for sudo
-typeset -xT SUDO_PATH sudo_path
-typeset -U sudo_path
-sudo_path=({/usr/local,/usr,}/sbin(N-/))
-
-## set PATH
-path=(~/bin(N-/)
-      /opt/homebrew/bin(N-/)
-      /opt/homebrew/share/google-cloud-sdk/bin(N-/)
-      $path
-      )
-
-export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-{{ end }}
-
 setopt magic_equal_subst
 
 # GCLOUD ENV
 if [[ -r "${XDG_CONFIG_HOME}/gcloud/application_default_credentials.json" ]]; then
   export GOOGLE_APPLICATION_CREDENTIALS="${XDG_CONFIG_HOME}/gcloud/application_default_credentials.json"
 fi
-
-export ZAI_API_KEY={{ (onepasswordDetailsFields "2z22x3chw6dliskjy74uqlhjpa").credential.value }}
 
 if (( $+commands[ghq] && $+commands[fzf] )); then
   function ghq-fzf() {
@@ -165,14 +92,6 @@ if (( $+commands[ghq] && $+commands[fzf] )); then
   }
   zle -N ghq-fzf
   bindkey '^]' ghq-fzf
-fi
-
-if (( $+commands[mise] )); then
-  zsh-defer eval "$(mise activate zsh)"
-fi
-
-if (( $+commands[atuin] )); then
-  zsh-defer eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
 if (( $+commands[wt] )) || [[ -n "${WORKTRUNK_BIN:-}" ]]; then
@@ -225,7 +144,8 @@ if (( $+commands[wt] )) || [[ -n "${WORKTRUNK_BIN:-}" ]]; then
   }
 
   if (( $+functions[compdef] )); then
-    compdef _wt_lazy_complete wt
+    # compinit 実行前にここへ到達しうるため、compdef 登録は zsh-defer で後回しにする
+    zsh-defer compdef _wt_lazy_complete wt
     zstyle ':completion:*:wt:*' list-max 1
     zstyle ':completion:*:*:wt:*' list-grouped false
   fi
