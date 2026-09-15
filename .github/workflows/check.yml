@@ -1,0 +1,29 @@
+name: check
+
+on:
+  push:
+    branches: [master, nix-migration]
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v16
+      - name: nix flake check
+        run: nix flake check
+      - name: build homeConfigurations.wsl
+        run: nix build -L .#homeConfigurations.wsl.activationPackage
+      - name: build homeConfigurations.linux
+        run: nix build -L .#homeConfigurations.linux.activationPackage
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v16
+      - name: build darwinConfigurations.helium
+        run: nix build -L .#darwinConfigurations.helium.system
+      - name: build darwinConfigurations.work-mac
+        run: nix build -L .#darwinConfigurations.work-mac.system

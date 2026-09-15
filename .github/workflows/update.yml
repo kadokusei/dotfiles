@@ -1,0 +1,24 @@
+name: update-flake-lock
+
+on:
+  schedule:
+    # 毎週月曜 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v16
+      - uses: DeterminateSystems/update-flake-lock@v24
+        with:
+          pr-title: "chore(flake): update flake.lock"
+          pr-body: |
+            Automated weekly flake.lock update.
+          token: ${{ secrets.GITHUB_TOKEN }}
