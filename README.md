@@ -31,13 +31,13 @@ home-manager switch --flake .#linux      # または .#wsl
 
 switch を実行すると、管理対象のファイルが再配置されます。あわせて、共有対象の Codex キーが `~/.codex/config.toml` にマージされ（その他のローカルキーは保持）、`agent-skills-sync` が実行されて `~/.apm/` の APM 環境へ `apm install --global --frozen` によりスキル定義がインストールされます。Codex と OMP は `~/.agents/skills/` を参照します。Claude Code は、管理されたシンボリックリンク `~/.config/claude/skills` 経由で同じディレクトリを参照します。
 
-ロールバックを行う場合は、macOS では `sudo darwin-rebuild --rollback switch` を実行するか、Home Manager の以前の generation を指定します。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
+ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`(以前の Home Manager generation へ戻す)で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
 ## 新しいマシンのセットアップ
 
 1. Lix をインストールします: `curl -sSf -L https://install.lix.systems/lix | sh -s -- install`
 2. リポジトリをクローンします: `git clone git@github.com:kadokusei/dotfiles.git ~/dotfiles`
-3. 1Password のアイテム `nix-sops-age-key` から age 鍵を `~/.config/sops/age/keys.txt` に復元します（パーミッションは chmod 600）。この操作はホストごとに一度だけ実行します。
+3. 1Password のアイテム `nix-sops-age-key` から age 鍵を `~/.config/sops/age/keys.txt` に復元します（パーミッションは `chmod 600`）。この操作はホストごとに一度だけ実行します。
 4. 設定を適用します:
    macOS: `sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#helium`
    Linux / WSL2: `nix run home-manager/master -- switch --flake ~/dotfiles#linux`
