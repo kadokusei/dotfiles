@@ -73,10 +73,14 @@ in
   '';
 
   # init/run_after_90_sync_agent_skills.sh.tmpl 相当
+  # activation PATH には per-user profile が含まれないため、mise を明示的に解決する
   home.activation.skills-sync = lib.hm.dag.entryAfter [ "codex-merge" ] ''
+    export PATH="/etc/profiles/per-user/''${USER:-$USER}/bin:$HOME/.nix-profile/bin:$HOME/.local/bin:$PATH"
     if command -v mise >/dev/null 2>&1; then
       $DRY_RUN_CMD mise install apm uv
       $DRY_RUN_CMD mise exec -- uv run --script "$HOME/.local/bin/agent-skills-sync"
+    else
+      echo "skills-sync: mise not found on activation PATH; skipping" >&2
     fi
   '';
 }
