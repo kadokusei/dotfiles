@@ -29,13 +29,19 @@ descriptions, commit messages, or logs — including "just to confirm".
 
 To verify secret deployment, use only:
 
-- `ls -l <path>` — existence and permissions (expect mode 0600)
+- `ls -l <path>` / `ls -lL <symlink>` — existence, permissions (expect
+  mode 0600), and symlink targets, without file contents
 - `file ~/.ssh/id_ed25519_github` — format check without contents
 - `nix run nixpkgs#age-keygen -- -y ~/.config/sops/age/keys.txt` —
   public recipient only; compare against the age key in `.sops.yaml`
-- `ssh-keygen -ylf ~/.ssh/id_ed25519_github.pub` — public fingerprint
-- `cat ~/Library/Logs/SopsNix/stderr` — sops-nix failure log; contains
-  no key material, but mask any long base64 blob before quoting
+- `ssh-keygen -lf ~/.ssh/id_ed25519_github.pub` — public fingerprint
+  (`-lf` for public key files; do not combine with `-y`, whose behavior
+  in that combination is version-dependent)
+
+Logs such as `~/Library/Logs/SopsNix/stderr` are not whitelisted for raw
+output: extract only the specific known error lines you need (e.g. with
+`grep`) and redact long token / base64 runs locally before quoting. Never
+paste raw logs.
 
 If a task seems to require reading secret material, stop and ask the
 user instead of working around these rules.
