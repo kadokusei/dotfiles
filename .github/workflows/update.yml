@@ -2,13 +2,18 @@ name: update-flake-lock
 
 on:
   schedule:
-    # 毎週月曜 06:00 UTC
-    - cron: "0 6 * * 1"
+    # 毎日 06:00 UTC (JST 15:00)
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
+
+# 同じ更新 branch への同時 push を避けるため、重複実行は直列化する
+concurrency:
+  group: update-flake-lock
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -20,7 +25,9 @@ jobs:
           determinate: false
       - uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
         with:
+          # 固定 branch: 既存の open PR を更新し、PR が量産されるのを防ぐ
+          branch: update_flake_lock_action
           pr-title: "chore(flake): update flake.lock"
           pr-body: |
-            Automated weekly flake.lock update.
+            Automated daily flake.lock update.
           token: ${{ secrets.GITHUB_TOKEN }}
