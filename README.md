@@ -5,8 +5,8 @@ Lix (Nix)、nix-darwin、Home Manager で環境を管理し、言語ランタイ
 ## 構成
 
 - `flake.nix` — エントリポイント。macOS は nix-darwin + Home Manager（darwin モジュールとして統合）、Linux / WSL2 はスタンドアロンの Home Manager を使用します。
-- `hosts/` — ホスト別モジュール（`helium`、`70-42660`、`wsl`、`linux`）
-- `modules/darwin/` — システム設定と Homebrew バンドル（cask + formula）
+- `hosts/` — ホスト別モジュール（`helium`、`70-42660`、`wsl`、`linux`）。macOS のホスト固有 cask はここに `homebrew.casks` で追記する（`modules/darwin/homebrew.nix` の共通リストと自動マージ）
+- `modules/darwin/` — システム設定と共通 Homebrew cask
 - `modules/home/` — 共有 Home Manager モジュール: `shell`（zsh + プラグイン）、`git`（1Password SSH 署名）、`mise`、`packages`、`apps`、`agents`、`secrets`（sops-nix + age）
 - `config/` — そのまま配置する設定ファイル群（zellij、worktrunk、claude、agent-skills など）
 - `secrets/secrets.yaml` — age で sops 暗号化したシークレット

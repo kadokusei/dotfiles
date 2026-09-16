@@ -33,7 +33,6 @@
       "1password-cli"
       "android-platform-tools"
     ];
-    # nmrpflash は nixpkgs が darwin (libnl 依存) で評価できないため Homebrew 管理に残留
-    brews = [ "nmrpflash" ];
+    # ホスト固有の cask は hosts/*.nix 側で homebrew.casks に追記（リストは自動マージされる）
   };
 }
