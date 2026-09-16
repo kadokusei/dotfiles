@@ -38,10 +38,14 @@ To verify secret deployment, use only:
   (`-lf` for public key files; do not combine with `-y`, whose behavior
   in that combination is version-dependent)
 
-Logs such as `~/Library/Logs/SopsNix/stderr` are not whitelisted for raw
-output: extract only the specific known error lines you need (e.g. with
-`grep`) and redact long token / base64 runs locally before quoting. Never
-paste raw logs.
+Logs (e.g. `~/Library/Logs/SopsNix/stderr`) are subject to a strict
+no-raw-stdout rule: at no stage — including intermediate pipes — may
+unsanitized log text reach stdout or the transcript. MUST complete
+extraction and redaction within a single local pipeline and print only
+the sanitized final result, e.g.:
+
+    grep -E 'decrypt|error|failed' ~/Library/Logs/SopsNix/stderr \
+      | sed -E 's/[A-Za-z0-9+\/=_-]{20,}/[REDACTED]/g'
 
 If a task seems to require reading secret material, stop and ask the
 user instead of working around these rules.
