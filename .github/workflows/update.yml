@@ -35,6 +35,7 @@ jobs:
           sign-commits: true
           # 固定 branch: 既存の open PR を更新し、PR が量産されるのを防ぐ
           branch: update_flake_lock_action
+          delete-branch: true
           add-paths: flake.lock
           commit-message: "flake.lock: Update"
           title: "chore(flake): update flake.lock"
