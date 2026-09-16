@@ -57,7 +57,15 @@ nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pu
 
 1. Lix をインストールします: `curl -sSf -L https://install.lix.systems/lix | sh -s -- install`
 2. リポジトリをクローンします: `git clone git@github.com:kadokusei/dotfiles.git ~/dotfiles`
-3. age 鍵を復元します: `sops-age-restore` を実行すると 1Password CLI（`op read`、GUI 認証・15秒上限）からアイテム `nix-sops-age-key` を取得して `~/.config/sops/age/keys.txt`（0600）に保存します。CLI を使えない場合は `sops-age-restore --manual` でプロンプトに鍵を paste するか、1Password から直接コピーして保存してください。この操作はホストごとに一度だけ実行します。
+3. age 鍵を復元します（ホストごとに一度だけ）。`op`（1Password CLI）と 1Password アプリはこの後の switch で導入される一方、switch は age 鍵を要求するため、初回は依存ゼロの手動 paste で復元します（1Password のアイテム `nix-sops-age-key` の値を他デバイスの 1Password からコピー）:
+
+   ```sh
+   mkdir -p ~/.config/sops/age
+   cat > ~/.config/sops/age/keys.txt   # paste して Ctrl-D
+   chmod 600 ~/.config/sops/age/keys.txt
+   ```
+
+   switch 済みのホストでは `sops-age-restore` が `op read`（GUI 認証・15秒上限）で同じ処理を行い、`--manual` で paste プロンプトに切り替わります。nix が既にある環境では `nix shell nixpkgs#_1password-cli -c op read 'op://Private/nix-sops-age-key/<field>'` も使えます（アプリ未導入なら `op account add` によるサインインが必要）。この手順を飛ばすと switch が age 鍵チェックで失敗し、上記コマンドがエラーメッセージに表示されます。
 4. 設定を適用します:
    macOS: `sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#helium`
    Linux / WSL2: `nix run home-manager/master -- switch --flake ~/dotfiles#linux`

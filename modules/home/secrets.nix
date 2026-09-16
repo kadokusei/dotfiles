@@ -85,7 +85,11 @@
       keyFile="${config.sops.age.keyFile}"
       if [[ ! -f "$keyFile" ]]; then
         echo "sops-age-key-check: age key file missing: $keyFile" >&2
-        echo "  restore it with 'sops-age-restore' (1Password item nix-sops-age-key), then re-run switch" >&2
+        echo "  bootstrap path (needs no tooling; op arrives only after a successful switch):" >&2
+        echo "    mkdir -p ~/.config/sops/age" >&2
+        echo "    cat > ~/.config/sops/age/keys.txt   # paste the key from 1Password, then Ctrl-D" >&2
+        echo "    chmod 600 ~/.config/sops/age/keys.txt" >&2
+        echo "  then re-run switch. On hosts where 'op' is already installed, 'sops-age-restore' does this via 1Password." >&2
         exit 1
       fi
       recipient="$(${pkgs.age}/bin/age-keygen -y "$keyFile" 2>/dev/null || true)"
