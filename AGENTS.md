@@ -6,11 +6,14 @@ can end up in chat, logs, commits, or CI. The rules below are absolute.
 
 ## Never execute
 
-Primary rule: never execute ANY command that reads, decrypts, or emits
-the secret value / body from the paths below. This includes (but is not
-limited to) `cat`, `less`, `more`, `head`, `tail`, `grep`, `sed`, `awk`,
-`perl`, `python`, `strings`, `xxd`, `base64`, and `od` — an enumeration
-bypass via an unlisted tool is still a violation. Secret paths:
+Primary rule: except for the explicitly allowlisted verification
+commands below, never execute ANY command that reveals or emits the
+secret value / body from the paths below into provider-visible output
+(tool stdout/stderr, transcript) or into any new plaintext artifact (file,
+redirect, pipe consumer). This includes (but is not limited to) `cat`,
+`less`, `more`, `head`, `tail`, `grep`, `sed`, `awk`, `perl`, `python`,
+`strings`, `xxd`, `base64`, and `od` — an enumeration bypass via an
+unlisted tool is still a violation. Secret paths:
 
 - `~/.config/sops/age/keys.txt` — age private key
 - `~/.ssh/id_ed25519_github` or any other SSH private key body
@@ -30,9 +33,10 @@ Likewise never run:
 Also never quote or paste output of the above into replies, issues, PR
 descriptions, commit messages, or logs — including "just to confirm".
 
-## Safe verification commands
+## Safe verification commands (sole permitted exceptions)
 
-To verify secret deployment, use only:
+These are the only permitted readers of the paths above — for metadata
+and public-key derivation only, never the secret body:
 
 - `ls -l <path>` / `ls -lL <symlink>` — existence, permissions (expect
   mode 0600), and symlink targets, without file contents
