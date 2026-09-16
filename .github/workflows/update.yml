@@ -23,11 +23,20 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
         with:
           determinate: false
-      - uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
+      - name: nix flake update
+        run: nix flake update
+      # sign-commits: GitHub API 経由でコミットを作成させ、github-actions[bot] の
+      # verified 署名を付与する (ruleset "all" の required_signatures は Git push による
+      # 未署名コミットを拒否するため、DeterminateSystems/update-flake-lock は使えない)。
+      # 署名は GITHUB_TOKEN / GitHub App token でのみ有効で PAT では付かない。
+      - name: create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
+          sign-commits: true
           # 固定 branch: 既存の open PR を更新し、PR が量産されるのを防ぐ
           branch: update_flake_lock_action
-          pr-title: "chore(flake): update flake.lock"
-          pr-body: |
+          add-paths: flake.lock
+          commit-message: "flake.lock: Update"
+          title: "chore(flake): update flake.lock"
+          body: |
             Automated daily flake.lock update.
-          token: ${{ secrets.GITHUB_TOKEN }}
