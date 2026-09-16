@@ -65,7 +65,7 @@ nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pu
    chmod 600 ~/.config/sops/age/keys.txt
    ```
 
-   switch 済みのホストでは `sops-age-restore` が `op read`（GUI 認証・15秒上限）で同じ処理を行い、`--manual` で paste プロンプトに切り替わります。nix が既にある環境では `nix shell nixpkgs#_1password-cli -c op read 'op://Private/nix-sops-age-key/<field>'` も使えます（アプリ未導入なら `op account add` によるサインインが必要）。この手順を飛ばすと switch が age 鍵チェックで失敗し、上記コマンドがエラーメッセージに表示されます。
+   switch 済みのホストでは `sops-age-restore` が `op read`（GUI 認証・15 秒上限）で同じ処理を行い、`--manual` で paste プロンプトに切り替わります。nix が既にある環境では `nix shell nixpkgs#_1password-cli -c op read 'op://Private/nix-sops-age-key/<field>'` も使えます（アプリ未導入なら `op account add` によるサインインが必要）。この手順を飛ばすと switch が age 鍵チェックで失敗し、上記コマンドがエラーメッセージに表示されます。
 4. 設定を適用します:
    macOS: `sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#helium`
    Linux / WSL2: `nix run home-manager/master -- switch --flake ~/dotfiles#linux`
