@@ -55,4 +55,8 @@
           "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
     };
   };
+  programs.git.ignores = [
+    ".serena/"
+    ".headroom/"
+  ];
 }
