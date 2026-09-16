@@ -142,6 +142,34 @@ in
         }
       '')
 
+      # sops 復号用 age 秘密鍵を ~/.config/sops/age/keys.txt へ復元する。
+      # op があれば secret reference から取得(1Password GUI 認証・15秒上限)、
+      # 失敗時・--manual 指定時はプロンプトへ手動 paste する
+      ''
+        sops-age-restore() {
+          local dest="$HOME/.config/sops/age/keys.txt"
+          local ref="${config.dotfiles.sopsAgeKeyReference}"
+          mkdir -p "$HOME/.config/sops/age"
+          if [[ "$1" != "--manual" ]] && command -v op >/dev/null 2>&1; then
+            if ${pkgs.coreutils}/bin/timeout --kill-after=1s 15s op read "$ref" > "$dest.tmp" 2>/dev/null && [[ -s "$dest.tmp" ]]; then
+              mv "$dest.tmp" "$dest"
+              chmod 600 "$dest"
+              echo "restored from 1Password: $dest"
+              return 0
+            fi
+            rm -f "$dest.tmp"
+            echo "op read failed; falling back to manual paste (use --manual to skip op)" >&2
+          fi
+          printf 'paste the age secret key (AGE-SECRET-KEY-1...): '
+          read -rs key
+          printf '\n'
+          [[ -n "$key" ]] || { echo "empty input; aborted" >&2; return 1; }
+          printf '%s\n' "$key" > "$dest"
+          chmod 600 "$dest"
+          echo "restored: $dest"
+        }
+      ''
+
       # OS 共通の zstyle / setopt / 関数群
       "source ${../../config/zsh/base.zsh}\n"
 

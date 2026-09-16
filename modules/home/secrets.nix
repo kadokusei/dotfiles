@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
@@ -76,4 +76,25 @@
       }
     '';
   };
+
+  # macOS では鍵配置が activation 直後の LaunchAgent(非同期)で行われ、復号失敗が
+  # switch の成否に反映されない。ここで age 鍵の存在と recipient を事前検証して
+  # fail させ、「switch 成功・鍵なし」を放置させない(Linux は同期配置で元々失敗する)
+  home.activation.sops-age-key-check = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+    (lib.hm.dag.entryBefore [ "writeBoundary" ] ''
+      keyFile="${config.sops.age.keyFile}"
+      if [[ ! -f "$keyFile" ]]; then
+        echo "sops-age-key-check: age key file missing: $keyFile" >&2
+        echo "  restore it with 'sops-age-restore' (1Password item nix-sops-age-key), then re-run switch" >&2
+        exit 1
+      fi
+      recipient="$(${pkgs.age}/bin/age-keygen -y "$keyFile" 2>/dev/null || true)"
+      if [[ "$recipient" != "${config.dotfiles.sopsAgeRecipient}" ]]; then
+        echo "sops-age-key-check: age key does not match the recipient in .sops.yaml" >&2
+        echo "  expected: ${config.dotfiles.sopsAgeRecipient}" >&2
+        echo "  got:      ''${recipient:-<unreadable>}" >&2
+        echo "  restore the correct key with 'sops-age-restore', then re-run switch" >&2
+        exit 1
+      fi
+    '');
 }

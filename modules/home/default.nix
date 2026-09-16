@@ -23,6 +23,18 @@
     default = "op://Private/nix-ssh-github-passphrase/password";
   };
 
+  # sops-age-restore が op read で age 秘密鍵を取得する secret reference
+  options.dotfiles.sopsAgeKeyReference = lib.mkOption {
+    type = lib.types.str;
+    default = "op://Private/nix-sops-age-key/password";
+  };
+
+  # ~/.config/sops/age/keys.txt が満たすべき age recipient(.sops.yaml と同一)
+  options.dotfiles.sopsAgeRecipient = lib.mkOption {
+    type = lib.types.str;
+    default = "age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pum58nq26lggg07cesjxwlw7";
+  };
+
   config = {
     home.stateVersion = "25.05";
 

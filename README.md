@@ -35,7 +35,7 @@ switch を実行すると、管理対象のファイルが再配置されます�
 
 ## SSH 鍵の運用
 
-個人用 GitHub への認証・コミット署名は、`dotfiles.localGitHubKey = true` のホスト（`helium`、`70-42660`、`linux`）ではローカルの SSH 鍵で行います。秘密鍵 `~/.ssh/id_ed25519_github` は sops binary secret `secrets/github_id_ed25519` として age 暗号化でリポジトリに格納され、復号にはホストごとの age 鍵 `~/.config/sops/age/keys.txt` が必要です。macOS では switch の activation 中に鍵は置かれず、activation の最後に `launchctl bootstrap` された LaunchAgent `org.nix-community.home.sops-nix`（RunAtLoad・非同期）が後から `sops-install-secrets` を実行して配置します。このため配置に失敗しても switch の戻り値は 0 のままになり、失敗の詳細は `~/Library/Logs/SopsNix/stderr` にしか出ません（「switch 成功・鍵なし」状態）。WSL2 は Windows 側の 1Password SSH エージェントを使います。
+個人用 GitHub への認証・コミット署名は、`dotfiles.localGitHubKey = true` のホスト（`helium`、`70-42660`、`linux`）ではローカルの SSH 鍵で行います。秘密鍵 `~/.ssh/id_ed25519_github` は sops binary secret `secrets/github_id_ed25519` として age 暗号化でリポジトリに格納され、復号にはホストごとの age 鍵 `~/.config/sops/age/keys.txt` が必要です。macOS では switch の activation 中に鍵は置かれず、activation の最後に `launchctl bootstrap` された LaunchAgent `org.nix-community.home.sops-nix`（RunAtLoad・非同期）が後から `sops-install-secrets` を実行して配置します。このため配置に失敗しても switch の戻り値は 0 のままになり、失敗の詳細は `~/Library/Logs/SopsNix/stderr` にしか出ません（「switch 成功・鍵なし」状態）。この状態を防ぐため、activation は age 鍵の存在と recipient 一致（`.sops.yaml` と同じ age 公開鍵）を事前検証し、欠落・不一致があれば switch を失敗させます。WSL2 は Windows 側の 1Password SSH エージェントを使います。
 
 GitHub 以外への通常 SSH は、すべてのホストで 1Password SSH エージェントのみで認証します（`ssh_config` の `Host * !github.com !orb` が `IdentityAgent` で 1Password を指定し、`IdentityFile none` で既定鍵の自動提供を抑止。OrbStack の `orb` は専用鍵を維持）。`github.com` のみローカル鍵 + `IdentitiesOnly` で直接認証します。GitHub 鍵のキャッシュ先は Home Manager の `services.ssh-agent` で、その実 socket への安定 symlink `~/.ssh/github-agent.sock` を activation が生成します。`SSH_AUTH_SOCK`（シェル）、`github.com` の `IdentityAgent`（ssh 認証）、git の SSH 署名 wrapper（`gpg.ssh.program`。`ssh-keygen -Y sign` は `SSH_AUTH_SOCK` を直接参照するため）がすべてこの symlink を参照し、GUI 親環境が 1Password agent を継承していても影響を受けません。キャッシュの寿命は `AddKeysToAgent 4h` の 4 時間です。
 
@@ -57,7 +57,7 @@ nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pu
 
 1. Lix をインストールします: `curl -sSf -L https://install.lix.systems/lix | sh -s -- install`
 2. リポジトリをクローンします: `git clone git@github.com:kadokusei/dotfiles.git ~/dotfiles`
-3. 1Password のアイテム `nix-sops-age-key` から age 鍵を `~/.config/sops/age/keys.txt` に復元します（パーミッションは `chmod 600`）。この操作はホストごとに一度だけ実行します。
+3. age 鍵を復元します: `sops-age-restore` を実行すると 1Password CLI（`op read`、GUI 認証・15秒上限）からアイテム `nix-sops-age-key` を取得して `~/.config/sops/age/keys.txt`（0600）に保存します。CLI を使えない場合は `sops-age-restore --manual` でプロンプトに鍵を paste するか、1Password から直接コピーして保存してください。この操作はホストごとに一度だけ実行します。
 4. 設定を適用します:
    macOS: `sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#helium`
    Linux / WSL2: `nix run home-manager/master -- switch --flake ~/dotfiles#linux`
