@@ -10,6 +10,16 @@
     home = "/Users/readabi1ity";
   };
 
+  homebrew.casks = [
+    "elgato-stream-deck"
+    "discord"
+    "vivaldi"
+    "vlc"
+    "adobe-creative-cloud"
+    "adguard"
+    "android-platform-tools"
+  ];
+
   home-manager.users.readabi1ity = {
     imports = [ ../modules/home ];
   };
