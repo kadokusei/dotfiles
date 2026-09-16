@@ -38,14 +38,14 @@ To verify secret deployment, use only:
   (`-lf` for public key files; do not combine with `-y`, whose behavior
   in that combination is version-dependent)
 
-Logs (e.g. `~/Library/Logs/SopsNix/stderr`) are subject to a strict
-no-raw-stdout rule: at no stage — including intermediate pipes — may
-unsanitized log text reach stdout or the transcript. MUST complete
-extraction and redaction within a single local pipeline and print only
-the sanitized final result, e.g.:
+Logs (e.g. `~/Library/Logs/SopsNix/stderr`): the provider-visible output
+of the command — what the tool returns and the transcript captures — MUST
+contain only sanitized lines. Do not build this by piping raw matched
+lines between stages (a malformed redaction stage would surface them
+verbatim). Use one process that filters, redacts, and only then prints:
 
-    grep -E 'decrypt|error|failed' ~/Library/Logs/SopsNix/stderr \
-      | sed -E 's/[A-Za-z0-9+\/=_-]{20,}/[REDACTED]/g'
+    perl -ne 'if (/decrypt|error|failed/) { s|[A-Za-z0-9+/=_-]{20,}|[REDACTED]|g; print }' \
+      ~/Library/Logs/SopsNix/stderr
 
 If a task seems to require reading secret material, stop and ask the
 user instead of working around these rules.
