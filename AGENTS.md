@@ -6,17 +6,22 @@ can end up in chat, logs, commits, or CI. The rules below are absolute.
 
 ## Never execute
 
-Do not run, pipe, or redirect these — their output is secret material:
+Primary rule: never execute ANY command that reads, decrypts, or emits
+the secret value / body from the paths below. This includes (but is not
+limited to) `cat`, `less`, `more`, `head`, `tail`, `grep`, `sed`, `awk`,
+`perl`, `python`, `strings`, `xxd`, `base64`, and `od` — an enumeration
+bypass via an unlisted tool is still a violation. Secret paths:
 
-- `cat` / `less` / `head` / `tail` / `grep` / `strings` / `xxd` / `base64` / `od`
-  on any of:
-  - `~/.config/sops/age/keys.txt` — age private key
-  - `~/.ssh/id_ed25519_github` or any other SSH private key body
-  - anything under `~/.config/sops-nix/` — decrypted secrets
-  - `~/.config/zsh/secrets.env`, `~/.config/opencode/opencode.json` —
-    sops templates carrying API keys / bearer tokens
-- `sops --decrypt` / `sops -d` (including output to stdout or a file) and
-  `sops edit` on `secrets/secrets.yaml` or `secrets/github_id_ed25519`
+- `~/.config/sops/age/keys.txt` — age private key
+- `~/.ssh/id_ed25519_github` or any other SSH private key body
+- anything under `~/.config/sops-nix/` — decrypted secrets
+- `~/.config/zsh/secrets.env`, `~/.config/opencode/opencode.json` —
+  sops templates carrying API keys / bearer tokens
+
+Likewise never run:
+
+- `sops --decrypt` / `sops -d` (including output to stdout or a file)
+  and `sops edit` on `secrets/secrets.yaml` or `secrets/github_id_ed25519`
 - `op read 'op://...'` and `op item get` on secret items — 1Password
   values are restored interactively by the user, never by an agent
 - `git add` / commit of plaintext secret material; `secrets/` may contain
@@ -44,7 +49,7 @@ contain only sanitized lines. Do not build this by piping raw matched
 lines between stages (a malformed redaction stage would surface them
 verbatim). Use one process that filters, redacts, and only then prints:
 
-    perl -ne 'if (/decrypt|error|failed/) { s|[A-Za-z0-9+/=_-]{20,}|[REDACTED]|g; print }' \
+    perl -ne 'next unless /decrypt|error|failed/i; s{[A-Za-z0-9+/=_-]{20,}}{[REDACTED]}g; print' \
       ~/Library/Logs/SopsNix/stderr
 
 If a task seems to require reading secret material, stop and ask the
