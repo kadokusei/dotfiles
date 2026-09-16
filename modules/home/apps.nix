@@ -74,7 +74,7 @@ in
         # GitHub はローカル鍵 + 専用 agent(下記 symlink, 4時間キャッシュ)。
         # それ以外は 1Password agent のみで認証する(既定 id 鍵の自動提供を止める)
         Host github.com
-          IdentityFile ~/.ssh/id_ed25519
+          IdentityFile ~/.ssh/id_ed25519_github
           IdentitiesOnly yes
           IdentityAgent ~/.ssh/github-agent.sock
           AddKeysToAgent 4h
@@ -112,8 +112,8 @@ in
       ''
     ));
 
-  home.file.".ssh/id_ed25519.pub" = lib.mkIf config.dotfiles.localGitHubKey {
-    source = ../../config/ssh/id_ed25519.pub;
+  home.file.".ssh/id_ed25519_github.pub" = lib.mkIf config.dotfiles.localGitHubKey {
+    source = ../../config/ssh/id_ed25519_github.pub;
   };
 
   home.file."Library/Application Support/com.mitchellh.ghostty/config.ghostty" =

@@ -130,7 +130,7 @@ in
         # askpass 側で10秒の上限付き)。--manual 指定・リモートセッション
         # (SSH_CONNECTION)・op 不在・op 失敗時は手動入力へフォールバックする
         ssh-add-github() {
-          local key="$HOME/.ssh/id_ed25519"
+          local key="$HOME/.ssh/id_ed25519_github"
           local -x SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock"
           if [[ "$1" == "--manual" || -n "$SSH_CONNECTION" ]] || ! command -v op >/dev/null 2>&1; then
             ssh-add -t 4h -- "$key"

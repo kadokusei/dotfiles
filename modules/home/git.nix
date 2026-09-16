@@ -35,7 +35,7 @@
     signing = {
       key =
         if config.dotfiles.localGitHubKey then
-          "${config.home.homeDirectory}/.ssh/id_ed25519.pub"
+          "${config.home.homeDirectory}/.ssh/id_ed25519_github.pub"
         else
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJmXSAomdT+fxLLzO4Q9sblYySJuuYO6pBhDezVONHgc";
       signByDefault = true;

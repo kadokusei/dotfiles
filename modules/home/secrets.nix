@@ -13,7 +13,7 @@
   sops.secrets.github_id_ed25519 = lib.mkIf config.dotfiles.localGitHubKey {
     sopsFile = ../../secrets/github_id_ed25519;
     format = "binary";
-    path = "${config.home.homeDirectory}/.ssh/id_ed25519";
+    path = "${config.home.homeDirectory}/.ssh/id_ed25519_github";
     mode = "0600";
   };
 
