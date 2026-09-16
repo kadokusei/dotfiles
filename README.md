@@ -33,6 +33,24 @@ switch を実行すると、管理対象のファイルが再配置されます�
 
 ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`(以前の Home Manager generation へ戻す)で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
+## SSH 鍵の運用（helium のみ）
+
+個人用 GitHub への認証・コミット署名は、`dotfiles.localGitHubKey = true` のホスト（現在は `helium` のみ）ではローカルの SSH 鍵で行います。秘密鍵 `~/.ssh/id_ed25519` は sops binary secret `secrets/github_id_ed25519` として age 暗号化でリポジトリに格納され、switch の activation 時に配置されます。鍵のパスフレーズは 1Password のアイテム `nix-ssh-github-passphrase` で管理します。それ以外のホスト（`70-42660`、WSL2、Linux）は従来どおり 1Password SSH エージェントを使います。
+
+作業開始時に一度 `ssh-add-github` を実行すると、パスフレーズの入力（1Password からコピー）だけで ssh-agent が 4 時間鍵を保持します（`ssh_config` の `AddKeysToAgent 4h` と同じ寿命）。agent から鍵が消えた状態での commit は署名エラーで失敗するのが仕様です。
+
+鍵のローテーション手順:
+
+1. パスフレーズ付きの新鍵を生成し（`ssh-keygen -t ed25519 -C kadokusei@users.noreply.github.com`）、GitHub に認証鍵・署名鍵の 2 エントリとして登録する（`gh ssh-key add --type authentication` / `--type signing`）
+2. 新秘密鍵を sops で暗号化して `secrets/github_id_ed25519` を差し替え、新公開鍵で `config/ssh/id_ed25519.pub` を差し替える
+3. 両ファイルを `git add` してから `darwin-rebuild switch --flake .#helium`（Git flake は未追跡ファイルを除外するため、add しないと switch が失敗する）
+
+暗号化コマンドの例（リポジトリ外の CWD で実行しないと `.sops.yaml` の creation rules に阻まれる点に注意）:
+
+```sh
+nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pum58nq26lggg07cesjxwlw7 <新秘密鍵> > ~/dotfiles/secrets/github_id_ed25519
+```
+
 ## 新しいマシンのセットアップ
 
 1. Lix をインストールします: `curl -sSf -L https://install.lix.systems/lix | sh -s -- install`

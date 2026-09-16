@@ -33,16 +33,21 @@
     };
 
     signing = {
-      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJmXSAomdT+fxLLzO4Q9sblYySJuuYO6pBhDezVONHgc";
+      key =
+        if config.dotfiles.localGitHubKey then
+          "${config.home.homeDirectory}/.ssh/id_ed25519.pub"
+        else
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJmXSAomdT+fxLLzO4Q9sblYySJuuYO6pBhDezVONHgc";
       signByDefault = true;
       format = "ssh";
-      signer =
+      signer = lib.mkIf (!config.dotfiles.localGitHubKey) (
         if config.dotfiles.isWSL then
           "/mnt/c/Users/hyr3k/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
         else if pkgs.stdenv.hostPlatform.isLinux then
           "/opt/1Password/op-ssh-sign"
         else
-          "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+          "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+      );
     };
   };
 }

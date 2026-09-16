@@ -22,5 +22,6 @@
 
   home-manager.users.readabi1ity = {
     imports = [ ../modules/home ];
+    dotfiles.localGitHubKey = true;
   };
 }

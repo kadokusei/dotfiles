@@ -92,7 +92,9 @@ in
           ~/bin(N-/)
           $path
         )
-        export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+        ${lib.optionalString (!config.dotfiles.localGitHubKey) ''
+          export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+        ''}
       '')
 
       (lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
@@ -112,6 +114,11 @@ in
         alias ssh=ssh.exe
         alias ssh-add=ssh-add.exe
         alias op=op.exe
+      '')
+
+      (lib.optionalString config.dotfiles.localGitHubKey ''
+        # 個人GitHub用SSH鍵を4時間だけssh-agentへロードする(パスフレーズは1Passwordから入力)
+        ssh-add-github() { ssh-add -t 4h -- "$HOME/.ssh/id_ed25519" }
       '')
 
       # OS 共通の zstyle / setopt / 関数群

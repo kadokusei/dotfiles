@@ -58,18 +58,29 @@ in
 
   home.file.".ssh/config" = lib.mkIf (!config.dotfiles.isWSL) {
     text =
-      if pkgs.stdenv.hostPlatform.isDarwin then ''
+      if config.dotfiles.localGitHubKey then ''
         # Added by OrbStack: 'orb' SSH host for Linux machines
         # This only works if it's at the top of ssh_config (before any Host blocks).
         # This won't be added again if you remove it.
         Include ~/.orbstack/ssh/config
 
+        Host github.com
+          IdentityFile ~/.ssh/id_ed25519
+          IdentitiesOnly yes
+
+        Host *
+          AddKeysToAgent 4h
+      '' else if pkgs.stdenv.hostPlatform.isDarwin then ''
         Host *
           IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
       '' else ''
         Host *
           IdentityAgent "~/.1password/agent.sock"
       '';
+  };
+
+  home.file.".ssh/id_ed25519.pub" = lib.mkIf config.dotfiles.localGitHubKey {
+    source = ../../config/ssh/id_ed25519.pub;
   };
 
   home.file."Library/Application Support/com.mitchellh.ghostty/config.ghostty" =

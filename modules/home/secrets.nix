@@ -8,6 +8,15 @@
   sops.secrets.zai_api_key = { };
   sops.secrets.opencode_bearer = { };
 
+  # 個人GitHub認証・署名用のSSH秘密鍵(sops binary)。パスフレーズは1Passwordの
+  # nix-ssh-github-passphrase アイテムで管理し、ssh-add-github で4時間だけagentへ載せる
+  sops.secrets.github_id_ed25519 = lib.mkIf config.dotfiles.localGitHubKey {
+    sopsFile = ../../secrets/github_id_ed25519;
+    format = "binary";
+    path = "${config.home.homeDirectory}/.ssh/id_ed25519";
+    mode = "0600";
+  };
+
   sops.templates."zsh-secrets.env" = {
     path = "${config.home.homeDirectory}/.config/zsh/secrets.env";
     content = ''

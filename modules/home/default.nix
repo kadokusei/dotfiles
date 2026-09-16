@@ -13,6 +13,10 @@
 
   options.dotfiles.isWSL = lib.mkEnableOption "WSL2 host";
 
+  # 個人GitHub用のローカルSSH鍵(sops binary + AddKeysToAgent)を導入するホストのみ true。
+  # 仕事用Mac(70-42660)・WSL・Linux では 1Password SSH エージェント署名を維持する
+  options.dotfiles.localGitHubKey = lib.mkEnableOption "local GitHub SSH key provisioning";
+
   config = {
     home.stateVersion = "25.05";
 
