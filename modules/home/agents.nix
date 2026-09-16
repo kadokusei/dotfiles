@@ -19,6 +19,10 @@ in
 {
   home.file.".agents/AGENTS.md".source = ../../config/agents/AGENTS.md;
 
+  # 全ホスト・全 cwd で効く omp の常時適用ルール(global sticky)。
+  # 同内容の repo .omp/RULES.md を単一ソースとして ~/.omp/agent/ へ deploy する
+  home.file.".omp/agent/RULES.md".source = ../../.omp/RULES.md;
+
   home.file.".codex/AGENTS.md".text = builtins.readFile ../../config/agents/AGENTS.md + ''
 
     # Codex-specific instructions
