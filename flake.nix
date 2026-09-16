@@ -32,7 +32,7 @@
         system = "aarch64-darwin";
         modules = [
           ./modules/darwin/default.nix
-          ./hosts/personal-mac.nix
+          ./hosts/helium.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -44,12 +44,11 @@
         ];
       };
 
-      # TODO(Step 10): 仕事用Macの実機ホスト名・ユーザーを hosts/work-mac.nix に反映
-      darwinConfigurations."work-mac" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."70-42660" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           ./modules/darwin/default.nix
-          ./hosts/work-mac.nix
+          ./hosts/70-42660.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];

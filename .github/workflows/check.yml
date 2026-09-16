@@ -30,5 +30,5 @@ jobs:
           determinate: false
       - name: build darwinConfigurations.helium
         run: nix build -L .#darwinConfigurations.helium.system
-      - name: build darwinConfigurations.work-mac
-        run: nix build -L .#darwinConfigurations.work-mac.system
+      - name: build darwinConfigurations.70-42660
+        run: nix build -L .#darwinConfigurations."70-42660".system
