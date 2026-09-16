@@ -40,14 +40,19 @@
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJmXSAomdT+fxLLzO4Q9sblYySJuuYO6pBhDezVONHgc";
       signByDefault = true;
       format = "ssh";
-      signer = lib.mkIf (!config.dotfiles.localGitHubKey) (
-        if config.dotfiles.isWSL then
+      # ssh-keygen -Y sign は SSH_AUTH_SOCK を直接参照し ssh_config を無視するため、
+      # GUI 親環境の SSH_AUTH_SOCK(1P 等)に依存しない wrapper 経由で署名する
+      signer =
+        if config.dotfiles.localGitHubKey then
+          toString (pkgs.writeShellScript "git-ssh-sign" ''
+            SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock" exec ${pkgs.openssh}/bin/ssh-keygen "$@"
+          '')
+        else if config.dotfiles.isWSL then
           "/mnt/c/Users/hyr3k/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
         else if pkgs.stdenv.hostPlatform.isLinux then
           "/opt/1Password/op-ssh-sign"
         else
-          "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-      );
+          "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
     };
   };
 }

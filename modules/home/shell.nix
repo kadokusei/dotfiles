@@ -92,7 +92,11 @@ in
           ~/bin(N-/)
           $path
         )
-        ${lib.optionalString (!config.dotfiles.localGitHubKey) ''
+        ${lib.optionalString config.dotfiles.localGitHubKey ''
+          # GitHub 鍵キャッシュ用 agent への安定 symlink(activation が生成)。
+          # 継承・転送された SSH_AUTH_SOCK(1Password 等)を上書きして追加拒否を防ぐ
+          export SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock"
+        ''}${lib.optionalString (!config.dotfiles.localGitHubKey) ''
           export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
         ''}
       '')
@@ -106,19 +110,36 @@ in
         )
       '')
 
-      (lib.optionalString (pkgs.stdenv.hostPlatform.isLinux && !config.dotfiles.isWSL) ''
-        export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
-      '')
+      (lib.optionalString (pkgs.stdenv.hostPlatform.isLinux && !config.dotfiles.isWSL) (
+        if config.dotfiles.localGitHubKey then ''
+          # GitHub 鍵キャッシュ用 agent への安定 symlink(activation が生成)
+          export SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock"
+        '' else ''
+          export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+        ''
+      ))
 
       (lib.optionalString config.dotfiles.isWSL ''
         alias ssh=ssh.exe
         alias ssh-add=ssh-add.exe
         alias op=op.exe
       '')
-
       (lib.optionalString config.dotfiles.localGitHubKey ''
-        # 個人GitHub用SSH鍵を4時間だけssh-agentへロードする(パスフレーズは1Passwordから入力)
-        ssh-add-github() { ssh-add -t 4h -- "$HOME/.ssh/id_ed25519" }
+        # 個人GitHub用SSH鍵を4時間だけssh-agentへロードする。
+        # ローカルでは 1Password CLI(op)でパスフレーズ取得(GUI/Touch ID 認証、
+        # askpass 側で10秒の上限付き)。--manual 指定・リモートセッション
+        # (SSH_CONNECTION)・op 不在・op 失敗時は手動入力へフォールバックする
+        ssh-add-github() {
+          local key="$HOME/.ssh/id_ed25519"
+          local -x SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock"
+          if [[ "$1" == "--manual" || -n "$SSH_CONNECTION" ]] || ! command -v op >/dev/null 2>&1; then
+            ssh-add -t 4h -- "$key"
+            return
+          fi
+          SSH_ASKPASS="$HOME/.local/bin/github-key-askpass" SSH_ASKPASS_REQUIRE=force \
+            ssh-add -t 4h -- "$key" && return
+          ssh-add -t 4h -- "$key"
+        }
       '')
 
       # OS 共通の zstyle / setopt / 関数群

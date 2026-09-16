@@ -33,17 +33,19 @@ switch を実行すると、管理対象のファイルが再配置されます�
 
 ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`(以前の Home Manager generation へ戻す)で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
-## SSH 鍵の運用（helium のみ）
+## SSH 鍵の運用
 
-個人用 GitHub への認証・コミット署名は、`dotfiles.localGitHubKey = true` のホスト（現在は `helium` のみ）ではローカルの SSH 鍵で行います。秘密鍵 `~/.ssh/id_ed25519` は sops binary secret `secrets/github_id_ed25519` として age 暗号化でリポジトリに格納され、switch の activation 時に配置されます。鍵のパスフレーズは 1Password のアイテム `nix-ssh-github-passphrase` で管理します。それ以外のホスト（`70-42660`、WSL2、Linux）は従来どおり 1Password SSH エージェントを使います。
+個人用 GitHub への認証・コミット署名は、`dotfiles.localGitHubKey = true` のホスト（`helium`、`70-42660`、`linux`）ではローカルの SSH 鍵で行います。秘密鍵 `~/.ssh/id_ed25519` は sops binary secret `secrets/github_id_ed25519` として age 暗号化でリポジトリに格納され、switch の activation 時に配置されます。WSL2 は Windows 側の 1Password SSH エージェントを使います。
 
-作業開始時に一度 `ssh-add-github` を実行すると、パスフレーズの入力（1Password からコピー）だけで ssh-agent が 4 時間鍵を保持します（`ssh_config` の `AddKeysToAgent 4h` と同じ寿命）。agent から鍵が消えた状態での commit は署名エラーで失敗するのが仕様です。
+GitHub 以外への通常 SSH は、すべてのホストで 1Password SSH エージェントのみで認証します（`ssh_config` の `Host * !github.com !orb` が `IdentityAgent` で 1Password を指定し、`IdentityFile none` で既定鍵の自動提供を抑止。OrbStack の `orb` は専用鍵を維持）。`github.com` のみローカル鍵 + `IdentitiesOnly` で直接認証します。GitHub 鍵のキャッシュ先は Home Manager の `services.ssh-agent` で、その実 socket への安定 symlink `~/.ssh/github-agent.sock` を activation が生成します。`SSH_AUTH_SOCK`（シェル）、`github.com` の `IdentityAgent`（ssh 認証）、git の SSH 署名 wrapper（`gpg.ssh.program`。`ssh-keygen -Y sign` は `SSH_AUTH_SOCK` を直接参照するため）がすべてこの symlink を参照し、GUI 親環境が 1Password agent を継承していても影響を受けません。キャッシュの寿命は `AddKeysToAgent 4h` の 4 時間です。
+
+作業開始時に一度 `ssh-add-github` を実行すると、まず 1Password CLI（`op read`）でパスフレーズの取得を試みます。1Password デスクトップアプリと連携していれば GUI（Touch ID など）で認証できます。`--manual` を付けた場合、リモートセッション（SSH ログイン中）、`op` がない環境では GUI 認証を試行せず、また SSH として検出できない環境でも GUI 認証が 10 秒で完了しなければ askpass 子プロセスごと打ち切って、いずれも通常のパスフレーズ入力プロンプトへフォールバックします。secret reference は `dotfiles.githubKeyPassphraseReference`（デフォルト `op://Private/nix-ssh-github-passphrase/password`）で変更できます。agent が鍵を保持するのは 4 時間で、鍵が消えた状態での commit は署名エラーで失敗するのが仕様です。
 
 鍵のローテーション手順:
 
 1. パスフレーズ付きの新鍵を生成し（`ssh-keygen -t ed25519 -C kadokusei@users.noreply.github.com`）、GitHub に認証鍵・署名鍵の 2 エントリとして登録する（`gh ssh-key add --type authentication` / `--type signing`）
 2. 新秘密鍵を sops で暗号化して `secrets/github_id_ed25519` を差し替え、新公開鍵で `config/ssh/id_ed25519.pub` を差し替える
-3. 両ファイルを `git add` してから `darwin-rebuild switch --flake .#helium`（Git flake は未追跡ファイルを除外するため、add しないと switch が失敗する）
+3. 両ファイルを `git add` してから各ホストで switch する（macOS: `darwin-rebuild switch --flake .#helium`、Linux: `home-manager switch --flake .#linux`。Git flake は未追跡ファイルを除外するため、add しないと switch が失敗する）
 
 暗号化コマンドの例（リポジトリ外の CWD で実行しないと `.sops.yaml` の creation rules に阻まれる点に注意）:
 
