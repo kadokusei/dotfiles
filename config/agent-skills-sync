@@ -40,6 +40,22 @@ def copy(source, target):
         shutil.copy2(source, target)
 
 
+def install_definition(source, target):
+    # copy2 preserves the read-only mode of the Nix store source, which makes
+    # the destination unwritable and the next run fails with Permission denied.
+    handle, temporary_name = tempfile.mkstemp(dir=target.parent, prefix=f".{target.name}.")
+    temporary = Path(temporary_name)
+    os.close(handle)
+    try:
+        shutil.copyfile(source, temporary)
+        temporary.chmod(0o644)
+        os.replace(temporary, target)
+    finally:
+        # os.replace consumes the temp file on success; clean up only on failure
+        if temporary.exists():
+            temporary.unlink()
+
+
 def fingerprint(path):
     if path.is_symlink():
         return "link:" + os.readlink(path)
@@ -122,7 +138,7 @@ def sync(home, apm):
                     remove(skills / name)
             active.mkdir(parents=True, exist_ok=True)
             for name in DEFINITIONS:
-                shutil.copy2(config / name, active / name)
+                install_definition(config / name, active / name)
             subprocess.run([apm, "install", "--global", "--frozen", "--only", "apm"],
                            check=True, env=dict(os.environ, HOME=str(home)))
             files = inventory(skills, names)
