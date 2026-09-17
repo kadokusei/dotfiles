@@ -28,6 +28,7 @@
       hunk
       usage
       worktrunk
+      circleci-cli
     ]
     ++ lib.optionals stdenv.hostPlatform.isDarwin [
       mas
