@@ -18,6 +18,7 @@
     "adobe-creative-cloud"
     "adguard"
     "android-platform-tools"
+    "orbstack"
   ];
 
   home-manager.users.readabi1ity = {

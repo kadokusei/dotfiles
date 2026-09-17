@@ -19,7 +19,6 @@
       "1password"
       "raycast"
       "codex-app"
-      "orbstack"
       "google-japanese-ime"
       "brave-browser"
       "ghostty"

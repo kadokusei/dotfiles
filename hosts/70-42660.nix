@@ -10,6 +10,10 @@
     home = "/Users/h.yoshimura";
   };
 
+  homebrew.casks = [
+    "docker"
+  ];
+
   home-manager.users."h.yoshimura" = {
     imports = [ ../modules/home ];
     dotfiles.localGitHubKey = true;
