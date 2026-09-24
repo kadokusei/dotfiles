@@ -15,8 +15,53 @@ let
     | .marketplaces.ponytail.source_type = "git"
     | .marketplaces.ponytail.source = "https://github.com/DietrichGebert/ponytail.git"
     | .plugins."ponytail@ponytail".enabled = true'';
+  ompSharedSettings = {
+    symbolPreset = "nerd";
+    composer.shape = "band";
+    theme.dark = "dark-solarized";
+    memory.backend = "mnemopi";
+    mnemopi = {
+      scoping = "per-project-tagged";
+      embeddingVariant = "multilingual";
+      autoRecall = true;
+    };
+    edit.mode = "hashline";
+    astGrep.enabled = true;
+    github.enabled = true;
+    security.enabled = true;
+    checkpoint.enabled = true;
+    plan.defaultOnStartup = false;
+    statusLine = {
+      transparent = false;
+      compactThinkingLevel = true;
+      showHookStatus = true;
+    };
+    hideThinkingBlock = false;
+    interruptMode = "immediate";
+    dev = {
+      autoqaConsent = "denied";
+      autoqa = false;
+    };
+    task = {
+      eager = "default";
+      enableEffort = false;
+      disabledAgents = [ "codex-rescue" ];
+    };
+    colorBlindMode = false;
+    skillful = true;
+    compaction.methodOrder = [ "remote" "snapcompact" "handoff" "shake" "soft" ];
+    lsp.formatOnWrite = false;
+    tools = {
+      xdev = true;
+      xdevDocs = "catalog";
+    };
+  };
 in
 {
+  xdg.configFile."omp/shared.yml".source =
+    (pkgs.formats.yaml { }).generate "omp-shared.yml" ompSharedSettings;
+  programs.zsh.sessionVariables.PI_CONFIG_FILES = "${config.xdg.configHome}/omp/shared.yml";
+
   home.file.".agents/AGENTS.md".source = ../../config/agents/AGENTS.md;
 
   # 全ホスト・全 cwd で効く omp の常時適用ルール(global sticky)。

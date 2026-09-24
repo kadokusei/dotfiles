@@ -46,15 +46,13 @@ in
   home.file.".config/claude/skills".source =
     config.lib.file.mkOutOfStoreSymlink "${claudeDir}/skills";
 
-  home.file.".zprofile" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
-    text = ''
-      # Added by OrbStack: command-line tools and integration
-      # This won't be added again if you remove it.
-      if [[ -f "$HOME/.orbstack/shell/init.zsh" ]]; then
-        source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
-      fi
-    '';
-  };
+  programs.zsh.profileExtra = lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
+    # Added by OrbStack: command-line tools and integration
+    # This won't be added again if you remove it.
+    if [[ -f "$HOME/.orbstack/shell/init.zsh" ]]; then
+      source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
+    fi
+  '';
 
   home.file.".ssh/config" = lib.mkIf (!config.dotfiles.isWSL) {
     text =
