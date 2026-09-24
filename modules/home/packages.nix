@@ -9,7 +9,6 @@
       ghq
       lazygit
       kubectx
-      starship
       zoxide
       atuin
       carapace

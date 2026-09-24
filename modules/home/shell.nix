@@ -201,7 +201,15 @@ in
     $DRY_RUN_CMD rm -f "$HOME/.zshrc.zwc"
   '';
 
-  programs.starship.enable = true;
+  programs.starship = {
+    enable = true;
+    settings = {
+      aws.disabled = true;
+      gcloud.disabled = true;
+      azure.disabled = true;
+      openstack.disabled = true;
+    };
+  };
 
   programs.zoxide.enable = true;
 

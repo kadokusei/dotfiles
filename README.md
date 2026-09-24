@@ -13,6 +13,8 @@ Lix (Nix)、nix-darwin、Home Manager で環境を管理し、言語ランタイ
 
 安定した CLI ツールは nix で管理し、言語ランタイムおよび最新バージョンへの追従が必要な agent 系 CLI（claude-code、codex、oh-my-pi、pi、headroom-ai、apm）は、nix の管理下にある mise 設定（`modules/home/mise.nix`）で管理します。
 
+Starship の標準プロンプトを使い、AWS・Google Cloud・Azure・OpenStack のプロンプト表示を無効にします。設定は `modules/home/shell.nix` の Home Manager `programs.starship.settings` で管理します。
+
 ## 変更の適用
 
 macOS（個人機）:
