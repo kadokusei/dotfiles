@@ -11,7 +11,7 @@
   };
 
   homebrew.casks = [
-    "docker"
+    "docker-desktop"
   ];
 
   home-manager.users."h.yoshimura" = {
