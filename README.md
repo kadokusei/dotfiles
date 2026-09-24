@@ -31,6 +31,8 @@ home-manager switch --flake .#linux      # または .#wsl
 
 switch を実行すると、管理対象のファイルが再配置されます。あわせて、共有対象の Codex キーが `~/.codex/config.toml` にマージされ（その他のローカルキーは保持）、`agent-skills-sync` が実行されて `~/.apm/` の APM 環境へ `apm install --global --frozen` によりスキル定義がインストールされます。Codex と OMP は `~/.agents/skills/` を参照します。Claude Code は、管理されたシンボリックリンク `~/.config/claude/skills` 経由で同じディレクトリを参照します。
 
+OMP の advisor 用レビュー方針は `config/agents/WATCHDOG.md` から `~/.omp/agent/WATCHDOG.md` に配置します。通常の agent には適用されず、advisor を有効にしたセッションで読み込まれます。共有設定では advisor を有効化しないため、必要な端末では `omp config set advisor.enabled true`、一時的には `omp --advisor` または `/advisor on` を使用します。
+
 ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`（以前の Home Manager generation へ戻す）で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
 ## SSH 鍵の運用
