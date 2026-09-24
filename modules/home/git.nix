@@ -58,5 +58,7 @@
   programs.git.ignores = [
     ".serena/"
     ".headroom/"
+    "**/.claude/.headroom_wrap_settings.lock"
+    "**/.claude/settings.local.json"
   ];
 }
