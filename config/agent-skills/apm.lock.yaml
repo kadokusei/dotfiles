@@ -1,70 +1,6 @@
 lockfile_version: '1'
 apm_version: 0.30.0
 dependencies:
-- repo_url: anthropics/skills
-  name: internal-comms
-  host: github.com
-  resolved_commit: 41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f
-  version: unknown
-  virtual_path: skills/internal-comms
-  is_virtual: true
-  package_type: claude_skill
-  deployed_files:
-  - .agents/skills/internal-comms
-  - .agents/skills/internal-comms/LICENSE.txt
-  - .agents/skills/internal-comms/SKILL.md
-  - .agents/skills/internal-comms/examples/3p-updates.md
-  - .agents/skills/internal-comms/examples/company-newsletter.md
-  - .agents/skills/internal-comms/examples/faq-answers.md
-  - .agents/skills/internal-comms/examples/general-comms.md
-  deployed_file_hashes:
-    .agents/skills/internal-comms/LICENSE.txt: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
-    .agents/skills/internal-comms/SKILL.md: sha256:067b7587a344a928fc6534ef66b1bcd591fc7c26d207ea7ca3334aeb678d6475
-    .agents/skills/internal-comms/examples/3p-updates.md: sha256:087e4363c0f3513728a7e695eeb9ead5c3ecd12a4681b59340691180e65b68fc
-    .agents/skills/internal-comms/examples/company-newsletter.md: sha256:30f81cfbdb03858a006169c72169024089c7c5d3d32611d337782da4f38c86b5
-    .agents/skills/internal-comms/examples/faq-answers.md: sha256:5ecd3356cd6666937f2ebefa753253edfdbdca15e368d07baf398bfcced72484
-    .agents/skills/internal-comms/examples/general-comms.md: sha256:4d3a4bb198a77626bcf018e96b2b45a2dbabed172d4ade0fcd70d23ae8a47a47
-  content_hash: sha256:1bd16f3a211585bc3acdab080da1e3e642453033ec1120d042b0c33e668403c0
-- repo_url: anthropics/skills
-  name: webapp-testing
-  host: github.com
-  resolved_commit: 41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f
-  version: unknown
-  virtual_path: skills/webapp-testing
-  is_virtual: true
-  package_type: claude_skill
-  deployed_files:
-  - .agents/skills/webapp-testing
-  - .agents/skills/webapp-testing/LICENSE.txt
-  - .agents/skills/webapp-testing/SKILL.md
-  - .agents/skills/webapp-testing/examples/console_logging.py
-  - .agents/skills/webapp-testing/examples/element_discovery.py
-  - .agents/skills/webapp-testing/examples/static_html_automation.py
-  - .agents/skills/webapp-testing/scripts/with_server.py
-  deployed_file_hashes:
-    .agents/skills/webapp-testing/LICENSE.txt: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
-    .agents/skills/webapp-testing/SKILL.md: sha256:51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2
-    .agents/skills/webapp-testing/examples/console_logging.py: sha256:ea46877289acb82da7e7ce59d0bc37c8977cd57e2a006d0c88d7a1c625bf95da
-    .agents/skills/webapp-testing/examples/element_discovery.py: sha256:d63c89604a22f8845d724e95dda45db49b1bf57c25ce0a83afbb7b8da3d402f0
-    .agents/skills/webapp-testing/examples/static_html_automation.py: sha256:9d533aafb875ee3ab8b8ebf8f5b9003ac8d999da3d09b285cce252e623140064
-    .agents/skills/webapp-testing/scripts/with_server.py: sha256:b0dcf4918935b795f4eda9821579b9902119235ff4447f687a30286e7d0925fd
-  content_hash: sha256:8320d78c856340fa2f09a3ffb79b91de9427945abc18d36b6d7e9204120dad0a
-- repo_url: ast-grep/agent-skill
-  name: ast-grep
-  host: github.com
-  resolved_commit: affe2b9b7c608f4e354d7e83d0583ed35e845650
-  version: unknown
-  virtual_path: ast-grep/skills/ast-grep
-  is_virtual: true
-  package_type: claude_skill
-  deployed_files:
-  - .agents/skills/ast-grep
-  - .agents/skills/ast-grep/SKILL.md
-  - .agents/skills/ast-grep/references/rule_reference.md
-  deployed_file_hashes:
-    .agents/skills/ast-grep/SKILL.md: sha256:a18b68ab555758b85915937cf252d70b0261f930a07ce52095e7cafbbd304782
-    .agents/skills/ast-grep/references/rule_reference.md: sha256:9f6d2ba2f2dbde059f61f426c262abe943f548984496962c43c7cc6e44813ad6
-  content_hash: sha256:cc2ab26ddaecb8c15db65514dd2db0f74aaea0c489a53c219411dcc0c9a1079a
 - repo_url: github/awesome-copilot
   name: git-commit
   host: github.com
@@ -209,22 +145,6 @@ dependencies:
     .agents/skills/grilling/SKILL.md: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
     .agents/skills/grilling/agents/openai.yaml: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
   content_hash: sha256:e98f109bca3d8889f673d9f32bf84086f85a70ff9e241f8a34a4560a07ab5a39
-- repo_url: mattpocock/skills
-  name: handoff
-  host: github.com
-  resolved_commit: 3cca18b368ae95cdbdebbff572ccafa662551015
-  version: unknown
-  virtual_path: skills/productivity/handoff
-  is_virtual: true
-  package_type: claude_skill
-  deployed_files:
-  - .agents/skills/handoff
-  - .agents/skills/handoff/SKILL.md
-  - .agents/skills/handoff/agents/openai.yaml
-  deployed_file_hashes:
-    .agents/skills/handoff/SKILL.md: sha256:7c62de979fdc7ac32fb5ddb2146156c917f80ee070d30fadc9d40343c4b6ed25
-    .agents/skills/handoff/agents/openai.yaml: sha256:5c479fd562c691851690e8b18c8501045bef0943c10743d636b2fae26add1d28
-  content_hash: sha256:57c3a6244da589bab282fdd546421b081d767f2e76b061cd756f1b4fdbd574c2
 - repo_url: modem-dev/hunk
   name: hunk-review
   host: github.com
@@ -317,30 +237,6 @@ dependencies:
     .agents/skills/playwright/references/workflows.md: sha256:a2b5835a00ebee3906c146adf7f764f7718ea3f89a8702d86eaa135dfe0fc8c2
     .agents/skills/playwright/scripts/playwright_cli.sh: sha256:aa3fdff5d0e4556177f4dfd5f04117e772aa54f94b6a2e34b6c0edf629c6b9b5
   content_hash: sha256:619e0a585c148c00a2d33b73888797294d1db0d34401f70cb09014b13c8eee0a
-- repo_url: openai/skills
-  name: playwright-interactive
-  host: github.com
-  resolved_commit: 49f948faa9258a0c61caceaf225e179651397431
-  version: unknown
-  virtual_path: skills/.curated/playwright-interactive
-  is_virtual: true
-  package_type: claude_skill
-  deployed_files:
-  - .agents/skills/playwright-interactive
-  - .agents/skills/playwright-interactive/LICENSE.txt
-  - .agents/skills/playwright-interactive/NOTICE.txt
-  - .agents/skills/playwright-interactive/SKILL.md
-  - .agents/skills/playwright-interactive/agents/openai.yaml
-  - .agents/skills/playwright-interactive/assets/playwright-small.svg
-  - .agents/skills/playwright-interactive/assets/playwright.png
-  deployed_file_hashes:
-    .agents/skills/playwright-interactive/LICENSE.txt: sha256:c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b
-    .agents/skills/playwright-interactive/NOTICE.txt: sha256:7fe676d2e5359fb6aa0bdf5b0881b26e14c272dd36b04408366d4b0e26738322
-    .agents/skills/playwright-interactive/SKILL.md: sha256:f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1
-    .agents/skills/playwright-interactive/agents/openai.yaml: sha256:7342e0a2c2cb8f3e20982317467f58b06c8bf71ba308ed8fcc1cda4a6e9397d8
-    .agents/skills/playwright-interactive/assets/playwright-small.svg: sha256:0744d0d4cc1433e2130c3522196e1571222d502f1461f39274f680520e728588
-    .agents/skills/playwright-interactive/assets/playwright.png: sha256:29b51cdeeb4e541565d1d419e5150e11913af50f72ebb4d27cfcc8813185ffd6
-  content_hash: sha256:ea4395f9dda0acc686236215c92abea9a9e21ed9e4f5b67a2d39037a75fc5d7b
 - repo_url: openai/skills
   name: security-best-practices
   host: github.com
@@ -522,33 +418,6 @@ dependencies:
     .agents/skills/find-docs/SKILL.md: sha256:5bf22997630fd5518112ab855c55ddba8653b7aefe16e5efad70e38966927fcf
   content_hash: sha256:93ec2d2786d7e83973252383875c4f345a2ee7cbbd08a1ab38e5201b214640ee
 deployments:
-- kind: project-relative
-  target: codex
-  value: .agents/skills/ast-grep
-  runtime: null
-  scope: project
-  owners:
-  - ast-grep/agent-skill/ast-grep/skills/ast-grep
-  active_owner: ast-grep/agent-skill/ast-grep/skills/ast-grep
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/ast-grep/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ast-grep/agent-skill/ast-grep/skills/ast-grep
-  active_owner: ast-grep/agent-skill/ast-grep/skills/ast-grep
-  content_hash: sha256:a18b68ab555758b85915937cf252d70b0261f930a07ce52095e7cafbbd304782
-- kind: project-relative
-  target: codex
-  value: .agents/skills/ast-grep/references/rule_reference.md
-  runtime: null
-  scope: project
-  owners:
-  - ast-grep/agent-skill/ast-grep/skills/ast-grep
-  active_owner: ast-grep/agent-skill/ast-grep/skills/ast-grep
-  content_hash: sha256:9f6d2ba2f2dbde059f61f426c262abe943f548984496962c43c7cc6e44813ad6
 - kind: project-relative
   target: codex
   value: .agents/skills/codebase-design
@@ -902,33 +771,6 @@ deployments:
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
 - kind: project-relative
   target: codex
-  value: .agents/skills/handoff
-  runtime: null
-  scope: project
-  owners:
-  - mattpocock/skills/skills/productivity/handoff
-  active_owner: mattpocock/skills/skills/productivity/handoff
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/handoff/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - mattpocock/skills/skills/productivity/handoff
-  active_owner: mattpocock/skills/skills/productivity/handoff
-  content_hash: sha256:7c62de979fdc7ac32fb5ddb2146156c917f80ee070d30fadc9d40343c4b6ed25
-- kind: project-relative
-  target: codex
-  value: .agents/skills/handoff/agents/openai.yaml
-  runtime: null
-  scope: project
-  owners:
-  - mattpocock/skills/skills/productivity/handoff
-  active_owner: mattpocock/skills/skills/productivity/handoff
-  content_hash: sha256:5c479fd562c691851690e8b18c8501045bef0943c10743d636b2fae26add1d28
-- kind: project-relative
-  target: codex
   value: .agents/skills/hunk-review
   runtime: null
   scope: project
@@ -1028,69 +870,6 @@ deployments:
   content_hash: sha256:7be76dd3c29442288fa7cee4432fc6e95c2fdbf748c9b356344bf647c5f8722e
 - kind: project-relative
   target: codex
-  value: .agents/skills/internal-comms
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/internal-comms
-  active_owner: anthropics/skills/skills/internal-comms
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/internal-comms/LICENSE.txt
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/internal-comms
-  active_owner: anthropics/skills/skills/internal-comms
-  content_hash: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
-- kind: project-relative
-  target: codex
-  value: .agents/skills/internal-comms/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/internal-comms
-  active_owner: anthropics/skills/skills/internal-comms
-  content_hash: sha256:067b7587a344a928fc6534ef66b1bcd591fc7c26d207ea7ca3334aeb678d6475
-- kind: project-relative
-  target: codex
-  value: .agents/skills/internal-comms/examples/3p-updates.md
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/internal-comms
-  active_owner: anthropics/skills/skills/internal-comms
-  content_hash: sha256:087e4363c0f3513728a7e695eeb9ead5c3ecd12a4681b59340691180e65b68fc
-- kind: project-relative
-  target: codex
-  value: .agents/skills/internal-comms/examples/company-newsletter.md
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/internal-comms
-  active_owner: anthropics/skills/skills/internal-comms
-  content_hash: sha256:30f81cfbdb03858a006169c72169024089c7c5d3d32611d337782da4f38c86b5
-- kind: project-relative
-  target: codex
-  value: .agents/skills/internal-comms/examples/faq-answers.md
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/internal-comms
-  active_owner: anthropics/skills/skills/internal-comms
-  content_hash: sha256:5ecd3356cd6666937f2ebefa753253edfdbdca15e368d07baf398bfcced72484
-- kind: project-relative
-  target: codex
-  value: .agents/skills/internal-comms/examples/general-comms.md
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/internal-comms
-  active_owner: anthropics/skills/skills/internal-comms
-  content_hash: sha256:4d3a4bb198a77626bcf018e96b2b45a2dbabed172d4ade0fcd70d23ae8a47a47
-- kind: project-relative
-  target: codex
   value: .agents/skills/orchestration
   runtime: null
   scope: project
@@ -1116,69 +895,6 @@ deployments:
   - openai/skills/skills/.curated/playwright
   active_owner: openai/skills/skills/.curated/playwright
   content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/playwright-interactive
-  runtime: null
-  scope: project
-  owners:
-  - openai/skills/skills/.curated/playwright-interactive
-  active_owner: openai/skills/skills/.curated/playwright-interactive
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/playwright-interactive/LICENSE.txt
-  runtime: null
-  scope: project
-  owners:
-  - openai/skills/skills/.curated/playwright-interactive
-  active_owner: openai/skills/skills/.curated/playwright-interactive
-  content_hash: sha256:c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b
-- kind: project-relative
-  target: codex
-  value: .agents/skills/playwright-interactive/NOTICE.txt
-  runtime: null
-  scope: project
-  owners:
-  - openai/skills/skills/.curated/playwright-interactive
-  active_owner: openai/skills/skills/.curated/playwright-interactive
-  content_hash: sha256:7fe676d2e5359fb6aa0bdf5b0881b26e14c272dd36b04408366d4b0e26738322
-- kind: project-relative
-  target: codex
-  value: .agents/skills/playwright-interactive/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - openai/skills/skills/.curated/playwright-interactive
-  active_owner: openai/skills/skills/.curated/playwright-interactive
-  content_hash: sha256:f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1
-- kind: project-relative
-  target: codex
-  value: .agents/skills/playwright-interactive/agents/openai.yaml
-  runtime: null
-  scope: project
-  owners:
-  - openai/skills/skills/.curated/playwright-interactive
-  active_owner: openai/skills/skills/.curated/playwright-interactive
-  content_hash: sha256:7342e0a2c2cb8f3e20982317467f58b06c8bf71ba308ed8fcc1cda4a6e9397d8
-- kind: project-relative
-  target: codex
-  value: .agents/skills/playwright-interactive/assets/playwright-small.svg
-  runtime: null
-  scope: project
-  owners:
-  - openai/skills/skills/.curated/playwright-interactive
-  active_owner: openai/skills/skills/.curated/playwright-interactive
-  content_hash: sha256:0744d0d4cc1433e2130c3522196e1571222d502f1461f39274f680520e728588
-- kind: project-relative
-  target: codex
-  value: .agents/skills/playwright-interactive/assets/playwright.png
-  runtime: null
-  scope: project
-  owners:
-  - openai/skills/skills/.curated/playwright-interactive
-  active_owner: openai/skills/skills/.curated/playwright-interactive
-  content_hash: sha256:29b51cdeeb4e541565d1d419e5150e11913af50f72ebb4d27cfcc8813185ffd6
 - kind: project-relative
   target: codex
   value: .agents/skills/playwright/LICENSE.txt
@@ -1620,69 +1336,6 @@ deployments:
   - mattpocock/skills/skills/engineering/tdd
   active_owner: mattpocock/skills/skills/engineering/tdd
   content_hash: sha256:859f9e592c188fda4fc7277dd180e4ce9c7a2e13f6efe1f6f29eccc9d28c106a
-- kind: project-relative
-  target: codex
-  value: .agents/skills/webapp-testing
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/webapp-testing
-  active_owner: anthropics/skills/skills/webapp-testing
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/webapp-testing/LICENSE.txt
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/webapp-testing
-  active_owner: anthropics/skills/skills/webapp-testing
-  content_hash: sha256:bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362
-- kind: project-relative
-  target: codex
-  value: .agents/skills/webapp-testing/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/webapp-testing
-  active_owner: anthropics/skills/skills/webapp-testing
-  content_hash: sha256:51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2
-- kind: project-relative
-  target: codex
-  value: .agents/skills/webapp-testing/examples/console_logging.py
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/webapp-testing
-  active_owner: anthropics/skills/skills/webapp-testing
-  content_hash: sha256:ea46877289acb82da7e7ce59d0bc37c8977cd57e2a006d0c88d7a1c625bf95da
-- kind: project-relative
-  target: codex
-  value: .agents/skills/webapp-testing/examples/element_discovery.py
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/webapp-testing
-  active_owner: anthropics/skills/skills/webapp-testing
-  content_hash: sha256:d63c89604a22f8845d724e95dda45db49b1bf57c25ce0a83afbb7b8da3d402f0
-- kind: project-relative
-  target: codex
-  value: .agents/skills/webapp-testing/examples/static_html_automation.py
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/webapp-testing
-  active_owner: anthropics/skills/skills/webapp-testing
-  content_hash: sha256:9d533aafb875ee3ab8b8ebf8f5b9003ac8d999da3d09b285cce252e623140064
-- kind: project-relative
-  target: codex
-  value: .agents/skills/webapp-testing/scripts/with_server.py
-  runtime: null
-  scope: project
-  owners:
-  - anthropics/skills/skills/webapp-testing
-  active_owner: anthropics/skills/skills/webapp-testing
-  content_hash: sha256:b0dcf4918935b795f4eda9821579b9902119235ff4447f687a30286e7d0925fd
 - kind: project-relative
   target: codex
   value: .agents/skills/yeet
