@@ -6,6 +6,7 @@
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
 
   sops.secrets.zai_api_key = { };
+  sops.secrets.typesafe_api_key = { };
   sops.secrets.opencode_bearer = { };
 
   # 個人GitHub認証・署名用のSSH秘密鍵(sops binary)。パスフレーズは1Passwordの
@@ -21,6 +22,7 @@
     path = "${config.home.homeDirectory}/.config/zsh/secrets.env";
     content = ''
       export ZAI_API_KEY=${config.sops.placeholder."zai_api_key"}
+      export TYPESAFE_API_KEY=${config.sops.placeholder."typesafe_api_key"}
     '';
   };
 
