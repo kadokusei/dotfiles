@@ -23,8 +23,6 @@ in
     enable = true;
 
     sessionVariables = {
-      EDITOR = "vim";
-      VISUAL = "vim";
       WORDCHARS = "*?_-.[]~=&;!#$%^(){}<>";
       LESS = "-g -i -M -R -W -z-4 -x4";
       CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude";
@@ -193,6 +191,13 @@ in
         fi
       ''
     ];
+  };
+
+  # ログインシェル全般(hm-session-vars.sh)に効く標準のエディタ設定。
+  # zsh は .zprofile 経由で継承し、zsh 以外の文脈でも参照される
+  home.sessionVariables = {
+    EDITOR = "vim";
+    VISUAL = "vim";
   };
 
   # HM の ~/.zshrc は store symlink (mtime 1970) のため、古い .zwc が常に優先されてしまう。
