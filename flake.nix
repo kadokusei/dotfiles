@@ -64,9 +64,9 @@
       };
 
       # TODO(Step 10): 実機のユーザー名・アーキを確認 (現状 x86_64-linux 前提)
-      homeConfigurations."linux" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."mercury" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
-        modules = sharedHmModules ++ [ ./hosts/linux.nix ];
+        modules = sharedHmModules ++ [ ./hosts/mercury.nix ];
       };
     };
 }
