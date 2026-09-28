@@ -4,6 +4,15 @@ let
   claudeDir = "${config.home.homeDirectory}/.agents";
 in
 {
+  programs.ghostty = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  xdg.configFile."ghostty/config" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
+    source = ../../config/ghostty/config;
+  };
+
   xdg.configFile."zellij/config.kdl".source = ../../config/zellij/config.kdl;
 
   xdg.configFile."worktrunk/config.toml".source = ../../config/worktrunk/config.toml;
