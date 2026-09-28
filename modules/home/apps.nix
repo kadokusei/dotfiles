@@ -20,6 +20,11 @@ in
 
   xdg.configFile."zellij/config.kdl".source = ../../config/zellij/config.kdl;
 
+  # niri 設定 (mercury のみ)。GUI デスクトップのない WSL には置かない
+  xdg.configFile."niri/config.kdl" = lib.mkIf (pkgs.stdenv.hostPlatform.isLinux && !config.dotfiles.isWSL) {
+    source = ../../config/niri/config.kdl;
+  };
+
   xdg.configFile."worktrunk/config.toml".source = ../../config/worktrunk/config.toml;
 
   xdg.configFile."claude/settings.json".source = ../../config/claude/settings.json;
