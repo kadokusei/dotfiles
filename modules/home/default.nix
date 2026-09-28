@@ -56,5 +56,7 @@
     services.ssh-agent.enable =
       config.dotfiles.localGitHubKey
       && !config.dotfiles.isWSL;
+
+    fonts.fontconfig.enable = pkgs.stdenv.hostPlatform.isLinux;
   };
 }

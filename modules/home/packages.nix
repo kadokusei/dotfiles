@@ -37,5 +37,6 @@
     ++ lib.optionals stdenv.hostPlatform.isLinux [
       nmrpflash
       _1password-cli
+      moralerspace
     ];
 }
