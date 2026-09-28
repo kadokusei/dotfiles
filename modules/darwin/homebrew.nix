@@ -19,7 +19,7 @@
       "1password"
       "raycast"
       "codex-app"
-      "google-japanese-ime"
+      "azookey"
       "brave-browser"
       "ghostty"
       "font-moralerspace"
