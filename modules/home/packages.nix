@@ -28,6 +28,7 @@
       usage
       worktrunk
       circleci-cli
+      curl
     ]
     ++ lib.optionals stdenv.hostPlatform.isDarwin [
       mas
