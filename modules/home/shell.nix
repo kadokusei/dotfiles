@@ -122,23 +122,6 @@ in
         alias ssh-add=ssh-add.exe
         alias op=op.exe
       '')
-      (lib.optionalString config.dotfiles.localGitHubKey ''
-        # 個人GitHub用SSH鍵を4時間だけssh-agentへロードする。
-        # ローカルでは 1Password CLI(op)でパスフレーズ取得(GUI/Touch ID 認証、
-        # askpass 側で10秒の上限付き)。--manual 指定・リモートセッション
-        # (SSH_CONNECTION)・op 不在・op 失敗時は手動入力へフォールバックする
-        ssh-add-github() {
-          local key="$HOME/.ssh/id_ed25519_github"
-          local -x SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock"
-          if [[ "$1" == "--manual" || -n "$SSH_CONNECTION" ]] || ! command -v op >/dev/null 2>&1; then
-            ssh-add -t 4h -- "$key"
-            return
-          fi
-          SSH_ASKPASS="$HOME/.local/bin/github-key-askpass" SSH_ASKPASS_REQUIRE=force \
-            ssh-add -t 4h -- "$key" && return
-          ssh-add -t 4h -- "$key"
-        }
-      '')
 
       # sops 復号用 age 秘密鍵を ~/.config/sops/age/keys.txt へ復元する。
       # op があれば secret reference から取得(1Password GUI 認証・15秒上限)、

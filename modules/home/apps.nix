@@ -111,6 +111,35 @@ in
     executable = true;
   };
 
+  # GitHub 鍵ロードCLI: zsh関数から移植し bash / SSHログイン / GUIシェルでも使えるようにする
+  home.file.".local/bin/ssh-add-github" = lib.mkIf config.dotfiles.localGitHubKey {
+    text = ''
+      #!/bin/sh
+      key="$HOME/.ssh/id_ed25519_github"
+      export SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock"
+
+      if [ ! -f "$key" ]; then
+        echo "ssh-add-github: key not found: $key" >&2
+        exit 1
+      fi
+
+      if [ "''${1:-}" = "--manual" ] ||
+         [ -n "''${SSH_CONNECTION:-}" ] ||
+         ! command -v op >/dev/null 2>&1; then
+        exec ssh-add -t 4h -- "$key"
+      fi
+
+      if SSH_ASKPASS="$HOME/.local/bin/github-key-askpass" \
+         SSH_ASKPASS_REQUIRE=force \
+         ssh-add -t 4h -- "$key"; then
+        exit 0
+      fi
+
+      exec ssh-add -t 4h -- "$key"
+    '';
+    executable = true;
+  };
+
   # HM ssh-agent の実socketはプラットフォーム依存の実行時パスになるため、
   # ssh_config / git 署名 wrapper / ssh-add-github が参照する安定 symlink を生やす
   home.activation.github-agent-socket = lib.mkIf (config.dotfiles.localGitHubKey && !config.dotfiles.isWSL)
