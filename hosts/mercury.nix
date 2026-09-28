@@ -6,4 +6,5 @@
   home.homeDirectory = lib.mkDefault "/home/readabi1ity";
 
   dotfiles.localGitHubKey = true;
+  dotfiles.karukan.enable = true;
 }

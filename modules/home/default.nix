@@ -7,6 +7,7 @@
     ./git.nix
     ./mise.nix
     ./apps.nix
+    ./karukan.nix
     ./agents.nix
     ./secrets.nix
   ];
