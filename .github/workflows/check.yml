@@ -18,8 +18,8 @@ jobs:
         run: nix flake check
       - name: build homeConfigurations.wsl
         run: nix build -L .#homeConfigurations.wsl.activationPackage
-      - name: build homeConfigurations.linux
-        run: nix build -L .#homeConfigurations.linux.activationPackage
+      - name: build homeConfigurations.mercury
+        run: nix build -L .#homeConfigurations.mercury.activationPackage
 
   macos:
     runs-on: macos-latest

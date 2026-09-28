@@ -126,6 +126,11 @@ in
   # activation PATH には per-user profile が含まれないため、mise を明示的に解決する
   home.activation.skills-sync = lib.hm.dag.entryAfter [ "codex-merge" ] ''
     export PATH="/etc/profiles/per-user/''${USER:-$USER}/bin:$HOME/.nix-profile/bin:$HOME/.local/bin:$PATH"
+    # apm は GitHub の公開リポジトリを git(HTTPS)で取得する。global gitconfig の
+    # insteadOf(HTTPS→SSH 書換え)が鍵未配置・agent 未ロードの非対話 activation を
+    # 壊すため、global 設定を切る。private な skill source はこの隔離の下では
+    # activation 中に認証できない
+    export GIT_CONFIG_GLOBAL=/dev/null
     if command -v mise >/dev/null 2>&1; then
       $DRY_RUN_CMD mise install apm uv
       $DRY_RUN_CMD mise exec -- uv run --script "$HOME/.local/bin/agent-skills-sync"

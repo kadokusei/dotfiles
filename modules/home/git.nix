@@ -4,31 +4,42 @@
   programs.git = {
     enable = true;
 
-    settings = {
-      user = {
-        name = "Hiroki Yoshimura";
-        email = "kadokusei@users.noreply.github.com";
-      };
+    settings = lib.mkMerge [
+      {
+        user = {
+          name = "Hiroki Yoshimura";
+          email = "kadokusei@users.noreply.github.com";
+        };
 
-      color.ui = "auto";
+        color.ui = "auto";
 
-      push.default = "simple";
+        push.default = "simple";
 
-      pull = {
-        rebase = true;
-        ff = "only";
-      };
+        pull = {
+          rebase = true;
+          ff = "only";
+        };
 
-      merge.ff = false;
+        merge.ff = false;
 
-      core = {
-        editor = "vim";
-        quotepath = false;
-        sshCommand = lib.mkIf config.dotfiles.isWSL "ssh.exe";
-      };
+        core = {
+          editor = "vim";
+          quotepath = false;
+          sshCommand = lib.mkIf config.dotfiles.isWSL "ssh.exe";
+        };
 
-      ghq.root = "~/git";
-    };
+        ghq.root = "~/git";
+      }
+
+      # GitHub SSH 鍵を sops で配置するホスト(localGitHubKey)でのみ HTTPS URL を
+      # SSH へ書き換える。鍵未配置の初回 switch では skills-sync が GIT_CONFIG_GLOBAL=/dev/null
+      # で隔離されているため影響を受けない(modules/home/agents.nix 参照)。
+      # mkIf は attrset レベルで付ける: leaf に付けると false 時も空の [url]
+      # セクションヘッダが成果物に残る
+      (lib.mkIf config.dotfiles.localGitHubKey {
+        url."git@github.com:".insteadOf = "https://github.com/";
+      })
+    ];
 
     signing = {
       key =
