@@ -4,14 +4,19 @@ let
   claudeDir = "${config.home.homeDirectory}/.agents";
 in
 {
-  programs.ghostty = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
+  # 本体は macOS=Homebrew cask・Linux=Nix で導入し、設定のみ共通管理する。
+  # macOS は XDG config (~/.config/ghostty/config) も読むため両OSで同じパスを使う
+  programs.ghostty = {
     enable = true;
+    package =
+      if pkgs.stdenv.hostPlatform.isDarwin
+      then null
+      else pkgs.ghostty;
+    systemd.enable = pkgs.stdenv.hostPlatform.isLinux;
     enableZshIntegration = true;
   };
 
-  xdg.configFile."ghostty/config" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
-    source = ../../config/ghostty/config;
-  };
+  xdg.configFile."ghostty/config".source = ../../config/ghostty/config;
 
   xdg.configFile."zellij/config.kdl".source = ../../config/zellij/config.kdl;
 
@@ -122,9 +127,4 @@ in
   home.file.".ssh/id_ed25519_github.pub" = lib.mkIf config.dotfiles.localGitHubKey {
     source = ../../config/ssh/id_ed25519_github.pub;
   };
-
-  home.file."Library/Application Support/com.mitchellh.ghostty/config.ghostty" =
-    lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
-      source = ../../config/ghostty/config;
-    };
 }
