@@ -7,4 +7,5 @@
 
   dotfiles.localGitHubKey = true;
   dotfiles.karukan.enable = true;
+  services.polkit-gnome.enable = true;
 }

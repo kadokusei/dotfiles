@@ -13,6 +13,8 @@ Lix (Nix)、nix-darwin、Home Manager で環境を管理し、言語ランタイ
 
 安定した CLI ツールは nix で管理し、言語ランタイムおよび最新バージョンへの追従が必要な agent 系 CLI（claude-code、codex、oh-my-pi、pi、headroom-ai、apm）は、nix の管理下にある mise 設定（`modules/home/mise.nix`）で管理します。
 
+Fedora の mercury では 1Password デスクトップアプリとの IPC に CLI の `onepassword-cli` グループ所有と setgid が必要なため、CLI だけは Nix ではなく公式 RPM リポジトリから `sudo dnf install 1password-cli` で導入します。Home Manager は mercury で PolKit 認証エージェントを起動します。アプリの CLI integration と Settings → Security → Unlock using system authentication を有効にしてください。WSL では従来どおり Nix の CLI を使用します。
+
 Starship の標準プロンプトを使い、AWS・Google Cloud・Azure・OpenStack のプロンプト表示を無効にします。設定は `modules/home/shell.nix` の Home Manager `programs.starship.settings` で管理します。
 
 ## 変更の適用
@@ -61,7 +63,7 @@ nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pu
 
 1. Lix をインストールします: `curl -sSf -L https://install.lix.systems/lix | sh -s -- install`
 2. リポジトリをクローンします: `git clone https://github.com/kadokusei/dotfiles.git ~/dotfiles`（初回は SSH 鍵がまだないため HTTPS を使う）
-3. age 鍵を復元します（ホストごとに一度だけ）。`op`（1Password CLI）と 1Password アプリはこの後の switch で導入される一方、switch は age 鍵を要求するため、初回は依存ゼロの手動 paste で復元します（1Password のアイテム `nix-sops-age-key` の値を他デバイスの 1Password からコピー）:
+3. age 鍵を復元します（ホストごとに一度だけ）。switch は age 鍵を要求するため、初回は依存ゼロの手動 paste で復元します（1Password のアイテム `nix-sops-age-key` の値を他デバイスの 1Password からコピー）。mercury の CLI は switch では導入されず、別途公式 RPM が必要です:
 
    ```sh
    mkdir -p ~/.config/sops/age
@@ -69,7 +71,7 @@ nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pu
    chmod 600 ~/.config/sops/age/keys.txt
    ```
 
-   switch 済みのホストでは `sops-age-restore` が `op read`（GUI 認証・15 秒上限）で同じ処理を行い、`--manual` で paste プロンプトに切り替わります。nix が既にある環境では `nix shell nixpkgs#_1password-cli -c op read 'op://Private/nix-sops-age-key/<field>'` も使えます（アプリ未導入なら `op account add` によるサインインが必要）。この手順を飛ばすと switch が age 鍵チェックで失敗し、上記コマンドがエラーメッセージに表示されます。
+   switch 済みのホストでは `sops-age-restore` が `op read`（GUI 認証・15 秒上限）で同じ処理を行い、`--manual` で paste プロンプトに切り替わります。mercury では Nix の一時 CLI はアプリ連携に必要な setgid を持たないため使いません。この手順を飛ばすと switch が age 鍵チェックで失敗し、復元手順がエラーメッセージに表示されます。
 4. 設定を適用します:
    macOS: `sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#helium`
    Linux / WSL2: `nix run home-manager/master -- switch --flake ~/dotfiles#mercury`

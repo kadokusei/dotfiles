@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.packages = with pkgs;
@@ -36,7 +36,10 @@
     ]
     ++ lib.optionals stdenv.hostPlatform.isLinux [
       nmrpflash
-      _1password-cli
       moralerspace
+    ]
+    # Native Linux needs the RPM's onepassword-cli group and setgid permissions for desktop IPC.
+    ++ lib.optionals (stdenv.hostPlatform.isLinux && config.dotfiles.isWSL) [
+      _1password-cli
     ];
 }
