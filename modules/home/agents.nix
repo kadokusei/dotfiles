@@ -68,6 +68,13 @@ in
   # 同内容の repo .omp/RULES.md を単一ソースとして ~/.omp/agent/ へ deploy する
   home.file.".omp/agent/RULES.md".source = ../../.omp/RULES.md;
   home.file.".omp/agent/WATCHDOG.md".source = ../../config/agents/WATCHDOG.md;
+  home.file.".omp/agent/lsp.json".text = builtins.toJSON {
+    servers.gopls = {
+      command = "${pkgs.mise}/bin/mise";
+      args = [ "exec" "--" "gopls" ];
+      rootMarkers = [ "go.work" "go.mod" ".git" ];
+    };
+  };
 
   home.file.".codex/AGENTS.md".text = builtins.readFile ../../config/agents/AGENTS.md + ''
 

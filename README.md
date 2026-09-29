@@ -37,6 +37,8 @@ switch を実行すると、管理対象のファイルが再配置されます�
 
 OMP の advisor 用レビュー方針は `config/agents/WATCHDOG.md` から `~/.omp/agent/WATCHDOG.md` に配置します。通常の agent には適用されず、advisor を有効にしたセッションで読み込まれます。共有設定では advisor を有効化しないため、必要な端末では `omp config set advisor.enabled true`、一時的には `omp --advisor` または `/advisor on` を使用します。
 
+Go の LSP は mise で gopls 0.23.0 を導入し、OMP の共通 `~/.omp/agent/lsp.json` から起動します。ルートに `go.mod` がない Git リポジトリでも、開いた子モジュールの Go ファイルを解析できます。
+
 ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`（以前の Home Manager generation へ戻す）で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
 ## SSH 鍵の運用
