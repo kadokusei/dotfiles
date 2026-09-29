@@ -10,6 +10,7 @@
     go = "1.27.1"
     "go:golang.org/x/tools/gopls" = "0.23.0"
     node = "lts"
+    "npm:sentry" = "0.45.0"
     pnpm = "12.3.4"
     rust = "stable"
     uv = "0.12.12"
@@ -25,9 +26,6 @@
     }
     "pipx:headroom-ai" = { version = "latest", extras = "all", uvx_args = "--python 3.13" }
 
-    [settings.npm]
-    package_manager = "pnpm"
-
     [shell_alias]
     codex = "headroom wrap codex"
     claude = "headroom wrap claude"
@@ -38,6 +36,13 @@
     (
       cd "$HOME"
       $DRY_RUN_CMD ${pkgs.mise}/bin/mise install go go:golang.org/x/tools/gopls
+    )
+  '';
+
+  home.activation.mise-sentry = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    (
+      cd "$HOME"
+      $DRY_RUN_CMD ${pkgs.mise}/bin/mise install node npm:sentry
     )
   '';
 }

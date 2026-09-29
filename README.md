@@ -39,6 +39,8 @@ OMP の advisor 用レビュー方針は `config/agents/WATCHDOG.md` から `~/.
 
 Go の LSP は mise で gopls 0.23.0 を導入し、OMP の共通 `~/.omp/agent/lsp.json` から起動します。ルートに `go.mod` がない Git リポジトリでも、開いた子モジュールの Go ファイルを解析できます。
 
+Sentry の参照用 CLI（`sentry` 0.45.0）は mise で導入します。既存の APM 管理 Sentry Skill を Codex / OMP / Claude Code から利用し、MCP は使用しません。switch 後、ホームディレクトリで `mise exec -- sentry auth` を実行してブラウザーで OAuth 認証してください。認証情報は CLI が端末ローカルに保存し、Nix / sops / APM では管理しません。`mise exec -- sentry auth status` で認証状態を確認できます。Skill は参照用途ですが、CLI 自体に更新コマンドもあるため権限制限ではありません。対象の作業ディレクトリで `sentry issue list` を使い、自動検出が違う場合は対象の `org/project` を位置引数で指定してください。
+
 ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`（以前の Home Manager generation へ戻す）で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
 ## SSH 鍵の運用
