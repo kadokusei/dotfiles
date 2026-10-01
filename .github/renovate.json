@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabledManagers": ["nix"],
+  "nix": { "enabled": true },
+  "platformCommit": "enabled",
+  "automerge": false,
+  "timezone": "Asia/Tokyo",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 15-18 * * *"]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["nix"],
+      "matchUpdateTypes": ["major", "minor", "patch", "pin", "pinDigest", "digest", "rollback", "bump", "replacement"],
+      "enabled": false
+    }
+  ]
+}

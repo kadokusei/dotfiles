@@ -89,7 +89,11 @@ nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pu
 
    初回 switch の時点で insteadOf が有効化されるため、GitHub の HTTPS URL は以後すべて SSH へ書き換えられます。origin は HTTPS のままでよく、SSH URL への `git remote set-url` は任意です。
 
-CI は push および PR のたびに実行され、macOS ランナーで両方の darwin システムをビルドし、Linux ランナーで両方の Home Manager 構成を評価・ビルドします（`.github/workflows/check.yml`）。また、週次ワークフローによって flake.lock 更新用の PR が自動作成されます。
+CI は push および PR のたびに実行され、macOS ランナーで両方の darwin システムをビルドし、Linux ランナーで両方の Home Manager 構成を評価・ビルドします（`.github/workflows/check.yml`）。
+
+flake.lock の更新は hosted Mend Renovate GitHub App が担当します（`.github/renovate.json`）。Nix のロック全体だけを一括更新し、個別 input の更新 PR や自動マージは無効です。毎日 JST 15:00–18:59 を更新の許可時間帯とし、実行時刻・回数はサービス側に依存します。更新差分がある場合は `renovate/lock-file-maintenance` ブランチの PR を作成・更新し、GitHub API による署名付きコミットを使用します。PR は既存の Linux/macOS CI で検証し、手動でマージします。
+
+移行時は [Mend Renovate App](https://github.com/marketplace/renovate) を `kadokusei/dotfiles` のみに許可したことを確認してから、設定追加と旧 updater workflow の削除を一緒に master へ反映します。旧 `update_flake_lock_action` の PR は、新 Renovate PR の署名と CI 自動起動を確認した後、手作業の変更がない場合だけ重複として close します。
 
 ## 共有 agent skills
 
