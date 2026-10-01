@@ -18,7 +18,7 @@
     "aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
     "aqua:openai/codex" = { version = "latest", minimum_release_age = "6h" }
     "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "6h" }
-    "aqua:earendil-works/pi" = "0.85.1"
+    "aqua:earendil-works/pi" = { version = "latest", minimum_release_age = "6h" }
     "pipx:headroom-ai[all]" = {
         version = "0.37.0",
         extras = ["all"],
