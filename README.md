@@ -39,7 +39,7 @@ OMP の advisor 用レビュー方針は `config/agents/WATCHDOG.md` から `~/.
 
 Go の LSP は mise で gopls 0.23.0 を導入し、OMP の共通 `~/.omp/agent/lsp.json` から起動します。ルートに `go.mod` がない Git リポジトリでも、開いた子モジュールの Go ファイルを解析できます。
 
-Sentry の参照用 CLI（`sentry` 0.45.0）は mise で導入します。既存の APM 管理 Sentry Skill を Codex / OMP / Claude Code から利用し、MCP は使用しません。switch 後、ホームディレクトリで `mise exec -- sentry auth` を実行してブラウザーで OAuth 認証してください。認証情報は CLI が端末ローカルに保存し、Nix / sops / APM では管理しません。`mise exec -- sentry auth status` で認証状態を確認できます。Skill は参照用途ですが、CLI 自体に更新コマンドもあるため権限制限ではありません。対象の作業ディレクトリで `sentry issue list` を使い、自動検出が違う場合は対象の `org/project` を位置引数で指定してください。
+Sentry の参照用 CLI（`sentry` 0.46.0）は mise で導入します。既存の APM 管理 Sentry Skill を Codex / OMP / Claude Code から利用し、MCP は使用しません。switch 後、ホームディレクトリで `mise exec -- sentry auth` を実行してブラウザーで OAuth 認証してください。認証情報は CLI が端末ローカルに保存し、Nix / sops / APM では管理しません。`mise exec -- sentry auth status` で認証状態を確認できます。Skill は参照用途ですが、CLI 自体に更新コマンドもあるため権限制限ではありません。対象の作業ディレクトリで `sentry issue list` を使い、自動検出が違う場合は対象の `org/project` を位置引数で指定してください。
 
 ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`（以前の Home Manager generation へ戻す）で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
@@ -97,11 +97,12 @@ flake.lock の更新は hosted Mend Renovate GitHub App が担当します（`.g
 
 ## 共有 agent skills
 
-- mise が APM 0.30.0 と uv をインストールします。
+- mise が APM 0.33.0 と uv をインストールします。
 - `config/agent-skills/apm.yml` で外部スキルを宣言します。
 - `config/agent-skills/apm.lock.yaml` で APM の解決済みコミットを記録します。
 - Home Manager がこれらの定義ファイルを `~/.config/agent-skills/` に配置します。
 - `skills-sync` activation が `agent-skills-sync` を実行し、アクティブな APM 環境にスキル定義をインストールします。
+- `i-have-adhd`（`ayghri/i-have-adhd/skills/i-have-adhd`）も共有スキルとして配置します。
 
 共有定義ファイルとアクティブな APM ファイルは分離して管理されています。これにより、新しいロックファイルを受け取った場合でも、マシン側の過去の所有権情報が失われません。sync コマンドは変更を適用する前に、アクティブな APM 環境と skills のスナップショットを取得します。所有台帳とバックアップは `~/.local/state/agent-skills/` に保持されます。この軽量な同期アダプタが必要とする Python と PyYAML は uv から提供されます。依存関係の解決と更新はアダプタではなく APM 自身が行います。初回のインストールにはネットワークアクセスが必要です。activation は global git 設定から隔離して（`GIT_CONFIG_GLOBAL=/dev/null`）apm を実行するため、取得は HTTPS の匿名アクセスに限られ、プライベートソースは activation 中に認証できません。なお、各 agent に同梱されている標準スキルやプラグインの内容は、この共有環境の管理対象外です。
 

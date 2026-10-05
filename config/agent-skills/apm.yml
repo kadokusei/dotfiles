@@ -24,3 +24,4 @@ dependencies:
     - stablyai/orca/skills/orchestration
     - github/awesome-copilot/skills/git-commit
     - upstash/context7/skills/find-docs
+    - ayghri/i-have-adhd/skills/i-have-adhd

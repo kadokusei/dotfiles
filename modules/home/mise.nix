@@ -5,22 +5,22 @@
   # 安定 CLI は packages.nix (nix) へ移行済み。変更はレポ編集 + switch で反映する。
   xdg.configFile."mise/config.toml".text = ''
     [tools]
-    apm = "0.30.0"
-    cargo-binstall = "1.23.0"
+    apm = "0.33.0"
+    cargo-binstall = "1.25.1"
     go = "1.27.1"
     "go:golang.org/x/tools/gopls" = "0.23.0"
     node = "lts"
-    "npm:sentry" = "0.45.0"
-    pnpm = "12.3.4"
+    "npm:sentry" = "0.46.0"
+    pnpm = "12.9.1"
     rust = "stable"
-    uv = "0.12.12"
+    uv = "0.12.23"
     bun = "1.4.2"
     "aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
     "aqua:openai/codex" = { version = "latest", minimum_release_age = "6h" }
     "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "6h" }
     "aqua:earendil-works/pi" = { version = "latest", minimum_release_age = "6h" }
     "pipx:headroom-ai[all]" = {
-        version = "0.37.0",
+        version = "0.39.1",
         extras = ["all"],
         uvx_args = "--python 3.13"
     }
