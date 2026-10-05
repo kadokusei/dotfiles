@@ -24,6 +24,8 @@
       "ghostty"
       "font-moralerspace"
       "1password-cli"
+      "snapzy"
+      "revpdf-editor"
     ];
     # ホスト固有の cask は hosts/*.nix 側で homebrew.casks に追記（リストは自動マージされる）
   };
