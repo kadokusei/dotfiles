@@ -4,10 +4,9 @@
   "nix": { "enabled": true },
   "platformCommit": "enabled",
   "automerge": false,
-  "timezone": "Asia/Tokyo",
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["* 15-18 * * *"]
+    "schedule": ["at any time"]
   },
   "packageRules": [
     {
