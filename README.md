@@ -47,9 +47,25 @@ Sentry の参照用 CLI（`sentry` 0.46.0）は mise で導入します。既存
 
 個人用 GitHub への認証・コミット署名は、`dotfiles.localGitHubKey = true` のホスト（`helium`、`70-42660`、`mercury`）ではローカルの SSH 鍵で行います。秘密鍵 `~/.ssh/id_ed25519_github` は sops binary secret `secrets/github_id_ed25519` として age 暗号化でリポジトリに格納され、復号にはホストごとの age 鍵 `~/.config/sops/age/keys.txt` が必要です。macOS では switch の activation 中に鍵は置かれず、activation の最後に LaunchAgent（`org.nix-community.home.sops-nix`）が非同期で `sops-install-secrets` を実行して配置します。このため配置成否は switch の戻り値に反映されません（確認方法は `AGENTS.md` の「Asynchronous secret deployment on macOS」を参照）。この状態を防ぐため、activation は age 鍵の存在と recipient 一致（`.sops.yaml` と同じ age 公開鍵）を事前検証し、欠落・不一致があれば switch を失敗させます。WSL2 は Windows 側の 1Password SSH エージェントを使います。
 
-GitHub 以外への通常 SSH は、すべてのホストで 1Password SSH エージェントのみで認証します（`ssh_config` の `Host * !github.com !orb` が `IdentityAgent` で 1Password を指定し、`IdentityFile none` で既定鍵の自動提供を抑止。OrbStack の `orb` は専用鍵を維持）。`github.com` のみローカル鍵 + `IdentitiesOnly` で直接認証します。GitHub 鍵のキャッシュ先は Home Manager の `services.ssh-agent` で、その実 socket への安定 symlink `~/.ssh/github-agent.sock` を activation が生成します。`SSH_AUTH_SOCK`（シェル）、`github.com` の `IdentityAgent`（ssh 認証）、git の SSH 署名 wrapper（`gpg.ssh.program`。`ssh-keygen -Y sign` は `SSH_AUTH_SOCK` を直接参照するため）がすべてこの symlink を参照し、GUI 親環境が 1Password agent を継承していても影響を受けません。キャッシュの寿命は `AddKeysToAgent 4h` の 4 時間です。GitHub の HTTPS URL は `url."git@github.com:".insteadOf` により SSH へ書き換えられますが、これは `localGitHubKey` ホストのみで有効で、WSL は対象外です。activation 内の skills-sync は `GIT_CONFIG_GLOBAL=/dev/null` で global git 設定から隔離されるため、鍵が使えない初回 switch も HTTPS で完走します。
+GitHub 以外への通常 SSH は、すべてのホストで 1Password SSH エージェントのみで認証します（`ssh_config` の `Host * !github.com !orb` が `IdentityAgent` で 1Password を指定し、`IdentityFile none` で既定鍵の自動提供を抑止。OrbStack の `orb` は専用鍵を維持）。`github.com` のみローカル鍵 + `IdentitiesOnly` で直接認証します。GitHub 鍵のキャッシュ先は Home Manager の `services.ssh-agent` で、その実 socket への安定 symlink `~/.ssh/github-agent.sock` を activation が生成します。`SSH_AUTH_SOCK`（シェル）、`github.com` の `IdentityAgent`（ssh 認証）、git の SSH 署名 wrapper（`gpg.ssh.program`。`ssh-keygen -Y sign` は `SSH_AUTH_SOCK` を直接参照するため）がすべてこの symlink を参照し、GUI 親環境が 1Password agent を継承していても影響を受けません。SSH が鍵を自動追加するときの既定寿命は `AddKeysToAgent 8h` の 8 時間です。GitHub の HTTPS URL は `url."git@github.com:".insteadOf` により SSH へ書き換えられますが、これは `localGitHubKey` ホストのみで有効で、WSL は対象外です。activation 内の skills-sync は `GIT_CONFIG_GLOBAL=/dev/null` で global git 設定から隔離されるため、鍵が使えない初回 switch も HTTPS で完走します。
 
-作業開始時に一度 `ssh-add-github` を実行すると、まず 1Password CLI（`op read`）でパスフレーズの取得を試みます。1Password デスクトップアプリと連携していれば GUI（Touch ID など）で認証できます。`--manual` を付けた場合、リモートセッション（SSH ログイン中）、`op` がない環境では GUI 認証を試行せず、また SSH として検出できない環境でも GUI 認証が 10 秒で完了しなければ askpass 子プロセスごと打ち切って、いずれも通常のパスフレーズ入力プロンプトへフォールバックします。secret reference は `dotfiles.githubKeyPassphraseReference`（デフォルト `op://Private/nix-ssh-github-passphrase/password`）で変更できます。agent が鍵を保持するのは 4 時間で、鍵が消えた状態での commit は署名エラーで失敗するのが仕様です。
+作業開始時に一度 `ssh-add-github` を実行すると、まず 1Password CLI（`op read`）でパスフレーズの取得を試みます。1Password デスクトップアプリと連携していれば GUI（Touch ID など）で認証できます。`--manual` を付けた場合、リモートセッション（SSH ログイン中）、`op` がない環境では GUI 認証を試行しません。認証は 20 秒で打ち切り（強制終了までの猶予はさらに 1 秒）、失敗時はいずれも通常のパスフレーズ入力プロンプトへフォールバックします。Ctrl-C は手動入力へ移らず終了します。secret reference は `dotfiles.githubKeyPassphraseReference`（デフォルト `op://Private/nix-ssh-github-passphrase/password`）で変更できます。agent が鍵を保持する既定寿命は 8 時間で、鍵が消えた状態での commit は署名エラーで失敗するのが仕様です。
+
+```sh
+ssh-add-github                          # 既定8時間、段階診断あり
+ssh-add-github -t 30m                   # 今回の登録だけ30分
+ssh-add-github --lifetime 3600          # 秒数でも指定可能
+ssh-add-github --manual -t 30m --quiet  # 手動入力、追加の進捗診断なし
+ssh-add-github --help
+```
+
+`-t` / `--lifetime` は正の整数秒、または正の整数に `s` / `m` / `h` / `d` / `w` を付けた値を受け付けます（複合単位は不可）。引数順は任意、寿命の重複指定は最後が有効です。不正な引数は認証前に終了コード 2 で拒否します。CLI の寿命指定は `AddKeysToAgent` 設定を書き換えません。
+
+診断は標準エラーへ `ssh-add-github:` の接頭辞で出力します。`stage=add|gui|op|manual`、終了 status、経過秒数、固定の reason と検証済み寿命だけを記録し、パスフレーズや op の生出力は表示しません。`-q` / `--quiet` は追加の進捗診断だけを抑止し、失敗警告、ssh-add の標準メッセージ、手動入力プロンプトは残します。`stage=op` がなく GUI が失敗する場合は、op 呼び出し以前の失敗と区別できます。op の status 124 / 137 は `reason=timeout` に分類しますが、137 だけではタイムアウト由来と断定できません。
+
+合成鍵・偽 op・隔離 agent の回帰確認は `python3 tests/test_ssh_add_github.py` で実行できます（Nix、Python 3.9 以降、OpenSSH が必要）。12 秒待機、20 秒打ち切り後の手動登録、quiet、Ctrl-C と子プロセス終了を確認し、実シークレットは使用しません。初回に coreutils などの store path が未実現なら、先に `nix build --no-link .#darwinConfigurations.helium.system` を実行してください。
+
+実1Passwordの停止現象の原因は未確定です。適用後は利用者がロック状態から実行し、20 秒以内の解除・認可、20 秒以上待機、直後の再実行を比較してください。共有するのは固定の stage / reason・寿命・秒数・status の診断行だけとし、鍵やパスフレーズ、op の生出力は含めないでください。
 
 鍵のローテーション手順:
 
@@ -83,7 +99,7 @@ nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pu
 
    ```sh
    ls -l ~/.ssh/id_ed25519_github   # macOS は LaunchAgent 配置の完了を待つ
-   ssh-add-github                   # パスフレーズを agent へ 4 時間ロード
+   ssh-add-github                   # パスフレーズを agent へ既定 8 時間ロード
    ssh -T git@github.com            # "Hi kadokusei!" と出れば成功(exit code は 1)
    ```
 

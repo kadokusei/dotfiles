@@ -88,13 +88,13 @@ in
           # This won't be added again if you remove it.
           Include ~/.orbstack/ssh/config
         ''}
-        # GitHub はローカル鍵 + 専用 agent(下記 symlink, 4時間キャッシュ)。
+        # GitHub はローカル鍵 + 専用 agent(下記 symlink, 8時間キャッシュ)。
         # それ以外は 1Password agent のみで認証する(既定 id 鍵の自動提供を止める)
         Host github.com
           IdentityFile ~/.ssh/id_ed25519_github
           IdentitiesOnly yes
           IdentityAgent ~/.ssh/github-agent.sock
-          AddKeysToAgent 4h
+          AddKeysToAgent 8h
         Host * !github.com !orb
           IdentityFile none
           IdentityAgent "${onePasswordAgent}"
@@ -109,9 +109,37 @@ in
   home.file.".local/bin/github-key-askpass" = lib.mkIf config.dotfiles.localGitHubKey {
     text = ''
       #!/bin/sh
-      # GUI 認証が完了しない環境に備え op 自体に10秒の上限を設ける。
-      # 上限切れ/失敗時は ssh-add が失敗し、呼び出し元が手動入力へフォールバックする
-      exec ${pkgs.coreutils}/bin/timeout --kill-after=1s 10s op read ${lib.escapeShellArg config.dotfiles.githubKeyPassphraseReference}
+      started=$(${pkgs.coreutils}/bin/date +%s)
+      if [ "''${SSH_ADD_GITHUB_DEBUG:-0}" = 1 ]; then
+        echo "ssh-add-github: stage=op start timeout=20s" >&2
+      fi
+      # timeout は独立したプロセス群を作るため、端末のキャンセルを転送する。
+      cancel() {
+        trap - INT TERM
+        kill -TERM "$op_pid" 2>/dev/null || :
+        wait "$op_pid" 2>/dev/null
+        exit "$1"
+      }
+      trap 'cancel 130' INT
+      trap 'cancel 143' TERM
+      ${pkgs.coreutils}/bin/timeout --kill-after=1s 20s op read ${lib.escapeShellArg config.dotfiles.githubKeyPassphraseReference} 2>/dev/null &
+      op_pid=$!
+      wait "$op_pid" 2>/dev/null
+      status=$?
+      elapsed=$(( $(${pkgs.coreutils}/bin/date +%s) - started ))
+      [ "$elapsed" -ge 0 ] || elapsed=0
+      case "$status" in
+        0) reason=success ;;
+        124|137) reason=timeout ;;
+        *) reason=failed ;;
+      esac
+      if [ "''${SSH_ADD_GITHUB_DEBUG:-0}" = 1 ]; then
+        echo "ssh-add-github: stage=op end status=$status elapsed=''${elapsed}s reason=$reason" >&2
+      fi
+      if [ "$status" -ne 0 ]; then
+        echo "ssh-add-github: warning=op-$reason status=$status manual-fallback" >&2
+      fi
+      exit "$status"
     '';
     executable = true;
   };
@@ -120,27 +148,89 @@ in
   home.file.".local/bin/ssh-add-github" = lib.mkIf config.dotfiles.localGitHubKey {
     text = ''
       #!/bin/sh
+      usage() {
+        echo "Usage: ssh-add-github [-t DURATION | --lifetime DURATION] [--manual] [-q | --quiet] [-h | --help]"
+        echo "DURATION: positive seconds or an integer with s/m/h/d/w (default: 8h)"
+      }
+      invalid() {
+        echo "ssh-add-github: invalid arguments" >&2
+        usage >&2
+        exit 2
+      }
+
+      lifetime=8h
+      manual=0
+      export SSH_ADD_GITHUB_DEBUG=1
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+          -t|--lifetime)
+            [ "$#" -ge 2 ] || invalid
+            case "$2" in *[!0-9smhdw]*) invalid ;; esac
+            printf '%s\n' "$2" | ${pkgs.gnugrep}/bin/grep -Eq '^0*[1-9][0-9]*[smhdw]?$' || invalid
+            lifetime="$2"
+            shift 2
+            ;;
+          --manual) manual=1; shift ;;
+          -q|--quiet) SSH_ADD_GITHUB_DEBUG=0; shift ;;
+          -h|--help) usage; exit 0 ;;
+          *) invalid ;;
+        esac
+      done
+
       key="$HOME/.ssh/id_ed25519_github"
       export SSH_AUTH_SOCK="$HOME/.ssh/github-agent.sock"
 
       if [ ! -f "$key" ]; then
-        echo "ssh-add-github: key not found: $key" >&2
+        echo "ssh-add-github: key not found" >&2
         exit 1
       fi
 
-      if [ "''${1:-}" = "--manual" ] ||
-         [ -n "''${SSH_CONNECTION:-}" ] ||
-         ! command -v op >/dev/null 2>&1; then
-        exec ssh-add -t 4h -- "$key"
+      debug() {
+        if [ "$SSH_ADD_GITHUB_DEBUG" = 1 ]; then
+          echo "ssh-add-github: $*" >&2
+        fi
+      }
+      elapsed() {
+        seconds=$(( $(${pkgs.coreutils}/bin/date +%s) - $1 ))
+        [ "$seconds" -ge 0 ] || seconds=0
+        printf '%s' "$seconds"
+      }
+      finish() {
+        status=$?
+        debug "stage=add end status=$status elapsed=$(elapsed "$started")s"
+        trap - 0
+        exit "$status"
+      }
+      started=$(${pkgs.coreutils}/bin/date +%s)
+      trap finish 0
+      trap 'exit 130' INT
+      trap 'exit 143' TERM
+      debug "stage=add start lifetime=$lifetime"
+
+      if [ "$manual" = 1 ]; then
+        reason=explicit
+      elif [ -n "''${SSH_CONNECTION:-}" ]; then
+        reason=ssh-session
+      elif ! command -v op >/dev/null 2>&1; then
+        reason=op-missing
+      else
+        gui_started=$(${pkgs.coreutils}/bin/date +%s)
+        debug "stage=gui start timeout=20s"
+        SSH_ASKPASS="$HOME/.local/bin/github-key-askpass" \
+          SSH_ASKPASS_REQUIRE=force \
+          ssh-add -t "$lifetime" -- "$key"
+        status=$?
+        debug "stage=gui end status=$status elapsed=$(elapsed "$gui_started")s"
+        case "$status" in
+          0|130|143) exit "$status" ;;
+        esac
+        reason=gui-failed
       fi
 
-      if SSH_ASKPASS="$HOME/.local/bin/github-key-askpass" \
-         SSH_ASKPASS_REQUIRE=force \
-         ssh-add -t 4h -- "$key"; then
-        exit 0
-      fi
-
-      exec ssh-add -t 4h -- "$key"
+      debug "stage=manual start reason=$reason"
+      unset SSH_ASKPASS_REQUIRE SSH_ASKPASS
+      ssh-add -t "$lifetime" -- "$key"
+      exit "$?"
     '';
     executable = true;
   };
