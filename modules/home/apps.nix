@@ -122,7 +122,10 @@ in
       }
       trap 'cancel 130' INT
       trap 'cancel 143' TERM
-      ${pkgs.coreutils}/bin/timeout --kill-after=1s 20s op read ${lib.escapeShellArg config.dotfiles.githubKeyPassphraseReference} 2>/dev/null &
+      # op の常駐子が askpass の余剰FDを保持すると、ssh-add の EOF 待ちが終わらない。
+      ${pkgs.coreutils}/bin/timeout --kill-after=1s 20s ${pkgs.python3Minimal}/bin/python3 \
+        -c 'import subprocess, sys; status = subprocess.call(sys.argv[1:], close_fds=True); sys.exit(status if status >= 0 else 128 - status)' \
+        op read ${lib.escapeShellArg config.dotfiles.githubKeyPassphraseReference} 2>/dev/null &
       op_pid=$!
       wait "$op_pid" 2>/dev/null
       status=$?

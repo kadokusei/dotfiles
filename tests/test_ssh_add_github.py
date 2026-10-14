@@ -55,6 +55,13 @@ class Sandbox:
             "if os.environ.get('TEST_OP_KILL_TIMEOUT'):\n"
             "    os.kill(os.getppid(), 9)\n"
             "    sys.exit(1)\n"
+            "if os.environ.get('TEST_OP_RETAIN_FD'):\n"
+            "    child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'],\n"
+            "        stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,\n"
+            "        stderr=subprocess.DEVNULL, close_fds=False)\n"
+            "    Path(os.environ['HOME'], 'op-pids').write_text(f'{os.getpid()} {child.pid}')\n"
+            f"    print({PASSPHRASE!r}, flush=True)\n"
+            "    sys.exit(0)\n"
             "child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])\n"
             "Path(os.environ['HOME'], 'op-pids').write_text(f'{os.getpid()} {child.pid}')\n"
             "try:\n"
@@ -187,6 +194,24 @@ def test_delayed_unlock(s):
     assert s.fingerprint in s.listed().stdout, "delayed unlock did not load key"
 
 
+def test_inherited_askpass_fd(s):
+    process = subprocess.Popen(
+        [str(s.bin / "ssh-add-github")], env=s.env | {"TEST_OP_RETAIN_FD": "1"},
+        stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        text=True, start_new_session=True,
+    )
+    try:
+        _, stderr = process.communicate(timeout=5)
+    except subprocess.TimeoutExpired:
+        os.killpg(process.pid, signal.SIGKILL)
+        _, stderr = process.communicate(timeout=5)
+        assert "stage=op end status=0" in stderr, "op did not complete"
+        raise AssertionError("op succeeded but ssh-add is waiting for inherited pipe EOF")
+    assert process.returncode == 0, stderr
+    assert s.fingerprint in s.listed().stdout, "key was not registered"
+    assert "stage=gui end status=0" in stderr, stderr
+
+
 def test_failure_fallback(s):
     status, output, _ = s.terminal(TEST_OP_FAIL="1")
     assert status == 0, output
@@ -260,7 +285,7 @@ def main():
     helpers = generated_helpers()
     selected = sys.argv[1:] or [
         "arguments", "lifetime", "delayed_unlock", "failure_fallback", "killed_timeout",
-        "cancel", "timeout", "manual",
+        "cancel", "timeout", "manual", "inherited_askpass_fd",
     ]
     for name in selected:
         with tempfile.TemporaryDirectory(prefix="ssh-github-", dir="/tmp") as root:

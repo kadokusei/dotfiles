@@ -63,9 +63,9 @@ ssh-add-github --help
 
 診断は標準エラーへ `ssh-add-github:` の接頭辞で出力します。`stage=add|gui|op|manual`、終了 status、経過秒数、固定の reason と検証済み寿命だけを記録し、パスフレーズや op の生出力は表示しません。`-q` / `--quiet` は追加の進捗診断だけを抑止し、失敗警告、ssh-add の標準メッセージ、手動入力プロンプトは残します。`stage=op` がなく GUI が失敗する場合は、op 呼び出し以前の失敗と区別できます。op の status 124 / 137 は `reason=timeout` に分類しますが、137 だけではタイムアウト由来と断定できません。
 
-合成鍵・偽 op・隔離 agent の回帰確認は `python3 tests/test_ssh_add_github.py` で実行できます（Nix、Python 3.9 以降、OpenSSH が必要）。12 秒待機、20 秒打ち切り後の手動登録、quiet、Ctrl-C と子プロセス終了を確認し、実シークレットは使用しません。初回に coreutils などの store path が未実現なら、先に `nix build --no-link .#darwinConfigurations.helium.system` を実行してください。
+合成鍵・偽 op・隔離 agent の回帰確認は `python3 tests/test_ssh_add_github.py` で実行できます（Nix、Python 3.9 以降、OpenSSH が必要）。12 秒待機、20 秒打ち切り後の手動登録、quiet、Ctrl-C と子プロセス終了、op の常駐子による askpass 用パイプの保持を確認し、実シークレットは使用しません。初回に coreutils や内部ランチャー用 Python などの store path が未実現なら、先に `nix build --no-link .#darwinConfigurations.helium.system` を実行してください。
 
-実1Passwordの停止現象の原因は未確定です。適用後は利用者がロック状態から実行し、20 秒以内の解除・認可、20 秒以上待機、直後の再実行を比較してください。共有するのは固定の stage / reason・寿命・秒数・status の診断行だけとし、鍵やパスフレーズ、op の生出力は含めないでください。
+`stage=op end status=0` の後に止まる場合、op の常駐子が継承した余剰FDで askpass 用パイプを開いたままにし、ssh-add が EOF を待ち続ける経路があります。この経路は実プロセスのFD情報と合成環境で確認し、op 起動時に標準入出力以外のFDを閉じることで対処しています。パスフレーズは従来どおりパイプだけを通り、変数やファイルには保存しません。適用後は利用者がロック状態から実行し、20 秒以内の解除・認可、20 秒以上待機、直後の再実行を比較してください。共有するのは固定の stage / reason・寿命・秒数・status の診断行だけとし、鍵やパスフレーズ、op の生出力は含めないでください。
 
 鍵のローテーション手順:
 
