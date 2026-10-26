@@ -53,6 +53,13 @@ dependencies:
     .agents/skills/gh-stack/references/stack-design.md: sha256:4a61e3065ce61a5d129a30f5dcbebe73bfde250e34c382277facdc31d2c4e5ce
     .agents/skills/gh-stack/references/troubleshooting.md: sha256:fe1958036e663c7471a0d3efdf1fefe47ee65e06713b13a96e3db95becccdc47
   content_hash: sha256:39b7803bf32b4ef195de76fa2d4730ac5dfc686d3d6654f93a162873febef0b1
+- repo_url: k16shikano/fd287c3133457c4fd8f5601d34aa817d
+  name: japanese-tech-writing
+  host: gist.github.com
+  resolved_commit: 8f2d57610a73efc97d743c9b0b0ecb1002e09fa4
+  version: unknown
+  package_type: claude_skill
+  content_hash: sha256:9ddea7db32f38a243da9ff3c08f19fa1f4eb39f9cc27f3a966842cfb323376f3
 - repo_url: mattpocock/skills
   name: codebase-design
   host: github.com
@@ -177,6 +184,14 @@ dependencies:
   deployed_file_hashes:
     .agents/skills/hunk-review/SKILL.md: sha256:a2817face7fbd563d525dd364c4f155c4d9a2a58cb22fbaee2a8ff76ff08e163
   content_hash: sha256:ebad9a743f1835959a61d61b49c7e783419833d01f6c29de225932605f2765c5
+- repo_url: nanaism/yomiyasu
+  name: yomiyasu
+  host: github.com
+  resolved_commit: 41e5aec228f080fe24e5f795efee2ac3fda61839
+  version: 2.4.0
+  package_type: skill_bundle
+  content_hash: sha256:36fd1e6a77fbadeed7159a27cf10c7d14c633e2daa89b2176ac5b6c493a90526
+  declared_license: MIT
 - repo_url: openai/skills
   name: gh-address-comments
   host: github.com
