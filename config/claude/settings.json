@@ -1,8 +1,4 @@
 {
-  "env": {
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5-1[1m]",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-opus-5[1m]"
-  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -10,7 +6,6 @@
   "permissions": {
     "defaultMode": "plan"
   },
-  "model": "opusplan",
   "worktree": {
     "baseRef": "fresh"
   },
@@ -45,6 +40,5 @@
       "Bash(gh pr view:*)"
     ],
     "soft_deny": ["$defaults", "Bash(gcloud secrets:*)", "Bash(gsutil rm:*)"]
-  },
-  "advisorModel": "fable"
+  }
 }

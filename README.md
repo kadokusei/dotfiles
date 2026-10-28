@@ -13,6 +13,8 @@ Lix (Nix)、nix-darwin、Home Manager で環境を管理し、言語ランタイ
 
 安定した CLI ツールは nix で管理し、言語ランタイムおよび最新バージョンへの追従が必要な agent 系 CLI（claude-code、codex、oh-my-pi、pi、headroom-ai、apm）は、nix の管理下にある mise 設定（`modules/home/mise.nix`）で管理します。
 
+Claude Code の設定は `config/claude/settings.json` から `~/.config/claude/settings.json` に配置します。モデルの指定（Opus/Sonnet の割り当てと advisor を含む）は共有設定では行いません。
+
 Fedora の mercury では 1Password デスクトップアプリとの IPC に CLI の `onepassword-cli` グループ所有と setgid が必要なため、CLI だけは Nix ではなく公式 RPM リポジトリから `sudo dnf install 1password-cli` で導入します。Home Manager は mercury で PolKit 認証エージェントを起動します。アプリの CLI integration と Settings → Security → Unlock using system authentication を有効にしてください。WSL では従来どおり Nix の CLI を使用します。
 
 Starship の標準プロンプトを使い、AWS・Google Cloud・Azure・OpenStack のプロンプト表示を無効にします。設定は `modules/home/shell.nix` の Home Manager `programs.starship.settings` で管理します。
