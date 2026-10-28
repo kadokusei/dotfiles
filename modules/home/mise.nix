@@ -15,6 +15,7 @@
     rust = "stable"
     uv = "0.12.23"
     bun = "1.4.2"
+    "aqua:DataDog/pup" = "2.3.5"
     "aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
     "aqua:openai/codex" = { version = "latest", minimum_release_age = "6h" }
     "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "6h" }
@@ -43,6 +44,13 @@
     (
       cd "$HOME"
       $DRY_RUN_CMD ${pkgs.mise}/bin/mise install node npm:sentry
+    )
+  '';
+
+  home.activation.mise-pup = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    (
+      cd "$HOME"
+      $DRY_RUN_CMD ${pkgs.mise}/bin/mise install aqua:DataDog/pup
     )
   '';
 }
