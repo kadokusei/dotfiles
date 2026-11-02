@@ -1,27 +1,24 @@
 # dotfiles
 
-Lix (Nix)、nix-darwin、Home Manager で環境を管理し、言語ランタイムや更新頻度の高い agent 系 CLI には mise を併用しています。GUI アプリは nix-darwin 配下の Homebrew cask として宣言します。agent skills は APM でダウンロードし、スキル自体の内容は本リポジトリにはコミットしません。
+Lix (Nix)、nix-darwin、Home Manager で環境を管理し、言語ランタイムや更新頻度の高い CLI ツールには mise を併用しています。
+シークレット管理には sops-nix (age) と 1Password を使用し、agent skills は APM で管理しています。
 
 ## 構成
 
-- `flake.nix` — エントリポイント。macOS は nix-darwin + Home Manager（darwin モジュールとして統合）、Linux / WSL2 はスタンドアロンの Home Manager
-- `hosts/` — ホスト別モジュール（`helium`、`70-42660`、`wsl`、`mercury`）。macOS のホスト固有 cask はここに `homebrew.casks` で追記（`modules/darwin/homebrew.nix` の共通リストと自動マージ）
-- `modules/darwin/` — システム設定と共通 Homebrew cask
-- `modules/home/` — 共有 Home Manager モジュール: `shell`（zsh + プラグイン）、`git`（1Password SSH 署名）、`mise`、`packages`、`apps`、`karukan`（Linux の fcitx5 日本語 IME）、`agents`、`secrets`（sops-nix + age）
-- `config/` — そのまま配置する設定ファイル群（zellij、worktrunk、claude、agent-skills など）
-- `secrets/secrets.yaml` — age で sops 暗号化したシークレット
+- `flake.nix` — エントリポイント。macOS は nix-darwin + Home Manager、Linux / WSL2 はスタンドアロンの Home Manager
+- `hosts/` — ホスト固有設定（`helium`、`70-42660`、`wsl`、`mercury`）
+- `modules/darwin/` — macOS システム設定および共通 Homebrew cask
+- `modules/home/` — 共有 Home Manager モジュール（シェル、Git、mise、パッケージ、シークレット等）
+- `config/` — 配置対象の設定ファイル群（zellij、worktrunk、claude、agent-skills 等）
+- `secrets/secrets.yaml` — age で暗号化した sops シークレット
 
-安定した CLI ツールは nix で管理し、言語ランタイムおよび最新バージョンへの追従が必要な agent 系 CLI（claude-code、codex、oh-my-pi、pi、headroom-ai、apm）は、nix の管理下にある mise 設定（`modules/home/mise.nix`）で管理します。
-
-Claude Code の設定は `config/claude/settings.json` から `~/.config/claude/settings.json` に配置します。モデルの指定（Opus/Sonnet の割り当てと advisor を含む）は共有設定では行いません。
-
-Fedora の mercury では 1Password デスクトップアプリとの IPC に CLI の `onepassword-cli` グループ所有と setgid が必要なため、CLI だけは Nix ではなく公式 RPM リポジトリから `sudo dnf install 1password-cli` で導入します。Home Manager は mercury で PolKit 認証エージェントを起動します。アプリの CLI integration と Settings → Security → Unlock using system authentication を有効にしてください。WSL では従来どおり Nix の CLI を使用します。
-
-Starship の標準プロンプトを使い、AWS・Google Cloud・Azure・OpenStack のプロンプト表示を無効にします。設定は `modules/home/shell.nix` の Home Manager `programs.starship.settings` で管理します。
+安定した CLI ツールは Nix で管理し、言語ランタイムや更新頻度の高い agent 系 CLI（claude-code、codex、oh-my-pi、pi 等）は Nix 管理下の mise（`modules/home/mise.nix`）で管理します。
 
 ## 変更の適用
 
-macOS（個人機）:
+設定変更後は switch コマンドで反映します。
+
+macOS:
 
 ```sh
 cd ~/dotfiles
@@ -35,107 +32,80 @@ cd ~/dotfiles
 home-manager switch --flake .#mercury    # または .#wsl
 ```
 
-switch を実行すると、管理対象のファイルが再配置されます。あわせて、共有対象の Codex キーが `~/.codex/config.toml` にマージされ（その他のローカルキーは保持）、`agent-skills-sync` が実行されて `~/.apm/` の APM 環境へ `apm install --global --frozen` によりスキル定義がインストールされます。Codex と OMP は `~/.agents/skills/` を参照します。Claude Code は、管理されたシンボリックリンク `~/.config/claude/skills` 経由で同じディレクトリを参照します。
-
-OMP の advisor 用レビュー方針は `config/agents/WATCHDOG.md` から `~/.omp/agent/WATCHDOG.md` に配置します。通常の agent には適用されず、advisor を有効にしたセッションで読み込まれます。共有設定では advisor を有効化しないため、必要な端末では `omp config set advisor.enabled true`、一時的には `omp --advisor` または `/advisor on` を使用します。
-
-Go の LSP は mise で gopls 0.24.0 を導入し、OMP の共通 `~/.omp/agent/lsp.json` から起動します。ルートに `go.mod` がない Git リポジトリでも、開いた子モジュールの Go ファイルを解析できます。
-
-Sentry の参照用 CLI（`sentry` 0.47.0）は mise で導入します。既存の APM 管理 Sentry Skill を Codex / OMP / Claude Code から利用し、MCP は使用しません。switch 後、ホームディレクトリで `mise exec -- sentry auth` を実行してブラウザーで OAuth 認証してください。認証情報は CLI が端末ローカルに保存し、Nix / sops / APM では管理しません。`mise exec -- sentry auth status` で認証状態を確認できます。Skill は参照用途ですが、CLI 自体に更新コマンドもあるため権限制限ではありません。対象の作業ディレクトリで `sentry issue list` を使い、自動検出が違う場合は対象の `org/project` を位置引数で指定してください。
-
-Datadog CLI の `pup` は mise の `aqua:DataDog/pup` で 2.3.10 に固定し、switch 時にインストールします。`mise exec -- pup --version` で確認できます。
-
-ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`（以前の Home Manager generation へ戻す）で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
-
-## SSH 鍵の運用
-
-個人用 GitHub への認証・コミット署名は、`dotfiles.localGitHubKey = true` のホスト（`helium`、`70-42660`、`mercury`）ではローカルの SSH 鍵で行います。秘密鍵 `~/.ssh/id_ed25519_github` は sops binary secret `secrets/github_id_ed25519` として age 暗号化でリポジトリに格納され、復号にはホストごとの age 鍵 `~/.config/sops/age/keys.txt` が必要です。macOS では switch の activation 中に鍵は置かれず、activation の最後に LaunchAgent（`org.nix-community.home.sops-nix`）が非同期で `sops-install-secrets` を実行して配置します。このため配置成否は switch の戻り値に反映されません（確認方法は `AGENTS.md` の「Asynchronous secret deployment on macOS」を参照）。この状態を防ぐため、activation は age 鍵の存在と recipient 一致（`.sops.yaml` と同じ age 公開鍵）を事前検証し、欠落・不一致があれば switch を失敗させます。WSL2 は Windows 側の 1Password SSH エージェントを使います。
-
-GitHub 以外への通常 SSH は、すべてのホストで 1Password SSH エージェントのみで認証します（`ssh_config` の `Host * !github.com !orb` が `IdentityAgent` で 1Password を指定し、`IdentityFile none` で既定鍵の自動提供を抑止。OrbStack の `orb` は専用鍵を維持）。`github.com` のみローカル鍵 + `IdentitiesOnly` で直接認証します。GitHub 鍵のキャッシュ先は Home Manager の `services.ssh-agent` で、その実 socket への安定 symlink `~/.ssh/github-agent.sock` を activation が生成します。`SSH_AUTH_SOCK`（シェル）、`github.com` の `IdentityAgent`（ssh 認証）、git の SSH 署名 wrapper（`gpg.ssh.program`。`ssh-keygen -Y sign` は `SSH_AUTH_SOCK` を直接参照するため）がすべてこの symlink を参照し、GUI 親環境が 1Password agent を継承していても影響を受けません。SSH が鍵を自動追加するときの既定寿命は `AddKeysToAgent 8h` の 8 時間です。GitHub の HTTPS URL は `url."git@github.com:".insteadOf` により SSH へ書き換えられますが、これは `localGitHubKey` ホストのみで有効で、WSL は対象外です。activation 内の skills-sync は `GIT_CONFIG_GLOBAL=/dev/null` で global git 設定から隔離されるため、鍵が使えない初回 switch も HTTPS で完走します。
-
-作業開始時に一度 `ssh-add-github` を実行すると、まず 1Password CLI（`op read`）でパスフレーズの取得を試みます。1Password デスクトップアプリと連携していれば GUI（Touch ID など）で認証できます。`--manual` を付けた場合、リモートセッション（SSH ログイン中）、`op` がない環境では GUI 認証を試行しません。認証は 20 秒で打ち切り（強制終了までの猶予はさらに 1 秒）、失敗時はいずれも通常のパスフレーズ入力プロンプトへフォールバックします。Ctrl-C は手動入力へ移らず終了します。secret reference は `dotfiles.githubKeyPassphraseReference`（デフォルト `op://Private/nix-ssh-github-passphrase/password`）で変更できます。agent が鍵を保持する既定寿命は 8 時間で、鍵が消えた状態での commit は署名エラーで失敗するのが仕様です。
-
-```sh
-ssh-add-github                          # 既定8時間、段階診断あり
-ssh-add-github -t 30m                   # 今回の登録だけ30分
-ssh-add-github --lifetime 3600          # 秒数でも指定可能
-ssh-add-github --manual -t 30m --quiet  # 手動入力、追加の進捗診断なし
-ssh-add-github --help
-```
-
-`-t` / `--lifetime` は正の整数秒、または正の整数に `s` / `m` / `h` / `d` / `w` を付けた値を受け付けます（複合単位は不可）。引数順は任意、寿命の重複指定は最後が有効です。不正な引数は認証前に終了コード 2 で拒否します。CLI の寿命指定は `AddKeysToAgent` 設定を書き換えません。
-
-診断は標準エラーへ `ssh-add-github:` の接頭辞で出力します。`stage=add|gui|op|manual`、終了 status、経過秒数、固定の reason と検証済み寿命だけを記録し、パスフレーズや op の生出力は表示しません。`-q` / `--quiet` は追加の進捗診断だけを抑止し、失敗警告、ssh-add の標準メッセージ、手動入力プロンプトは残します。`stage=op` がなく GUI が失敗する場合は、op 呼び出し以前の失敗と区別できます。op の status 124 / 137 は `reason=timeout` に分類しますが、137 だけではタイムアウト由来と断定できません。
-
-合成鍵・偽 op・隔離 agent の回帰確認は `python3 tests/test_ssh_add_github.py` で実行できます（Nix、Python 3.9 以降、OpenSSH が必要）。12 秒待機、20 秒打ち切り後の手動登録、quiet、Ctrl-C と子プロセス終了、op の常駐子による askpass 用パイプの保持を確認し、実シークレットは使用しません。初回に coreutils や内部ランチャー用 Python などの store path が未実現なら、先に `nix build --no-link .#darwinConfigurations.helium.system` を実行してください。
-
-`stage=op end status=0` の後に止まる場合、op の常駐子が継承した余剰FDで askpass 用パイプを開いたままにし、ssh-add が EOF を待ち続ける経路があります。この経路は実プロセスのFD情報と合成環境で確認し、op 起動時に標準入出力以外のFDを閉じることで対処しています。パスフレーズは従来どおりパイプだけを通り、変数やファイルには保存しません。適用後は利用者がロック状態から実行し、20 秒以内の解除・認可、20 秒以上待機、直後の再実行を比較してください。共有するのは固定の stage / reason・寿命・秒数・status の診断行だけとし、鍵やパスフレーズ、op の生出力は含めないでください。
-
-鍵のローテーション手順:
-
-1. パスフレーズ付きの新鍵を生成し（`ssh-keygen -t ed25519 -C kadokusei@users.noreply.github.com`）、GitHub に認証鍵・署名鍵の 2 エントリとして登録する（`gh ssh-key add --type authentication` / `--type signing`）
-2. 新秘密鍵を sops で暗号化して `secrets/github_id_ed25519` を差し替え、新公開鍵で `config/ssh/id_ed25519_github.pub` を差し替える
-3. 両ファイルを `git add` してから各ホストで switch する（macOS: `darwin-rebuild switch --flake .#helium`、Linux: `home-manager switch --flake .#mercury`）
-
-暗号化コマンドの例（リポジトリ外の CWD で実行しないと `.sops.yaml` の creation rules に阻まれる点に注意）:
-
-```sh
-nix run nixpkgs#sops -- --encrypt --age age14srmqx89uxpf27z8kznutu3j92l7dl3pf5pum58nq26lggg07cesjxwlw7 <新秘密鍵> > ~/dotfiles/secrets/github_id_ed25519
-```
+ロールバック:
+- macOS: `sudo darwin-rebuild --rollback switch`
+- Linux / WSL2: `home-manager switch --rollback`
 
 ## 新しいマシンのセットアップ
 
-1. Lix をインストールします: `curl -sSf -L https://install.lix.systems/lix | sh -s -- install`
-2. リポジトリをクローンします: `git clone https://github.com/kadokusei/dotfiles.git ~/dotfiles`（初回は SSH 鍵がまだないため HTTPS を使う）
-3. age 鍵を復元します（ホストごとに一度だけ）。switch は age 鍵を要求するため、初回は依存ゼロの手動 paste で復元します（1Password のアイテム `nix-sops-age-key` の値を他デバイスの 1Password からコピー）。mercury の CLI は switch では導入されず、別途公式 RPM が必要です:
-
+1. **Lix のインストール**:
+   ```sh
+   curl -sSf -L https://install.lix.systems/lix | sh -s -- install
+   ```
+2. **リポジトリのクローン**:
+   ```sh
+   git clone https://github.com/kadokusei/dotfiles.git ~/dotfiles
+   ```
+   ※ 初回は SSH 鍵が未設定のため HTTPS を使用します。
+3. **age 鍵の復元**:
+   初回 switch には復号用の age 鍵が必要です。1Password の `nix-sops-age-key` から鍵をコピーして配置します。
    ```sh
    mkdir -p ~/.config/sops/age
-   cat > ~/.config/sops/age/keys.txt   # paste して Ctrl-D
+   cat > ~/.config/sops/age/keys.txt   # 貼り付けて Ctrl-D
    chmod 600 ~/.config/sops/age/keys.txt
    ```
-
-   switch 済みのホストでは `sops-age-restore` が `op read`（GUI 認証・15 秒上限）で同じ処理を行い、`--manual` で paste プロンプトに切り替わります。mercury では Nix の一時 CLI はアプリ連携に必要な setgid を持たないため使いません。この手順を飛ばすと switch が age 鍵チェックで失敗し、復元手順がエラーメッセージに表示されます。
-4. 設定を適用します:
-   macOS: `sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#helium`
-   Linux / WSL2: `nix run home-manager/master -- switch --flake ~/dotfiles#mercury`
-5. SSH 鍵が配置されたことを確認し、GitHub を SSH で使えるようにします:
-
+   ※ switch 済みの環境では `sops-age-restore` により 1Password から直接復元可能です。Fedora (mercury) ではアプリ連携のため公式 RPM (`sudo dnf install 1password-cli`) が別途必要です。
+4. **設定の初回適用**:
+   - macOS: `sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#helium`
+   - Linux / WSL2: `nix run home-manager/master -- switch --flake ~/dotfiles#mercury`
+5. **SSH 鍵の確認とロード**:
    ```sh
-   ls -l ~/.ssh/id_ed25519_github   # macOS は LaunchAgent 配置の完了を待つ
-   ssh-add-github                   # パスフレーズを agent へ既定 8 時間ロード
-   ssh -T git@github.com            # "Hi kadokusei!" と出れば成功(exit code は 1)
+   ls -l ~/.ssh/id_ed25519_github   # 鍵の配置を確認（macOS は LaunchAgent による配置完了を待つ）
+   ssh-add-github                   # 鍵を agent にロード
+   ssh -T git@github.com            # "Hi kadokusei!" で成功 (exit code: 1)
    ```
+   ※ 初回 switch 後は Git の `insteadOf` により GitHub の HTTPS URL が自動的に SSH へ書き換えられます。
 
-   初回 switch の時点で insteadOf が有効化されるため、GitHub の HTTPS URL は以後すべて SSH へ書き換えられます。origin は HTTPS のままでよく、SSH URL への `git remote set-url` は任意です。
+## SSH 鍵・シークレットの運用
 
-CI は push および PR のたびに実行され、macOS ランナーで両方の darwin システムをビルドし、Linux ランナーで両方の Home Manager 構成を評価・ビルドします（`.github/workflows/check.yml`）。
+### 認証方式の使い分け
+- **GitHub**: 個人用ローカル SSH 鍵（`~/.ssh/id_ed25519_github`）で認証・署名を行います。秘密鍵は sops (`secrets/github_id_ed25519`) として age 暗号化で管理されています。
+- **GitHub 以外**: すべてのホストで 1Password SSH エージェントを使用して認証します。
 
-flake.lock の更新は hosted Mend Renovate GitHub App が担当します（`.github/renovate.json`）。Nix のロック全体だけを一括更新し、個別 input の更新 PR や自動マージは無効です。時間帯制限を設けず、Renovate 側の定期スキャン時に更新差分があれば `renovate/lock-file-maintenance` ブランチの PR を作成・更新します。実行時刻・回数はサービス側に依存します。対象リポジトリは Mend Developer Portal で Interactive モードに設定する必要があり、Silent モードでは通常の PR 自動作成が抑止されます。GitHub API による署名付きコミットを使用し、PR は既存の Linux/macOS CI で検証して手動でマージします。
+### ssh-add-github
+GitHub 用の SSH 鍵を ssh-agent に追加するスクリプトです。1Password CLI（`op read`）と連携し、生体認証（Touch ID 等）でパスフレーズを取得してロードします（既定有効期限: 8 時間）。
 
-移行時は [Mend Renovate App](https://github.com/marketplace/renovate) を `kadokusei/dotfiles` のみに許可したことを確認してから、設定追加と旧 updater workflow の削除を一緒に master へ反映します。旧 `update_flake_lock_action` の PR は、新 Renovate PR の署名と CI 自動起動を確認した後、手作業の変更がない場合だけ重複として close します。
+```sh
+ssh-add-github                          # 既定 8 時間でロード
+ssh-add-github -t 30m                   # 有効期間を指定（30分）
+ssh-add-github --manual                 # 1Password を使わず手動入力プロンプトへフォールバック
+ssh-add-github --quiet                  # 追加の進捗診断出力を抑止
+```
 
-## 共有 agent skills
+### 鍵のローテーション手順
+1. 新しい鍵を生成し、GitHub に認証鍵・署名鍵として登録:
+   ```sh
+   ssh-keygen -t ed25519 -C kadokusei@users.noreply.github.com
+   gh ssh-key add <公開鍵> --type authentication
+   gh ssh-key add <公開鍵> --type signing
+   ```
+2. 新秘密鍵を sops で暗号化して `secrets/github_id_ed25519` を差し替え、新公開鍵で `config/ssh/id_ed25519_github.pub` を差し替える:
+   ```sh
+   # リポジトリ外のディレクトリで実行
+   nix run nixpkgs#sops -- --encrypt --age <age公開鍵> <新秘密鍵> > ~/dotfiles/secrets/github_id_ed25519
+   ```
+3. 両ファイルを `git add` して各ホストで switch を実行。
 
-- mise が APM 0.35.0 と uv をインストールします。
-- `config/agent-skills/apm.yml` で外部スキルを宣言します。
-- `config/agent-skills/apm.lock.yaml` で APM の解決済みコミットを記録します。
-- Home Manager がこれらの定義ファイルを `~/.config/agent-skills/` に配置します。
-- `skills-sync` activation が `agent-skills-sync` を実行し、アクティブな APM 環境にスキル定義をインストールします。
-- `i-have-adhd`（`ayghri/i-have-adhd/skills/i-have-adhd`）も共有スキルとして配置します。
+## Agent Skills (APM)
 
-共有定義ファイルとアクティブな APM ファイルは分離して管理されています。これにより、新しいロックファイルを受け取った場合でも、マシン側の過去の所有権情報が失われません。sync コマンドは変更を適用する前に、アクティブな APM 環境と skills のスナップショットを取得します。所有台帳とバックアップは `~/.local/state/agent-skills/` に保持されます。この軽量な同期アダプタが必要とする Python と PyYAML は uv から提供されます。依存関係の解決と更新はアダプタではなく APM 自身が行います。初回のインストールにはネットワークアクセスが必要です。activation は global git 設定から隔離して（`GIT_CONFIG_GLOBAL=/dev/null`）apm を実行するため、取得は HTTPS の匿名アクセスに限られ、プライベートソースは activation 中に認証できません。なお、各 agent に同梱されている標準スキルやプラグインの内容は、この共有環境の管理対象外です。
+Codex / OMP / Claude Code で共有する agent skills は APM で管理しています。
+- マニフェスト: `config/agent-skills/apm.yml`
+- ロックファイル: `config/agent-skills/apm.lock.yaml`
 
-スキルの更新・追加・削除の手順は `AGENTS.md` の「Agent skills (APM)」に記載しています。
+switch 時に `agent-skills-sync` が実行され、`~/.apm/` 環境に自動同期されます。
+スキルの追加・更新・削除手順は `AGENTS.md` の「Agent skills (APM)」を参照してください。
 
-## 初回マイグレーションとリカバリ
+## CI / 依存関係の更新
 
-初回の sync が正常に完了すると、宣言済みの既存スキルディレクトリはバックアップを作成した後に取り込まれます。従来の `commit` スキルは `github/awesome-copilot` の `git-commit` に置き換えられます。また、`find-docs` は `upstash/context7` 由来のものです。
-
-初回の sync では、共有ディレクトリ内の `grill-me`、`figma`、`cloudflare-deploy`、`claude-md-improver`、`skill-creator` も退役処理されます（Codex システム側の `skill-creator` には影響しません）。スナップショットには従来の npx skills のメタデータと、存在する場合は Claude スキルのリンクも保存されます。なお、2 回目以降の sync でこの退役処理が再度実行されることはありません。
-
-APM 0.35.0 は lockfile とは別に、端末固有の配置記録（`~/.apm/deployment-receipts/` と `~/.apm-local/installation`）を使用します。旧版からの移行では、`resolved_commit` を変えずに APM で lockfile の配置記録を補完します。既存ファイルの配置記録がない端末では、バックアップ後に同一内容のファイルを再配置し、ローカル差分は保持します。管理外スキルとの衝突は、差分を確認して退避してから宣言済み版を導入し、`--force` で保護を無効にしないでください。
-
-インストールに失敗した場合は、直前のアクティブな APM 環境と共有 skills が復元されます。その際、エラー出力に残されたバックアップディレクトリのパスが報告されます。同期成功時にもスナップショットは保持されますが、変更を伴わない再実行時には一時スナップショットは破棄されます。バックアップには自動的な有効期限は設定されていません。
-
-共有された更新をロールバックする場合は、対象とする dotfiles のコミットから両方の定義ファイルを復元し、再度 switch を実行してください。手動でリカバリを行う場合は、まず APM のプロセスを停止し、報告されたバックアップディレクトリから `skills/` および `apm/` をそれぞれ `~/.agents/skills/` と `~/.apm/` に復元します。復元が正常に完了したことを確認できるまで、元のバックアップは削除せず保持してください。台帳ファイルである `installed.json` は、利用可能であれば対応するスナップショットと合わせて復元します。
+- **CI**: GitHub Actions（`.github/workflows/check.yml`）で macOS (nix-darwin) および Linux (Home Manager) のビルドを検証します。
+- **Flake lock 更新**: Renovate GitHub App（`.github/renovate.json`）が定期的に `flake.lock` の一括更新 PR を作成します。
