@@ -39,11 +39,11 @@ switch を実行すると、管理対象のファイルが再配置されます�
 
 OMP の advisor 用レビュー方針は `config/agents/WATCHDOG.md` から `~/.omp/agent/WATCHDOG.md` に配置します。通常の agent には適用されず、advisor を有効にしたセッションで読み込まれます。共有設定では advisor を有効化しないため、必要な端末では `omp config set advisor.enabled true`、一時的には `omp --advisor` または `/advisor on` を使用します。
 
-Go の LSP は mise で gopls 0.23.0 を導入し、OMP の共通 `~/.omp/agent/lsp.json` から起動します。ルートに `go.mod` がない Git リポジトリでも、開いた子モジュールの Go ファイルを解析できます。
+Go の LSP は mise で gopls 0.24.0 を導入し、OMP の共通 `~/.omp/agent/lsp.json` から起動します。ルートに `go.mod` がない Git リポジトリでも、開いた子モジュールの Go ファイルを解析できます。
 
-Sentry の参照用 CLI（`sentry` 0.46.0）は mise で導入します。既存の APM 管理 Sentry Skill を Codex / OMP / Claude Code から利用し、MCP は使用しません。switch 後、ホームディレクトリで `mise exec -- sentry auth` を実行してブラウザーで OAuth 認証してください。認証情報は CLI が端末ローカルに保存し、Nix / sops / APM では管理しません。`mise exec -- sentry auth status` で認証状態を確認できます。Skill は参照用途ですが、CLI 自体に更新コマンドもあるため権限制限ではありません。対象の作業ディレクトリで `sentry issue list` を使い、自動検出が違う場合は対象の `org/project` を位置引数で指定してください。
+Sentry の参照用 CLI（`sentry` 0.47.0）は mise で導入します。既存の APM 管理 Sentry Skill を Codex / OMP / Claude Code から利用し、MCP は使用しません。switch 後、ホームディレクトリで `mise exec -- sentry auth` を実行してブラウザーで OAuth 認証してください。認証情報は CLI が端末ローカルに保存し、Nix / sops / APM では管理しません。`mise exec -- sentry auth status` で認証状態を確認できます。Skill は参照用途ですが、CLI 自体に更新コマンドもあるため権限制限ではありません。対象の作業ディレクトリで `sentry issue list` を使い、自動検出が違う場合は対象の `org/project` を位置引数で指定してください。
 
-Datadog CLI の `pup` は mise の `aqua:DataDog/pup` で 2.3.5 に固定し、switch 時にインストールします。`mise exec -- pup --version` で確認できます。
+Datadog CLI の `pup` は mise の `aqua:DataDog/pup` で 2.3.10 に固定し、switch 時にインストールします。`mise exec -- pup --version` で確認できます。
 
 ロールバックは、macOS では `sudo darwin-rebuild --rollback switch`、Linux / WSL2 では `home-manager switch --rollback`（以前の Home Manager generation へ戻す）で行います。なお、nix 移行前の状態は `pre-nix-migration` タグから復元することも可能です。
 
@@ -117,7 +117,7 @@ flake.lock の更新は hosted Mend Renovate GitHub App が担当します（`.g
 
 ## 共有 agent skills
 
-- mise が APM 0.33.0 と uv をインストールします。
+- mise が APM 0.35.0 と uv をインストールします。
 - `config/agent-skills/apm.yml` で外部スキルを宣言します。
 - `config/agent-skills/apm.lock.yaml` で APM の解決済みコミットを記録します。
 - Home Manager がこれらの定義ファイルを `~/.config/agent-skills/` に配置します。
@@ -133,6 +133,8 @@ flake.lock の更新は hosted Mend Renovate GitHub App が担当します（`.g
 初回の sync が正常に完了すると、宣言済みの既存スキルディレクトリはバックアップを作成した後に取り込まれます。従来の `commit` スキルは `github/awesome-copilot` の `git-commit` に置き換えられます。また、`find-docs` は `upstash/context7` 由来のものです。
 
 初回の sync では、共有ディレクトリ内の `grill-me`、`figma`、`cloudflare-deploy`、`claude-md-improver`、`skill-creator` も退役処理されます（Codex システム側の `skill-creator` には影響しません）。スナップショットには従来の npx skills のメタデータと、存在する場合は Claude スキルのリンクも保存されます。なお、2 回目以降の sync でこの退役処理が再度実行されることはありません。
+
+APM 0.35.0 は lockfile とは別に、端末固有の配置記録（`~/.apm/deployment-receipts/` と `~/.apm-local/installation`）を使用します。旧版からの移行では、`resolved_commit` を変えずに APM で lockfile の配置記録を補完します。既存ファイルの配置記録がない端末では、バックアップ後に同一内容のファイルを再配置し、ローカル差分は保持します。管理外スキルとの衝突は、差分を確認して退避してから宣言済み版を導入し、`--force` で保護を無効にしないでください。
 
 インストールに失敗した場合は、直前のアクティブな APM 環境と共有 skills が復元されます。その際、エラー出力に残されたバックアップディレクトリのパスが報告されます。同期成功時にもスナップショットは保持されますが、変更を伴わない再実行時には一時スナップショットは破棄されます。バックアップには自動的な有効期限は設定されていません。
 
