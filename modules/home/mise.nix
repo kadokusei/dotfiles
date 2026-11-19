@@ -18,6 +18,7 @@
     "aqua:DataDog/pup" = "2.4.4"
     "aqua:anthropics/claude-code" = { version = "latest", minimum_release_age = "6h" }
     "aqua:openai/codex" = { version = "latest", minimum_release_age = "6h" }
+    "aqua:google-antigravity/antigravity-cli" = { version = "latest", minimum_release_age = "6h" }
     "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "6h" }
     "aqua:earendil-works/pi" = { version = "latest", minimum_release_age = "6h" }
     "pipx:headroom-ai" = {
