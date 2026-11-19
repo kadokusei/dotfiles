@@ -1,4 +1,5 @@
 {
+  aws-lc,
   cmake,
   fetchFromGitHub,
   lib,
@@ -33,6 +34,9 @@ rustPlatform.buildRustPackage {
   ];
 
   buildInputs = [
+    # nixpkgs の cargo-setup-hook が AWS_LC_SYS_USE_SYSTEM=1 を export するため、
+    # システム AWS-LC を pkg-config で発見させる必要がある (openssl では probe が失敗する)
+    aws-lc
     kdePackages.extra-cmake-modules
     fcitx5
     libxkbcommon
