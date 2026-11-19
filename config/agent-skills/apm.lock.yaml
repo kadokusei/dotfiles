@@ -517,7 +517,7 @@ dependencies:
 - repo_url: stablyai/orca
   name: orchestration
   host: github.com
-  resolved_commit: a17de5c13d2e0ca72ee7c45ea6a2683706a0483e
+  resolved_commit: fe675f36dc7ca857a462a2e46799588f7e6519bb
   version: unknown
   virtual_path: skills/orchestration
   is_virtual: true
@@ -526,8 +526,8 @@ dependencies:
   - .agents/skills/orchestration
   - .agents/skills/orchestration/SKILL.md
   deployed_file_hashes:
-    .agents/skills/orchestration/SKILL.md: sha256:4b3e686cb2b106c2db8ecab53d4b000b4356cca63d4a7f7e3cf6db8798c38fed
-  content_hash: sha256:97fd59628dc19c1d5cafeee6a18d44e3ba764c7a7ece24570e6c1a8f7486ebc1
+    .agents/skills/orchestration/SKILL.md: sha256:e3d5282234db8a2817ed7c5c660d07851ad509d9e3625d5b42a1641ca5a771e6
+  content_hash: sha256:a237694aa27b56efc5ca6f8c56bc5baec74945ef5d719b269472075608bce026
 - repo_url: upstash/context7
   name: find-docs
   host: github.com
@@ -1064,7 +1064,7 @@ deployments:
   owners:
   - stablyai/orca/skills/orchestration
   active_owner: stablyai/orca/skills/orchestration
-  content_hash: sha256:4b3e686cb2b106c2db8ecab53d4b000b4356cca63d4a7f7e3cf6db8798c38fed
+  content_hash: sha256:e3d5282234db8a2817ed7c5c660d07851ad509d9e3625d5b42a1641ca5a771e6
 - kind: project-relative
   target: codex
   value: .agents/skills/playwright
