@@ -9,6 +9,7 @@
   rustPlatform,
   kdePackages,
   fcitx5,
+  oniguruma,
 }:
 rustPlatform.buildRustPackage {
   pname = "karukan";
@@ -34,9 +35,11 @@ rustPlatform.buildRustPackage {
   ];
 
   buildInputs = [
-    # nixpkgs の cargo-setup-hook が AWS_LC_SYS_USE_SYSTEM=1 を export するため、
-    # システム AWS-LC を pkg-config で発見させる必要がある (openssl では probe が失敗する)
+    # nixpkgs の cargo-setup-hook が AWS_LC_SYS_USE_SYSTEM=1 / RUSTONIG_SYSTEM_LIBONIG=1
+    # を export するため、システムライブラリを pkg-config で発見させる必要がある
+    # (openssl では aws-lc-sys の probe が失敗し、oniguruma 未導入では onig_sys が落ちる)
     aws-lc
+    oniguruma
     kdePackages.extra-cmake-modules
     fcitx5
     libxkbcommon
